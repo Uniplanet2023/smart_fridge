@@ -40,29 +40,29 @@ class _BottomBarState extends State<BottomBar> {
           selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
           onTap: updatePage,
           items: const <BottomNavigationBarItem>[
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
                 icon: Icon(
                   Icons.home_outlined,
                 ),
                 label: 'Home'),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
                 icon: Icon(
                   Icons.restaurant_sharp,
                 ),
                 label: "Recipes"),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.add_box_outlined,
               ),
               label: "Scan",
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.list,
               ),
               label: "Items",
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.person_outline_sharp,
               ),

@@ -14,127 +14,127 @@ class _FridgeItemsScreenState extends State<FridgeItemsScreen> {
     FridgeItemData(
         itemName: 'Milk long title long title long title fasaksjdlka',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 1))),
+        expiryDate: DateTime.now().add(const Duration(days: 1))),
     FridgeItemData(
         itemName: 'Milk',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 1))),
+        expiryDate: DateTime.now().add(const Duration(days: 1))),
     FridgeItemData(
         itemName: 'Eggs',
         quantity: 12.0,
-        expiryDate: DateTime.now().add(Duration(days: 7))),
+        expiryDate: DateTime.now().add(const Duration(days: 7))),
     FridgeItemData(
         itemName: 'Butter',
         quantity: 2.0,
-        expiryDate: DateTime.now().add(Duration(days: 15))),
+        expiryDate: DateTime.now().add(const Duration(days: 15))),
     FridgeItemData(
         itemName: 'Cheese',
         quantity: 1.5,
-        expiryDate: DateTime.now().add(Duration(days: 20))),
+        expiryDate: DateTime.now().add(const Duration(days: 20))),
     FridgeItemData(
         itemName: 'Yogurt',
         quantity: 3.0,
-        expiryDate: DateTime.now().add(Duration(days: 5))),
+        expiryDate: DateTime.now().add(const Duration(days: 5))),
     FridgeItemData(
         itemName: 'Lettuce',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 3))),
+        expiryDate: DateTime.now().add(const Duration(days: 3))),
     FridgeItemData(
         itemName: 'Tomatoes',
         quantity: 6.0,
-        expiryDate: DateTime.now().add(Duration(days: 4))),
+        expiryDate: DateTime.now().add(const Duration(days: 4))),
     FridgeItemData(
         itemName: 'Carrots',
         quantity: 10.0,
-        expiryDate: DateTime.now().add(Duration(days: 10))),
+        expiryDate: DateTime.now().add(const Duration(days: 10))),
     FridgeItemData(
         itemName: 'Broccoli',
         quantity: 2.0,
-        expiryDate: DateTime.now().add(Duration(days: 6))),
+        expiryDate: DateTime.now().add(const Duration(days: 6))),
     FridgeItemData(
         itemName: 'Spinach',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 2))),
+        expiryDate: DateTime.now().add(const Duration(days: 2))),
     FridgeItemData(
         itemName: 'Cucumber',
         quantity: 3.0,
-        expiryDate: DateTime.now().add(Duration(days: 8))),
+        expiryDate: DateTime.now().add(const Duration(days: 8))),
     FridgeItemData(
         itemName: 'Peppers',
         quantity: 5.0,
-        expiryDate: DateTime.now().add(Duration(days: 12))),
+        expiryDate: DateTime.now().add(const Duration(days: 12))),
     FridgeItemData(
         itemName: 'Onions',
         quantity: 4.0,
-        expiryDate: DateTime.now().add(Duration(days: 9))),
+        expiryDate: DateTime.now().add(const Duration(days: 9))),
     FridgeItemData(
         itemName: 'Garlic',
         quantity: 6.0,
-        expiryDate: DateTime.now().add(Duration(days: 18))),
+        expiryDate: DateTime.now().add(const Duration(days: 18))),
     FridgeItemData(
         itemName: 'Chicken Breast',
         quantity: 2.0,
-        expiryDate: DateTime.now().add(Duration(days: 5))),
+        expiryDate: DateTime.now().add(const Duration(days: 5))),
     FridgeItemData(
         itemName: 'Ground Beef',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 3))),
+        expiryDate: DateTime.now().add(const Duration(days: 3))),
     FridgeItemData(
         itemName: 'Pork Chops',
         quantity: 4.0,
-        expiryDate: DateTime.now().add(Duration(days: 7))),
+        expiryDate: DateTime.now().add(const Duration(days: 7))),
     FridgeItemData(
         itemName: 'Fish Fillets',
         quantity: 5.0,
-        expiryDate: DateTime.now().add(Duration(days: 2))),
+        expiryDate: DateTime.now().add(const Duration(days: 2))),
     FridgeItemData(
         itemName: 'Shrimp',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 4))),
+        expiryDate: DateTime.now().add(const Duration(days: 4))),
     FridgeItemData(
         itemName: 'Bacon',
         quantity: 2.0,
-        expiryDate: DateTime.now().add(Duration(days: 6))),
+        expiryDate: DateTime.now().add(const Duration(days: 6))),
     FridgeItemData(
         itemName: 'Sausages',
         quantity: 8.0,
-        expiryDate: DateTime.now().add(Duration(days: 10))),
+        expiryDate: DateTime.now().add(const Duration(days: 10))),
     FridgeItemData(
         itemName: 'Ham',
         quantity: 3.0,
-        expiryDate: DateTime.now().add(Duration(days: 12))),
+        expiryDate: DateTime.now().add(const Duration(days: 12))),
     FridgeItemData(
         itemName: 'Turkey',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 5))),
+        expiryDate: DateTime.now().add(const Duration(days: 5))),
     FridgeItemData(
         itemName: 'Tofu',
         quantity: 2.0,
-        expiryDate: DateTime.now().add(Duration(days: 7))),
+        expiryDate: DateTime.now().add(const Duration(days: 7))),
     FridgeItemData(
         itemName: 'Mushrooms',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 3))),
+        expiryDate: DateTime.now().add(const Duration(days: 3))),
     FridgeItemData(
         itemName: 'Bell Peppers',
         quantity: 6.0,
-        expiryDate: DateTime.now().add(Duration(days: 8))),
+        expiryDate: DateTime.now().add(const Duration(days: 8))),
     FridgeItemData(
         itemName: 'Zucchini',
         quantity: 4.0,
-        expiryDate: DateTime.now().add(Duration(days: 6))),
+        expiryDate: DateTime.now().add(const Duration(days: 6))),
     FridgeItemData(
         itemName: 'Eggplant',
         quantity: 1.0,
-        expiryDate: DateTime.now().add(Duration(days: 5))),
+        expiryDate: DateTime.now().add(const Duration(days: 5))),
     FridgeItemData(
         itemName: 'Celery',
         quantity: 2.0,
-        expiryDate: DateTime.now().add(Duration(days: 7))),
+        expiryDate: DateTime.now().add(const Duration(days: 7))),
     FridgeItemData(
         itemName: 'Green Beans',
         quantity: 3.0,
-        expiryDate: DateTime.now().add(Duration(days: 9))),
+        expiryDate: DateTime.now().add(const Duration(days: 9))),
   ];
 
   @override
@@ -213,7 +213,7 @@ class _FridgeItemsScreenState extends State<FridgeItemsScreen> {
                   children: [
                     FloatingActionButton(
                       onPressed: () {},
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                     ),
                   ],
                 ),
