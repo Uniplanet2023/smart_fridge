@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,8 +13,8 @@ class Initialization {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
+      // DeviceOrientation.portraitUp,
+      // DeviceOrientation.portraitDown,
     ]);
 
     ErrorWidget.builder = (FlutterErrorDetails details) {

@@ -12,7 +12,7 @@ class _ScanReceiptsScreenState extends State<ScanReceiptsScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('Scan receipts'),
+        child: Text('Scan receipts or add video'),
       ),
     );
   }

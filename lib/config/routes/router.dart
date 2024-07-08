@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/common/routes/names.dart';
-import 'package:smart_fridge/features/home/screens/home_screen.dart';
-import 'package:smart_fridge/features/items/screens/fridge_items.dart';
-import 'package:smart_fridge/features/profile/screens/profile_screen.dart';
-import 'package:smart_fridge/features/recipes/screens/recipes_screen.dart';
-import 'package:smart_fridge/features/scan-receipts/scan_receipts.dart';
+import 'package:smart_fridge/config/routes/names.dart';
+import 'package:smart_fridge/features/home/presentation/pages/home_screen.dart';
+import 'package:smart_fridge/features/items/presentation/pages/fridge_items.dart';
+import 'package:smart_fridge/features/profile/presentation/pages/profile_screen.dart';
+import 'package:smart_fridge/features/recipes/presentation/pages/recipes_screen.dart';
+import 'package:smart_fridge/features/add/presentation/pages/add.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/constants/date_expiry_format.dart';
+import 'package:smart_fridge/core/util/date_expiry_format.dart';
 
 class FridgeItem extends StatefulWidget {
   final String itemName;
@@ -84,7 +84,7 @@ class _FridgeItemsState extends State<FridgeItem> {
                                 ? Colors.amber.shade600
                                 : Colors.green,
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 2),
                   Text(
                     ' ${DateExpiryFormatter(widget.expiryDate).format()}',
                     style: const TextStyle(),

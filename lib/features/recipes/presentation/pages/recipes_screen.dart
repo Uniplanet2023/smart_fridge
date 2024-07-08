@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/common/widgets/custom_textfield.dart';
+import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 
 import '../widgets/recipe_card.dart';
 

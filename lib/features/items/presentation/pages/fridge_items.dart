@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/common/widgets/custom_button.dart';
-import 'package:smart_fridge/features/items/widgets/fridge_item.dart';
+import 'package:smart_fridge/config/widgets/custom_button.dart';
+import 'package:smart_fridge/features/items/presentation/widgets/fridge_item.dart';
 
 class FridgeItemsScreen extends StatefulWidget {
   const FridgeItemsScreen({super.key});

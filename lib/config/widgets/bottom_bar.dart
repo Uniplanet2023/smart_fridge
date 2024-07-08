@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/features/items/screens/fridge_items.dart';
-import 'package:smart_fridge/features/profile/screens/profile_screen.dart';
-import 'package:smart_fridge/features/recipes/screens/recipes_screen.dart';
-import 'package:smart_fridge/features/scan-receipts/scan_receipts.dart';
+import 'package:smart_fridge/features/items/presentation/pages/fridge_items.dart';
+import 'package:smart_fridge/features/profile/presentation/pages/profile_screen.dart';
+import 'package:smart_fridge/features/recipes/presentation/pages/recipes_screen.dart';
+import 'package:smart_fridge/features/add/presentation/pages/add.dart';
 
-import '../../features/home/screens/home_screen.dart';
+import '../../features/home/presentation/pages/home_screen.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -54,7 +54,7 @@ class _BottomBarState extends State<BottomBar> {
               icon: Icon(
                 Icons.add_box_outlined,
               ),
-              label: "Scan",
+              label: "Add",
             ),
             BottomNavigationBarItem(
               icon: Icon(
