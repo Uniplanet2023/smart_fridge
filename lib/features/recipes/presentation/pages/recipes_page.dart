@@ -3,14 +3,14 @@ import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 
 import '../widgets/recipe_card.dart';
 
-class RecipesScreen extends StatefulWidget {
-  const RecipesScreen({super.key});
+class RecipesPage extends StatefulWidget {
+  const RecipesPage({super.key});
 
   @override
-  State<RecipesScreen> createState() => _RecipesScreenState();
+  State<RecipesPage> createState() => _RecipesPageState();
 }
 
-class _RecipesScreenState extends State<RecipesScreen> {
+class _RecipesPageState extends State<RecipesPage> {
   final TextEditingController searchController = TextEditingController();
 
   List<RecipeItemData> recipeItems = [

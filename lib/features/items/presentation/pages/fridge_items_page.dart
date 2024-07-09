@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:smart_fridge/config/widgets/custom_button.dart';
 import 'package:smart_fridge/features/items/presentation/widgets/fridge_item.dart';
 
-class FridgeItemsScreen extends StatefulWidget {
-  const FridgeItemsScreen({super.key});
+class FridgeItemsPage extends StatefulWidget {
+  const FridgeItemsPage({super.key});
 
   @override
-  State<FridgeItemsScreen> createState() => _FridgeItemsScreenState();
+  State<FridgeItemsPage> createState() => _FridgeItemsPageState();
 }
 
-class _FridgeItemsScreenState extends State<FridgeItemsScreen> {
+class _FridgeItemsPageState extends State<FridgeItemsPage> {
   List<FridgeItemData> fridgeItems = [
     FridgeItemData(
         itemName: 'Milk long title long title long title fasaksjdlka',
