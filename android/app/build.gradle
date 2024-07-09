@@ -5,6 +5,7 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
     // Add the dependency for the Google services Gradle plugin
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 def localProperties = new Properties()
@@ -26,7 +27,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "shop.uniplanet.smart_fridge.smart_fridge"
+    namespace = "shop.uniplanet.smart_fridge"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -37,7 +38,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "shop.uniplanet.smart_fridge.smart_fridge"
+        applicationId = "shop.uniplanet.smart_fridge"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = flutter.minSdkVersion
