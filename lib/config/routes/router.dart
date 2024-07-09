@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/config/routes/names.dart';
-import 'package:smart_fridge/features/home/presentation/pages/home_screen.dart';
-import 'package:smart_fridge/features/items/presentation/pages/fridge_items.dart';
-import 'package:smart_fridge/features/profile/presentation/pages/profile_screen.dart';
-import 'package:smart_fridge/features/recipes/presentation/pages/recipes_screen.dart';
+import 'package:smart_fridge/features/home/presentation/pages/home_page.dart';
+import 'package:smart_fridge/features/items/presentation/pages/fridge_items_page.dart';
+import 'package:smart_fridge/features/profile/presentation/pages/profile_page.dart';
+import 'package:smart_fridge/features/recipes/presentation/pages/recipes_page.dart';
 import 'package:smart_fridge/features/add/presentation/pages/add.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -26,27 +26,27 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case AppRoutes.homePage:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const HomeScreen(),
+        builder: (_) => const HomePage(),
       );
     case AppRoutes.recipesPage:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const RecipesScreen(),
+        builder: (_) => const RecipesPage(),
       );
     case AppRoutes.scanReceiptsPage:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const ScanReceiptsScreen(),
+        builder: (_) => const AddPage(),
       );
     case AppRoutes.fridgeItemsPage:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const FridgeItemsScreen(),
+        builder: (_) => const FridgeItemsPage(),
       );
     case AppRoutes.profilePage:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const ProfileScreen(),
+        builder: (_) => const ProfilePage(),
       );
     default:
       return MaterialPageRoute(

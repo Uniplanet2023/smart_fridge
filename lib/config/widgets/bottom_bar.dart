@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/features/items/presentation/pages/fridge_items.dart';
-import 'package:smart_fridge/features/profile/presentation/pages/profile_screen.dart';
-import 'package:smart_fridge/features/recipes/presentation/pages/recipes_screen.dart';
+import 'package:smart_fridge/features/items/presentation/pages/fridge_items_page.dart';
+import 'package:smart_fridge/features/profile/presentation/pages/profile_page.dart';
+import 'package:smart_fridge/features/recipes/presentation/pages/recipes_page.dart';
 import 'package:smart_fridge/features/add/presentation/pages/add.dart';
 
-import '../../features/home/presentation/pages/home_screen.dart';
+import '../../features/home/presentation/pages/home_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -25,11 +25,11 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = const [
-      HomeScreen(),
-      RecipesScreen(),
-      ScanReceiptsScreen(),
-      FridgeItemsScreen(),
-      ProfileScreen(),
+      HomePage(),
+      RecipesPage(),
+      AddPage(),
+      FridgeItemsPage(),
+      ProfilePage(),
     ];
     return Scaffold(
       body: pages[_page],
