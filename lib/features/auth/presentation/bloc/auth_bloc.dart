@@ -1,10 +1,13 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/login_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/delete_user_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/logout_use_case.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/reset_password_use_case.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/update_password_use_case.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/change_name_use_case.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -14,12 +17,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignupUseCase signupUseCase;
   final DeleteUserUseCase deleteUserUseCase;
   final LogoutUseCase logoutUseCase;
+  final ResetPasswordUseCase resetPasswordUseCase;
+  final UpdatePasswordUseCase updatePasswordUseCase;
+  final ChangeNameUseCase changeNameUseCase;
 
   AuthBloc({
     required this.loginUseCase,
     required this.signupUseCase,
     required this.deleteUserUseCase,
     required this.logoutUseCase,
+    required this.resetPasswordUseCase,
+    required this.updatePasswordUseCase,
+    required this.changeNameUseCase,
   }) : super(AuthInitial()) {
     on<LoginEvent>((event, emit) async {
       try {
@@ -59,6 +68,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthLoggedOut());
       } catch (e) {
         emit(AuthError('Failed to logout'));
+      }
+    });
+
+    on<ResetPasswordEvent>((event, emit) async {
+      try {
+        emit(AuthLoading());
+        await resetPasswordUseCase(event.email);
+        emit(AuthResetPassword());
+      } catch (e) {
+        emit(AuthError('Failed to reset password'));
+      }
+    });
+
+    on<UpdatePasswordEvent>((event, emit) async {
+      try {
+        emit(AuthLoading());
+        await updatePasswordUseCase(event.newPassword);
+        emit(AuthUpdatedPassword());
+      } catch (e) {
+        emit(AuthError('Failed to update password'));
+      }
+    });
+
+    on<ChangeNameEvent>((event, emit) async {
+      try {
+        emit(AuthLoading());
+        await changeNameUseCase(event.newName);
+        emit(AuthChangedName());
+      } catch (e) {
+        emit(AuthError('Failed to change name'));
       }
     });
   }
