@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';
 
-class SigninPage extends StatefulWidget {
-  const SigninPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<SigninPage> createState() => _SigninPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _SigninPageState extends State<SigninPage> {
-  final _signInFormKey = GlobalKey<FormState>();
+class _SignupPageState extends State<SignupPage> {
+  final _signUpFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool validPassword = false;
 
   @override
   void dispose() {
@@ -37,13 +39,13 @@ class _SigninPageState extends State<SigninPage> {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Form(
-                  key: _signInFormKey,
+                  key: _signUpFormKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Login",
+                        "Sign Up",
                         style: Theme.of(context)
                             .textTheme
                             .displaySmall
@@ -53,7 +55,7 @@ class _SigninPageState extends State<SigninPage> {
                         height: 10,
                       ),
                       Text(
-                        "Hi, Welcome back 👋",
+                        "Create your account 🥳",
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       const SizedBox(
@@ -67,7 +69,7 @@ class _SigninPageState extends State<SigninPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                           Buttons.Google,
-                          text: "Sign in with Google",
+                          text: "Sign Up with Google",
                           onPressed: () {},
                         ),
                       ),
@@ -78,7 +80,7 @@ class _SigninPageState extends State<SigninPage> {
                         children: [
                           const Expanded(child: Divider()),
                           Text(
-                            "   or Login with Email   ",
+                            "   or sign up with Email   ",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
@@ -95,6 +97,13 @@ class _SigninPageState extends State<SigninPage> {
                         height: 30,
                       ),
                       CustomTextField(
+                        controller: _usernameController,
+                        hintText: "Enter Username",
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomTextField(
                         controller: _emailController,
                         hintText: "Enter Email Address",
                       ),
@@ -102,35 +111,32 @@ class _SigninPageState extends State<SigninPage> {
                         height: 20,
                       ),
                       CustomTextField(
+                        controller: _passwordController,
+                        hintText: 'Password',
                         obscureText: true,
                         isPassword: true,
-                        controller: _passwordController,
-                        hintText: "Enter Password",
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgottenPasswordPage()),
-                              );
-                            },
-                            child: Text(
-                              'Forgot Password?',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 90,
+                        child: FlutterPwValidator(
+                          controller: _passwordController,
+                          minLength: 6,
+                          uppercaseCharCount: 1,
+                          numericCharCount: 1,
+                          width: 350,
+                          height: 150,
+                          onSuccess: () {
+                            setState(() {
+                              validPassword = true;
+                            });
+                          },
+                          onFail: () {
+                            setState(() {
+                              validPassword = false;
+                            });
+                          },
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -140,15 +146,18 @@ class _SigninPageState extends State<SigninPage> {
                         height: 60,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_signInFormKey.currentState!.validate()) {
+                            if (_signUpFormKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
-                                    LoginEvent(_emailController.text.trim(),
-                                        _passwordController.text.trim()),
+                                    SignupEvent(
+                                      _emailController.text.trim(),
+                                      _passwordController.text.trim(),
+                                      _usernameController.text.trim(),
+                                    ),
                                   );
                             }
                           },
                           child: Text(
-                            'Sign in',
+                            'Sign Up',
                             style: Theme.of(context).textTheme.headlineLarge,
                           ),
                         ),
@@ -159,14 +168,14 @@ class _SigninPageState extends State<SigninPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Don\'t have an account? '),
+                          const Text('Already have an account? '),
                           TextButton(
                             onPressed: () {
                               Navigator.popAndPushNamed(
-                                  context, AppRoutes.signupPage);
+                                  context, AppRoutes.signinPage);
                             },
                             child: Text(
-                              "Sign Up!",
+                              "Sign In!",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.primary,
@@ -179,7 +188,7 @@ class _SigninPageState extends State<SigninPage> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -66,11 +66,6 @@ class CustomTextFieldState extends State<CustomTextField> {
         prefixIcon: widget.prefixIcon,
         prefixText: widget.prefixText,
         hintText: widget.hintText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         suffixIcon: widget.isPassword != null && widget.isPassword!
             ? IconButton(
                 icon: Icon(

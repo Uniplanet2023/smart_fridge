@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/config/routes/names.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 import 'package:smart_fridge/features/home/presentation/pages/home_page.dart';
 import 'package:smart_fridge/features/items/presentation/pages/fridge_items_page.dart';
 import 'package:smart_fridge/features/profile/presentation/pages/profile_page.dart';
@@ -13,16 +16,21 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     //     settings: routeSettings,
     //     builder: (_) => const AuthScreen(),
     //   );
-    // case AppRoutes.signupPage:
-    //   return MaterialPageRoute(
-    //     settings: routeSettings,
-    //     builder: (_) => const SignupScreen(),
-    //   );
-    // case AppRoutes.signupPage:
-    //   return MaterialPageRoute(
-    //     settings: routeSettings,
-    //     builder: (_) => const SignupScreen(),
-    //   );
+    case AppRoutes.signinPage:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SigninPage(),
+      );
+    case AppRoutes.signupPage:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SignupPage(),
+      );
+    case AppRoutes.forgottenPasswordPage:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ForgottenPasswordPage(),
+      );
     case AppRoutes.homePage:
       return MaterialPageRoute(
         settings: routeSettings,

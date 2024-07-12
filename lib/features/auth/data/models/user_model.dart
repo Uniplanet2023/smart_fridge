@@ -6,7 +6,6 @@ class UserModel extends User {
     required super.userId,
     required super.name,
     required super.email,
-    required super.password,
     required super.timestamp,
     required super.field,
   });
@@ -17,8 +16,7 @@ class UserModel extends User {
       userId: doc.id,
       name: data['name'] ?? '',
       email: data['email'] ?? '',
-      password: data['password'] ?? '',
-      timestamp: (data['timestamp'] as Timestamp).toDate(),
+      timestamp: (data['createdAt'] as Timestamp).toDate(),
       field: data['field'] ?? '',
     );
   }
