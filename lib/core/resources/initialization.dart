@@ -4,14 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_fridge/core/helper/dio_helper.dart';
 import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
+import 'package:smart_fridge/core/resources/auth_injection.dart';
 import 'package:smart_fridge/core/resources/firebase_options.dart';
+import 'package:get_it/get_it.dart';
+
+final serviceLocator = GetIt.instance;
 
 class Initialization {
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
+
     // Initialize Firebase
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
+
+    // Call Auth feature initialization
+    await AuthInjection.init(serviceLocator);
+
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,

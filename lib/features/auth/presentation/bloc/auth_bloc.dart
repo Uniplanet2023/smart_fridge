@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/login_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/signup_use_case.dart';
@@ -10,21 +10,25 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final LoginUseCase loginUseCase;
-  final SignupUseCase signupUseCase;
-  final DeleteUserUseCase deleteUserUseCase;
-  final LogoutUseCase logoutUseCase;
+  final LoginUseCase _loginUseCase;
+  final SignupUseCase _signupUseCase;
+  final DeleteUserUseCase _deleteUserUseCase;
+  final LogoutUseCase _logoutUseCase;
 
   AuthBloc({
-    required this.loginUseCase,
-    required this.signupUseCase,
-    required this.deleteUserUseCase,
-    required this.logoutUseCase,
-  }) : super(AuthInitial()) {
+    required LoginUseCase loginUseCase,
+    required SignupUseCase signupUseCase,
+    required DeleteUserUseCase deleteUserUseCase,
+    required LogoutUseCase logoutUseCase,
+  })  : _loginUseCase = loginUseCase,
+        _signupUseCase = signupUseCase,
+        _deleteUserUseCase = deleteUserUseCase,
+        _logoutUseCase = logoutUseCase,
+        super(AuthInitial()) {
     on<LoginEvent>((event, emit) async {
       try {
         emit(AuthLoading());
-        final user = await loginUseCase(event.email, event.password);
+        final user = await _loginUseCase(event.email, event.password);
         emit(AuthLoaded(user));
       } catch (e) {
         emit(AuthError('Failed to login'));
@@ -34,8 +38,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignupEvent>((event, emit) async {
       try {
         emit(AuthLoading());
-        final user =
-            await signupUseCase(event.email, event.password, event.displayName);
+        final user = await _signupUseCase(
+            event.email, event.password, event.displayName);
         emit(AuthLoaded(user));
       } catch (e) {
         emit(AuthError('Failed to signup'));
@@ -45,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<DeleteUserEvent>((event, emit) async {
       try {
         emit(AuthLoading());
-        await deleteUserUseCase();
+        await _deleteUserUseCase();
         emit(AuthDeleted());
       } catch (e) {
         emit(AuthError('Failed to delete user'));
@@ -55,7 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutEvent>((event, emit) async {
       try {
         emit(AuthLoading());
-        await logoutUseCase();
+        await _logoutUseCase();
         emit(AuthLoggedOut());
       } catch (e) {
         emit(AuthError('Failed to logout'));

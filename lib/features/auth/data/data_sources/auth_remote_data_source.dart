@@ -26,11 +26,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      DocumentSnapshot userDoc = await firestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
-      return UserModel.fromFirestore(userDoc);
+     
+      // Get user information from Firestore
+      if (userCredential.user != null) {
+        DocumentSnapshot userDoc = await firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .get();
+
+        // Ensure the user document exists
+        if (userDoc.exists) {
+          return UserModel.fromFirestore(userDoc);
+        } else {
+          throw Exception('User document does not exist');
+        }
+      } else {
+        throw Exception('User credential is null');
+      }
+      // return UserModel.fromFirestore(userDoc);
+    } on FirebaseAuthException catch (e) {
+      // Handle Firebase specific errors
+      throw Exception('FirebaseAuthException: ${e.message}');
+    } on FirebaseException catch (e) {
+      // Handle Firestore specific errors
+      throw Exception('FirebaseException: ${e.message}');
     } catch (e) {
       throw Exception('Failed to login');
     }

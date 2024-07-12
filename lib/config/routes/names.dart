@@ -10,4 +10,5 @@ class AppRoutes {
   static const String scanReceiptsPage = '/scan-receipts-screen';
   static const String fridgeItemsPage = '/fridge-items-screen';
   static const String profilePage = '/profile-screen';
+  static const String forgottenPasswordPage = '/forgotten-password-screen';
 }
