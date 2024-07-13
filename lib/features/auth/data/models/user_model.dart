@@ -6,8 +6,6 @@ class UserModel extends User {
     required super.userId,
     required super.name,
     required super.email,
-    required super.timestamp,
-    required super.field,
   });
 
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
@@ -16,8 +14,6 @@ class UserModel extends User {
       userId: doc.id,
       name: data['name'] ?? '',
       email: data['email'] ?? '',
-      timestamp: (data['createdAt'] as Timestamp).toDate(),
-      field: data['field'] ?? '',
     );
   }
 }

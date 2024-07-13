@@ -30,7 +30,9 @@ environment:
 dependencies:
   cached_network_image: ^3.3.1
   cloud_firestore: ^4.17.5
+  connectivity_plus: ^6.0.3
   cupertino_icons: ^1.0.6
+  dartz: ^0.10.1
   dio: ^5.5.0+1
   equatable: ^2.0.5
   firebase_auth: ^4.20.0
@@ -40,10 +42,13 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
+  flutter_dotenv: ^5.1.0
+  flutter_gemini: ^2.0.4
   flutter_pw_validator: ^1.6.0
   flutter_signin_button: ^2.0.0
   get_it: ^7.7.0
   google_fonts: ^6.2.1
+  google_sign_in: ^6.2.1
   isar: ^3.1.0
   retrofit: ^4.1.0
   shared_preferences: ^2.2.3
@@ -100,5 +105,6 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/images/
+    - .env
     # - assets/icons/
     # - assets/fonts/
