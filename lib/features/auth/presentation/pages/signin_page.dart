@@ -4,6 +4,7 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';
 
@@ -68,7 +69,10 @@ class _SigninPageState extends State<SigninPage> {
                               borderRadius: BorderRadius.circular(8)),
                           Buttons.Google,
                           text: "Sign in with Google",
-                          onPressed: () {},
+                          onPressed: () {
+                            serviceLocator<AuthBloc>()
+                                .add(SignInWithGoogleEvent());
+                          },
                         ),
                       ),
                       const SizedBox(

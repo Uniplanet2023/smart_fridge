@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:smart_fridge/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -10,6 +11,7 @@ abstract class AuthRemoteDataSource {
   Future<void> resetPassword(String email);
   Future<void> updatePassword(String newPassword);
   Future<void> changeName(String newName);
+  Future<UserModel> signInWithGoogle();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -26,7 +28,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-     
+
       // Get user information from Firestore
       if (userCredential.user != null) {
         DocumentSnapshot userDoc = await firestore
@@ -126,5 +128,32 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } catch (e) {
       throw Exception('Failed to change name');
     }
+  }
+
+  @override
+  Future<UserModel> signInWithGoogle() async {
+    final googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      throw Exception('Failed to sign in with Google');
+    }
+
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final userCredential = await firebaseAuth.signInWithCredential(credential);
+    final user = userCredential.user;
+
+    if (user == null) {
+      throw Exception('Failed to retrieve user from Firebase');
+    }
+
+    return UserModel(
+      userId: user.uid,
+      name: user.displayName!,
+      email: user.email!,
+    );
   }
 }

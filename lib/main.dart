@@ -7,7 +7,6 @@ import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
-import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 
 import 'config/styles/app_text_style.dart';
 

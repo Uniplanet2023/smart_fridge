@@ -41,4 +41,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> changeName(String newName) async {
     return await remoteDataSource.changeName(newName);
   }
+
+  @override
+  Future<User> signInWithGoogle() {
+    return remoteDataSource.signInWithGoogle();
+  }
 }

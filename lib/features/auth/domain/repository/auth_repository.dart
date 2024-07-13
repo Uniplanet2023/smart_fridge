@@ -8,4 +8,5 @@ abstract class AuthRepository {
   Future<void> resetPassword(String email);
   Future<void> updatePassword(String newPassword);
   Future<void> changeName(String newName);
+  Future<User> signInWithGoogle();
 }
