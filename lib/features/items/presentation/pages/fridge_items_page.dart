@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/config/widgets/custom_button.dart';
 import 'package:smart_fridge/features/items/presentation/widgets/fridge_item.dart';
 
 class FridgeItemsPage extends StatefulWidget {
@@ -140,7 +139,6 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
   @override
   void initState() {
     super.initState();
-    // Sort the fridge items by expiry date
     fridgeItems.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
   }
 
@@ -150,77 +148,91 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
     });
   }
 
+  bool get isAnyItemSelected {
+    return fridgeItems.any((item) => item.isChecked);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'My Fridge Items',
-          style: TextStyle(fontWeight: FontWeight.w900),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CustomButton(
-                      fontSize: 16,
-                      icon: const Icon(
-                        Icons.auto_awesome_outlined,
-                      ),
-                      text: "Generate Recipe",
-                      onTap: () {},
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'My Fridge Items',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: const Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: fridgeItems.length,
-                    itemBuilder: (context, index) {
-                      return FridgeItem(
-                        itemName: fridgeItems[index].itemName,
-                        quantity: fridgeItems[index].quantity,
-                        expiryDate: fridgeItems[index].expiryDate,
-                        isChecked: fridgeItems[index].isChecked,
-                        onChangeItemDetails: () {},
-                        onDeleteItem: () {},
-                        checkboxOnChange: (bool? value) {
-                          handleCheckboxChange(index, value);
-                        },
-                      );
-                    },
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: () {},
-                      child: const Icon(Icons.add),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: fridgeItems.length,
+                      itemBuilder: (context, index) {
+                        return FridgeItem(
+                          itemName: fridgeItems[index].itemName,
+                          quantity: fridgeItems[index].quantity,
+                          expiryDate: fridgeItems[index].expiryDate,
+                          isChecked: fridgeItems[index].isChecked,
+                          onChangeItemDetails: () {},
+                          onDeleteItem: () {},
+                          checkboxOnChange: (bool? value) {
+                            handleCheckboxChange(index, value);
+                          },
+                        );
+                      },
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if (isAnyItemSelected) // Show button only if selected
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          label: Text(
+                            'Generate Recipe',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          icon: const Icon(
+                            Icons.auto_awesome_outlined,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
