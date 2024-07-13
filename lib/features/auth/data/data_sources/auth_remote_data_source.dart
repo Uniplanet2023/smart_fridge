@@ -149,11 +149,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (user == null) {
       throw Exception('Failed to retrieve user from Firebase');
     }
+    DocumentSnapshot userDoc =
+        await firestore.collection('users').doc(userCredential.user!.uid).get();
 
-    return UserModel(
-      userId: user.uid,
-      name: user.displayName!,
-      email: user.email!,
-    );
+    // Ensure the user document exists
+    if (userDoc.exists) {
+      return UserModel.fromFirestore(userDoc);
+    } else {
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': user.email!,
+        'displayName': user.displayName!,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      return UserModel(
+        userId: user.uid,
+        name: user.displayName!,
+        email: user.email!,
+      );
+    }
   }
 }
