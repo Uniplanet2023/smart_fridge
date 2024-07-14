@@ -5,6 +5,7 @@ import 'package:smart_fridge/features/auth/data/data_sources/auth_remote_data_so
 import 'package:smart_fridge/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:smart_fridge/features/auth/domain/repository/auth_repository.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/change_name_use_case.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/check_token_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/delete_user_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/login_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/logout_use_case.dart';
@@ -73,18 +74,21 @@ class AuthInjection {
     serviceLocator.registerFactory(
       () => SignInWithGoogle(serviceLocator()),
     );
+    serviceLocator.registerFactory(
+      () => CheckTokenUseCase(serviceLocator()),
+    );
     // Register a single instance of AuthBloc
     serviceLocator.registerLazySingleton(
       () => AuthBloc(
-        loginUseCase: serviceLocator(),
-        signupUseCase: serviceLocator(),
-        deleteUserUseCase: serviceLocator(),
-        logoutUseCase: serviceLocator(),
-        resetPasswordUseCase: serviceLocator(),
-        updatePasswordUseCase: serviceLocator(),
-        changeNameUseCase: serviceLocator(),
-        signInWithGoogle: serviceLocator(),
-      ),
+          loginUseCase: serviceLocator(),
+          signupUseCase: serviceLocator(),
+          deleteUserUseCase: serviceLocator(),
+          logoutUseCase: serviceLocator(),
+          resetPasswordUseCase: serviceLocator(),
+          updatePasswordUseCase: serviceLocator(),
+          changeNameUseCase: serviceLocator(),
+          signInWithGoogle: serviceLocator(),
+          checkTokenUseCase: serviceLocator()),
     );
   }
 }

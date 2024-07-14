@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
 import 'package:smart_fridge/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -12,6 +13,7 @@ abstract class AuthRemoteDataSource {
   Future<void> updatePassword(String newPassword);
   Future<void> changeName(String newName);
   Future<UserModel> signInWithGoogle();
+  Future<UserModel?> checkUserTokenExists();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -38,6 +40,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
         // Ensure the user document exists
         if (userDoc.exists) {
+          // Save user information in device using shared preferences
+          // First Convert UserModel to JSON string
+          String savedUser = UserModel.fromFirestore(userDoc).toJson();
+          // Save user information string to shared preferences
+          await SharedPreferencesHelper().saveString('userData', savedUser);
+
           return UserModel.fromFirestore(userDoc);
         } else {
           throw Exception('User document does not exist');
@@ -72,6 +80,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .collection('users')
           .doc(userCredential.user!.uid)
           .get();
+
+      // Save user information in device using shared preferences
+      // First Convert UserModel to JSON string
+      String savedUser = UserModel.fromFirestore(userDoc).toJson();
+      // Save user information string to shared preferences
+      await SharedPreferencesHelper().saveString('userData', savedUser);
+
       return UserModel.fromFirestore(userDoc);
     } catch (e) {
       throw Exception('Failed to signup');
@@ -167,5 +182,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: user.email!,
       );
     }
+  }
+
+  @override
+  Future<UserModel?> checkUserTokenExists() async {
+    try {
+      // Get the user data from shared preferences
+      String? userData = SharedPreferencesHelper().getString('userData');
+      if (userData != null) {
+        // Convert JSON string to UserModel
+        return UserModel.fromJson(userData);
+      }
+    } catch (e) {
+      // Handle any exceptions
+      print('Error checking user token: $e');
+    }
+    return null;
   }
 }

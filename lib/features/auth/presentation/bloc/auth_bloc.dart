@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/check_token_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/login_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/signup_use_case.dart';
@@ -22,6 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UpdatePasswordUseCase updatePasswordUseCase;
   final ChangeNameUseCase changeNameUseCase;
   final SignInWithGoogle signInWithGoogle;
+  final CheckTokenUseCase checkTokenUseCase;
 
   AuthBloc({
     required this.loginUseCase,
@@ -32,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.updatePasswordUseCase,
     required this.changeNameUseCase,
     required this.signInWithGoogle,
+    required this.checkTokenUseCase,
   }) : super(AuthInitial()) {
     on<LoginEvent>((event, emit) async {
       try {
@@ -110,6 +113,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthChangedName());
       } catch (e) {
         emit(AuthError('Failed to change name'));
+      }
+    });
+
+    on<CheckUserTokenEvent>((event, emit) async {
+      try {
+        emit(AuthLoading());
+        final user = await checkTokenUseCase();
+        if (user == null) {
+          emit(AuthInitial());
+        }
+        emit(AuthLoaded(user!));
+      } catch (e) {
+        emit(AuthError(e.toString()));
       }
     });
   }

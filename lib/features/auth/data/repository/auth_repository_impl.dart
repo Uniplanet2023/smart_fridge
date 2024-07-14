@@ -46,4 +46,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<User> signInWithGoogle() {
     return remoteDataSource.signInWithGoogle();
   }
+
+  @override
+  Future<User?> checkUserTokenExists() async {
+    return remoteDataSource.checkUserTokenExists();
+  }
 }

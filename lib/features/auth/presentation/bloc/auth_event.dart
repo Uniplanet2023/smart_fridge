@@ -58,3 +58,7 @@ class ChangeNameEvent extends AuthEvent {
   @override
   List<Object?> get props => [newName];
 }
+
+class CheckUserTokenEvent extends AuthEvent{
+
+}
