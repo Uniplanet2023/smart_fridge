@@ -42,9 +42,11 @@ class ResetPasswordEvent extends AuthEvent {
 }
 
 class UpdatePasswordEvent extends AuthEvent {
+  final String email;
+  final String password;
   final String newPassword;
 
-  UpdatePasswordEvent(this.newPassword);
+  UpdatePasswordEvent(this.email, this.password, this.newPassword);
 
   @override
   List<Object?> get props => [newPassword];
@@ -59,6 +61,4 @@ class ChangeNameEvent extends AuthEvent {
   List<Object?> get props => [newName];
 }
 
-class CheckUserTokenEvent extends AuthEvent{
-
-}
+class CheckUserTokenEvent extends AuthEvent {}

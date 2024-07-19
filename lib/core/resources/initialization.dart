@@ -40,9 +40,6 @@ class Initialization {
       DeviceOrientation.portraitUp,
     ]);
 
-    // Initialize Dio
-    await DioHelper.initialize();
-
     // Initialize SharedPreferences
     await SharedPreferencesHelper().init();
 

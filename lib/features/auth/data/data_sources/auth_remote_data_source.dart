@@ -10,7 +10,8 @@ abstract class AuthRemoteDataSource {
   Future<void> deleteUser();
   Future<void> logout();
   Future<void> resetPassword(String email);
-  Future<void> updatePassword(String newPassword);
+  Future<void> updatePassword(
+      String email, String password, String newPassword);
   Future<void> changeName(String newName);
   Future<UserModel> signInWithGoogle();
   Future<UserModel?> checkUserTokenExists();
@@ -128,8 +129,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> updatePassword(String newPassword) async {
+  Future<void> updatePassword(
+      String email, String password, String newPassword) async {
     try {
+      UserCredential userCredential = await firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (userCredential.user == null) {
+        throw Exception('User credential is null');
+      }
       User user = firebaseAuth.currentUser!;
       await user.updatePassword(newPassword);
     } catch (e) {
