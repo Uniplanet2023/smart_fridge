@@ -225,37 +225,48 @@ class _RecipesPageState extends State<RecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'My Recpies',
-          style: TextStyle(fontWeight: FontWeight.w900),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            CustomTextField(
-                prefixIcon: const Icon(Icons.search_sharp),
-                controller: searchController,
-                hintText: 'Search saved recipes'),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: recipeItems.length,
-                itemBuilder: (context, index) {
-                  return RecipeCard(
-                      recipeName: recipeItems[index].recipeName,
-                      recipeIngredients: recipeItems[index].recipeIngredients,
-                      recipeInstructions:
-                          recipeItems[index].recipeInstructions);
-                },
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'My Recpies',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              CustomTextField(
+                  prefixIcon: const Icon(Icons.search_sharp),
+                  controller: searchController,
+                  hintText: 'Search saved recipes'),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: recipeItems.length,
+                  itemBuilder: (context, index) {
+                    return RecipeCard(
+                        recipeName: recipeItems[index].recipeName,
+                        recipeIngredients: recipeItems[index].recipeIngredients,
+                        recipeInstructions:
+                            recipeItems[index].recipeInstructions);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

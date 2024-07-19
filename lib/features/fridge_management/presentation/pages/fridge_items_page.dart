@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/features/items/presentation/widgets/fridge_item.dart';
+import 'package:flutter/widgets.dart';
+import 'package:smart_fridge/features/fridge_management/presentation/widgets/fridge_item.dart';
 
 class FridgeItemsPage extends StatefulWidget {
   const FridgeItemsPage({super.key});
@@ -184,21 +185,45 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   Expanded(
                     child: ListView.builder(
                       itemCount: fridgeItems.length,
                       itemBuilder: (context, index) {
-                        return FridgeItem(
-                          itemName: fridgeItems[index].itemName,
-                          quantity: fridgeItems[index].quantity,
-                          expiryDate: fridgeItems[index].expiryDate,
-                          isChecked: fridgeItems[index].isChecked,
-                          onChangeItemDetails: () {},
-                          onDeleteItem: () {},
-                          checkboxOnChange: (bool? value) {
-                            handleCheckboxChange(index, value);
-                          },
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(18),
+                                ),
+                                border: Border(
+                                  bottom: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inverseSurface),
+                                ),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainer),
+                            child: Column(
+                              children: [
+                                FridgeItem(
+                                  itemName: fridgeItems[index].itemName,
+                                  quantity: fridgeItems[index].quantity,
+                                  expiryDate: fridgeItems[index].expiryDate,
+                                  isChecked: fridgeItems[index].isChecked,
+                                  onChangeItemDetails: () {},
+                                  onDeleteItem: () {},
+                                  checkboxOnChange: (bool? value) {
+                                    handleCheckboxChange(index, value);
+                                  },
+                                ),
+                                // if (index < fridgeItems.length - 1)
+                                //   const Divider(), // Add a divider between items
+                              ],
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -218,12 +243,22 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                       if (isAnyItemSelected) // Show button only if selected
                         ElevatedButton.icon(
                           onPressed: () {},
+                          style: ButtonStyle(
+                            side: WidgetStatePropertyAll(
+                              BorderSide(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primaryFixedDim,
+                                  width: 2),
+                            ),
+                          ),
                           label: Text(
                             'Generate Recipe',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.auto_awesome_outlined,
+                            color: Theme.of(context).colorScheme.inverseSurface,
                           ),
                         ),
                     ],

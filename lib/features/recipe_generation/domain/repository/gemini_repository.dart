@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:smart_fridge/features/add/domain/entities/recipe.dart';
+import 'package:smart_fridge/features/recipe_generation/domain/entities/recipe.dart';
 
 abstract class GeminiRepository {
   Future<Recipe?> generateRecipe(String prompt);

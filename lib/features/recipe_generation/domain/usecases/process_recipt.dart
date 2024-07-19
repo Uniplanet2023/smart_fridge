@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'dart:convert';
-import 'package:smart_fridge/features/add/domain/repository/item_repository.dart';
+import 'package:smart_fridge/features/recipe_generation/domain/repository/item_repository.dart';
 
 import '../entities/item.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';

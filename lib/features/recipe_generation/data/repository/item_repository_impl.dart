@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:smart_fridge/features/add/domain/repository/item_repository.dart';
+import 'package:smart_fridge/features/recipe_generation/domain/repository/item_repository.dart';
 import '../../domain/entities/item.dart';
 import '../models/item_model.dart';
 

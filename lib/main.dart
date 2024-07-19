@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/routes/router.dart';
 import 'package:smart_fridge/config/theme/theme.dart';
 import 'package:smart_fridge/config/widgets/bottom_bar.dart';
@@ -39,20 +40,24 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: MyApp.navigatorKey,
-      title: 'Smart Fridge',
-      onGenerateRoute: (settings) => generateRoute(settings),
-      theme: lightMode,
-      darkTheme: darkMode,
-      home: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          if (state is AuthLoaded) {
-            return const BottomBar();
-          }
-          return const SigninPage();
-        },
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: MyApp.navigatorKey,
+        title: 'Smart Fridge',
+        onGenerateRoute: (settings) => generateRoute(settings),
+        theme: lightMode,
+        darkTheme: darkMode,
+        home: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthLoaded) {
+              return const BottomBar();
+            }
+            return const SigninPage();
+          },
+        ),
       ),
     );
   }

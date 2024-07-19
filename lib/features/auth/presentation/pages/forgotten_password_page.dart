@@ -21,11 +21,16 @@ class ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
     //   log('Sending reset password link to: ${_emailController.text}');
     // }
   }
+  
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(),
       body: Form(
         key: _formKey,
@@ -73,9 +78,4 @@ class ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
     );
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
 }

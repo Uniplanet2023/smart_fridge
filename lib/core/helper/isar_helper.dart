@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:smart_fridge/features/add/data/models/item_model.dart';
+import 'package:smart_fridge/features/recipe_generation/data/models/item_model.dart';
 
 class IsarHelper {
   IsarHelper._privateConstructor();

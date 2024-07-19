@@ -48,7 +48,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
           return UserModel.fromFirestore(userDoc);
         } else {
-          throw Exception('User document does not exist');
+          throw Exception('User does not exist');
         }
       } else {
         throw Exception('User credential is null');
@@ -56,12 +56,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // return UserModel.fromFirestore(userDoc);
     } on FirebaseAuthException catch (e) {
       // Handle Firebase specific errors
+      print(e);
       throw Exception('FirebaseAuthException: ${e.message}');
     } on FirebaseException catch (e) {
       // Handle Firestore specific errors
       throw Exception('FirebaseException: ${e.message}');
     } catch (e) {
-      throw Exception('Failed to login');
+      throw Exception('Failed to login: ${e.toString()}');
     }
   }
 
@@ -99,6 +100,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       User user = firebaseAuth.currentUser!;
       await firestore.collection('users').doc(user.uid).delete();
       await user.delete();
+      // remove user information string from shared preferences
+      await SharedPreferencesHelper().remove('userData');
     } catch (e) {
       throw Exception('Failed to delete user');
     }
@@ -108,6 +111,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> logout() async {
     try {
       await firebaseAuth.signOut();
+      // remove user information string from shared preferences
+      await SharedPreferencesHelper().remove('userData');
     } catch (e) {
       throw Exception('Failed to logout');
     }
@@ -195,7 +200,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } catch (e) {
       // Handle any exceptions
-      print('Error checking user token: $e');
+      throw Exception('Error checking user token: $e');
     }
     return null;
   }

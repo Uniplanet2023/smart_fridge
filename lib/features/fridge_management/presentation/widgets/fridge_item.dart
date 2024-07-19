@@ -42,26 +42,29 @@ class _FridgeItemsState extends State<FridgeItem> {
           padding: const EdgeInsets.only(right: 15),
           child: Row(
             children: [
-              Checkbox(
-                value: isChecked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    isChecked = value!;
-                  });
-                  if (widget.checkboxOnChange != null) {
-                    widget.checkboxOnChange!(value);
-                  }
-                },
+              Transform.scale(
+                scale: 0.75,
+                child: Checkbox(
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked = value!;
+                    });
+                    if (widget.checkboxOnChange != null) {
+                      widget.checkboxOnChange!(value);
+                    }
+                  },
+                ),
               ),
               Expanded(
                 child: Text(
                   widget.itemName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
               Row(
@@ -87,7 +90,7 @@ class _FridgeItemsState extends State<FridgeItem> {
                   const SizedBox(width: 2),
                   Text(
                     ' ${DateExpiryFormatter(widget.expiryDate).format()}',
-                    style: const TextStyle(),
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ],
               ),
@@ -102,15 +105,14 @@ class _FridgeItemsState extends State<FridgeItem> {
               RichText(
                 text: TextSpan(
                   text: 'Quantity: ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                   children: <TextSpan>[
                     TextSpan(
                       text: '${widget.quantity}',
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ],
                 ),
@@ -119,14 +121,18 @@ class _FridgeItemsState extends State<FridgeItem> {
                 children: [
                   InkWell(
                     onTap: widget.onChangeItemDetails,
-                    child: const Icon(Icons.edit),
+                    child: const Icon(
+                      Icons.edit,
+                      size: 18,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   InkWell(
                     onTap: widget.onDeleteItem,
-                    child: const Icon(
+                    child: Icon(
                       Icons.delete_outline,
-                      color: Colors.red,
+                      color: Theme.of(context).colorScheme.error,
+                      size: 18,
                     ),
                   ),
                 ],
@@ -134,10 +140,9 @@ class _FridgeItemsState extends State<FridgeItem> {
             ],
           ),
         ),
-        const Divider(
-          height: 10,
-          thickness: 1,
-        ),
+        const SizedBox(
+          height: 8.0,
+        )
       ],
     );
   }

@@ -45,7 +45,8 @@ ThemeData lightMode = ThemeData(
   colorScheme:
       // ColorScheme.fromSeed(seedColor: const Color(0xff6200ee))
       ThemeData.light().colorScheme.copyWith(
-            secondary: const Color.fromRGBO(52, 78, 65, 1),
+            // secondary: const Color.fromRGBO(52, 78, 65, 1),
+            error: Colors.red,
           ),
 );
 
@@ -91,4 +92,10 @@ ThemeData darkMode = ThemeData(
       ),
     ),
   ),
+  colorScheme:
+      // ColorScheme.fromSeed(seedColor: const Color(0xff6200ee))
+      ThemeData.dark().colorScheme.copyWith(
+            // secondary: const Color.fromRGBO(52, 78, 65, 1),
+            error: Colors.red,
+          ),
 );

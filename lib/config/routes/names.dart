@@ -11,4 +11,7 @@ class AppRoutes {
   static const String fridgeItemsPage = '/fridge-items-screen';
   static const String profilePage = '/profile-screen';
   static const String forgottenPasswordPage = '/forgotten-password-screen';
+  static const String savedRecipeDetailsPage = '/saved-recipe-details-screen';
+  static const String accountSettingsPage = '/account-settings-screen';
+  static const String changePasswordPage = '/change-password-page';
 }

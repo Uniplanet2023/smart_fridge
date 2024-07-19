@@ -1,4 +1,4 @@
-import 'package:smart_fridge/features/add/domain/repository/gemini_repository.dart';
+import 'package:smart_fridge/features/recipe_generation/domain/repository/gemini_repository.dart';
 import '../entities/recipe.dart';
 
 class GenerateRecipe {
