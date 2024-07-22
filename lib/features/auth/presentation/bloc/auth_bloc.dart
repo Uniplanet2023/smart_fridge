@@ -99,7 +99,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UpdatePasswordEvent>((event, emit) async {
       try {
         emit(AuthLoading());
-        await updatePasswordUseCase(event.newPassword);
+        await updatePasswordUseCase(
+            event.email, event.password, event.newPassword);
         emit(AuthUpdatedPassword());
       } catch (e) {
         emit(AuthError('Failed to update password'));

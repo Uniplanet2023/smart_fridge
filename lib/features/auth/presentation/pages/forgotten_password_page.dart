@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/reset_password_use_case.dart';
 
 class ForgottenPasswordPage extends StatefulWidget {
   const ForgottenPasswordPage({super.key});
@@ -13,15 +17,14 @@ class ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _resetPassword() {
-    // if (_formKey.currentState!.validate()) {
-    //   context
-    //       .read<AuthBloc>()
-    //       .add(ResetPasswordEvent(email: _emailController.text));
-    //   // Implement your logic to send a reset password email
-    //   log('Sending reset password link to: ${_emailController.text}');
-    // }
+    if (_formKey.currentState!.validate()) {
+      serviceLocator.get<ResetPasswordUseCase>().call(_emailController.text);
+
+      // Implement your logic to send a reset password email
+      log('Sending reset password link to: ${_emailController.text}');
+    }
   }
-  
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -77,5 +80,4 @@ class ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
       ),
     );
   }
-
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -135,8 +136,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         if (validPassword && passwordsMatch) {
-                          context.read<AuthBloc>().add(
+                          serviceLocator.get<AuthBloc>().add(
                                 UpdatePasswordEvent(
+                                  serviceLocator
+                                      .get<AuthBloc>()
+                                      .state
+                                      .user!
+                                      .email,
+                                  _currentPasswordController.text.trim(),
                                   _newPasswordController.text.trim(),
                                 ),
                               );

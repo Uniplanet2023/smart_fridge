@@ -8,14 +8,16 @@ class UserModel extends User {
     required super.userId,
     required super.name,
     required super.email,
+    super.profilePicture,
   });
 
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map;
     return UserModel(
       userId: doc.id,
-      name: data['name'] ?? '',
+      name: data['displayName'] ?? '',
       email: data['email'] ?? '',
+      profilePicture: data['profilePicture'],
     );
   }
 
@@ -25,6 +27,7 @@ class UserModel extends User {
       'userId': userId,
       'name': name,
       'email': email,
+      'profilePicture': profilePicture,
     };
     return json.encode(data);
   }
@@ -36,8 +39,7 @@ class UserModel extends User {
       userId: data['userId'],
       name: data['name'],
       email: data['email'],
+      profilePicture: data['profilePicture'],
     );
   }
-
-  
 }
