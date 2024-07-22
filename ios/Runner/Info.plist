@@ -56,5 +56,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow access to your phone's camera to scan receipts and record videos to share</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow access to your phone's microphone to record videos to share</string>
 </dict>
 </plist>
