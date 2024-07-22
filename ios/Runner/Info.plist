@@ -58,6 +58,8 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow access to your phone's camera to scan receipts and record videos to share</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow access to your phone's photo library to upload receipts and share videos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow access to your phone's microphone to record videos to share</string>
 </dict>

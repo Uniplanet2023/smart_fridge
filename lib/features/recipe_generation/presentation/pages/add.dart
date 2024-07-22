@@ -13,19 +13,97 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
-  XFile? _selectedImage;
+  File? image;
 
-  // Future _pickImageFromGallery() async {
-  //   print('object');
-  //   // final returnedImage =
-  //   //     await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future<void> selectImage() async {
+    final permissionStatus = await Permission.photos.status;
+    if (permissionStatus.isGranted ||
+        permissionStatus.isLimited ||
+        Platform.isAndroid) {
+      pickImage();
+    } else if (permissionStatus.isPermanentlyDenied) {
+      Permission.photos.request();
+      openAppSettings();
+    } else {
+      Permission.photos.request();
+      if (context.mounted) {
+        showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text("Permission needed"),
+            content: const Text("This app needs gallery access to pick images"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("Deny"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              TextButton(
+                child: const Text("Settings"),
+                onPressed: () => openAppSettings(), // Open app settings
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
 
-  //   // if (returnedImage == null) return;
+  Future<void> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
 
-  //   // setState(() {
-  //   //   _selectedImage = File(returnedImage.path);
-  //   // });
-  // }
+    // Check if an image was picked
+    if (pickedFile != null) {
+      // Update the state to reflect the picked image
+      setState(() {
+        image = File(pickedFile.path);
+      });
+
+      // Show confirmation dialog
+      bool confirmUpload = await showUploadConfirmationDialog();
+      if (confirmUpload) {
+        // Assuming 'image' is a global variable that holds the File
+        // Here you could upload the image to your server and then update the user's profile image URL
+        // SnackbarGlobal.key.currentContext!
+        //     .read<AccountBloc>()
+        //     .add(UpdateProfileImageEvent(image: image!));
+      } else {
+        // Reset the image to null if the user cancels the upload
+        setState(() {
+          image = null;
+        });
+      }
+    } else {
+      // Handle the case where no image is picked
+      print("No image selected");
+    }
+  }
+
+  Future<bool> showUploadConfirmationDialog() async {
+    return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Upload Image'),
+              content: const Text(
+                  'Are you sure you want to upload this image as your profile picture?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('Upload'),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // Return false if the dialog is dismissed
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +147,10 @@ class _AddPageState extends State<AddPage> {
                 ),
               ),
               SizedBox(height: 20.h),
-              _selectedImage != null
-                  ? Image.file(_selectedImage! as File)
-                  : const SizedBox(),
+              image != null ? Image.file(image!) : const SizedBox(),
               FloatingActionButton(
                 onPressed: () {
-                  _pickImageFromGallery(context);
+                  pickImage();
                 },
                 tooltip: 'Pick Image from gallery',
                 child: const Icon(Icons.photo),
@@ -113,81 +189,4 @@ class _AddPageState extends State<AddPage> {
       ),
     );
   }
-}
-
-Future<XFile?> _pickImageFromGallery(BuildContext context) async {
-  XFile? pickedImage;
-
-  // Check gallery permission status
-  var permissionStatus = await Permission.photos.status;
-
-  if (permissionStatus.isGranted || Platform.isAndroid) {
-    try {
-      pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    } catch (e) {
-      print('Error picking image: $e');
-    }
-  } else if (permissionStatus.isDenied) {
-    // If permission is denied, request it again
-    var requested = await Permission.photos.request();
-    if (requested.isGranted) {
-      try {
-        pickedImage =
-            await ImagePicker().pickImage(source: ImageSource.gallery);
-      } catch (e) {
-        print('Error picking image: $e');
-      }
-    } else {
-      // If permission still denied, show a dialog or snackbar
-      if (context.mounted) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: const Text("Permission needed"),
-            content: const Text("This app needs gallery access to pick images"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("Deny"),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              TextButton(
-                child: const Text("Settings"),
-                onPressed: () => openAppSettings(), // Open app settings
-              ),
-            ],
-          ),
-        );
-      }
-    }
-  } else if (permissionStatus.isLimited) {
-    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-  } else {
-    // Direct the user to the settings if permissions are permanently denied
-    if (context.mounted) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text("Permission Denied"),
-          content: const Text(
-              "You have permanently denied access to photos. Please enable access in the system settings."),
-          actions: <Widget>[
-            TextButton(
-              child: const Text("Close"),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            TextButton(
-              child: const Text("Settings"),
-              onPressed: () => openAppSettings(), // Open app settings
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  //   setState(() {
-  //   _selectedImage = File(pickedImage!.path);
-  // });
-
-  return pickedImage;
 }
