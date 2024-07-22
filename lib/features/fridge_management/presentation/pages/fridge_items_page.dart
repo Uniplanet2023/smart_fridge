@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/widgets/fridge_item.dart';
 
 class FridgeItemsPage extends StatefulWidget {
@@ -219,8 +218,6 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                                     handleCheckboxChange(index, value);
                                   },
                                 ),
-                                // if (index < fridgeItems.length - 1)
-                                //   const Divider(), // Add a divider between items
                               ],
                             ),
                           ),

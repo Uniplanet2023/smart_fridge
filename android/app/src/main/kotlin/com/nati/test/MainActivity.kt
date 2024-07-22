@@ -1,4 +1,4 @@
-package shop.uniplanet.smart_fridge
+package com.nati.test
 
 import io.flutter.embedding.android.FlutterActivity
 
