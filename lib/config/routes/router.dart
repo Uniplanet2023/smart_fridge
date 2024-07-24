@@ -4,6 +4,7 @@ import 'package:smart_fridge/features/auth/presentation/pages/change_password_pa
 import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
+import 'package:smart_fridge/features/fridge_management/presentation/pages/add_fridge_items_page.dart';
 import 'package:smart_fridge/features/video_sharing/presentation/pages/home_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/fridge_items_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/account_settings_page.dart';
@@ -14,11 +15,6 @@ import 'package:smart_fridge/features/recipes/presentation/pages/saved_recipe_de
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
-    // case AppRoutes.authPage:
-    //   return MaterialPageRoute(
-    //     settings: routeSettings,
-    //     builder: (_) => const AuthScreen(),
-    //   );
     case AppRoutes.signinPage:
       return MaterialPageRoute(
         settings: routeSettings,
@@ -74,6 +70,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const ChangePasswordPage(),
+      );
+    case AppRoutes.addFridgeItemsPage:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AddFridgeItemsPage(),
       );
     default:
       return MaterialPageRoute(

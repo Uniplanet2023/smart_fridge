@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smart_fridge/config/routes/names.dart';
+import 'package:smart_fridge/features/fridge_management/presentation/pages/edit_fridge_items_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/widgets/fridge_item.dart';
 
 class FridgeItemsPage extends StatefulWidget {
@@ -175,7 +177,10 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, AppRoutes.addFridgeItemsPage);
+                          },
                           child: const Icon(
                             Icons.add,
                             size: 30,
@@ -212,7 +217,15 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                                   quantity: fridgeItems[index].quantity,
                                   expiryDate: fridgeItems[index].expiryDate,
                                   isChecked: fridgeItems[index].isChecked,
-                                  onChangeItemDetails: () {},
+                                  onChangeItemDetails: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditFridgeItemsPage(),
+                                      ),
+                                    );
+                                  },
                                   onDeleteItem: () {},
                                   checkboxOnChange: (bool? value) {
                                     handleCheckboxChange(index, value);
