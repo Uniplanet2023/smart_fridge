@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_fridge/features/recipe_generation/domain/entities/item.dart';
+import 'package:smart_fridge/core/entities/item.dart';
 import 'package:smart_fridge/features/recipe_generation/domain/usecases/read_receipt.dart';
 import 'package:smart_fridge/features/recipe_generation/domain/usecases/upload_image.dart';
 import '../../domain/entities/recipe.dart';

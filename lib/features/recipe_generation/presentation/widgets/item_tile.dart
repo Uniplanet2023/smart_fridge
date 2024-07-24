@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:smart_fridge/features/recipe_generation/domain/entities/item.dart';
+import 'package:smart_fridge/core/entities/item.dart';
 
 class ItemTile extends StatefulWidget {
   const ItemTile({
