@@ -1,19 +1,13 @@
-import 'package:isar/isar.dart';
+import 'package:equatable/equatable.dart';
 
-part 'item.g.dart'; // Required for code generation
+class Item extends Equatable {
+  final String name;
+  final double quantity;
+  final double unitPrice;
+  final double totalPrice;
+  final DateTime expiryDate;
 
-@Collection()
-class Item {
-  Id id = Isar.autoIncrement; // Auto increment ID
-
-  @Index()
-  late String name;
-  late double quantity;
-  late double unitPrice;
-  late double totalPrice;
-  late DateTime expiryDate;
-
-  Item({
+  const Item({
     required this.name,
     required this.quantity,
     required this.unitPrice,
@@ -21,15 +15,30 @@ class Item {
     required this.expiryDate,
   });
 
+  @override
+  List<Object?> get props => [
+        name,
+        quantity,
+        unitPrice,
+        totalPrice,
+        expiryDate,
+      ];
+
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-      name: json['name'] as String? ?? '',
-      quantity: (json['quantity'] as num?)?.toDouble() ?? 0.0,
-      unitPrice: (json['unitPrice'] as num?)?.toDouble() ?? 0.0,
-      totalPrice: (json['totalPrice'] as num?)?.toDouble() ?? 0.0,
+      name: json['name'] as String,
+      quantity: json['quantity'] != null
+          ? (json['quantity'] as num).toDouble()
+          : 0.0, // Handle null quantity
+      unitPrice: json['unitPrice'] != null
+          ? (json['unitPrice'] as num).toDouble()
+          : 0.0, // Handle null unitPrice
+      totalPrice: json['totalPrice'] != null
+          ? (json['totalPrice'] as num).toDouble()
+          : 0.0, // Handle null totalPrice
       expiryDate: json['expiryDate'] != null
           ? DateTime.parse(json['expiryDate'] as String)
-          : DateTime.now(),
+          : DateTime.now(), // Handle null expiryDate
     );
   }
 
@@ -43,13 +52,13 @@ class Item {
     };
   }
 
-  // Add the copyWith method
   Item copyWith({
     String? name,
     double? quantity,
     double? unitPrice,
     double? totalPrice,
     DateTime? expiryDate,
+    DateTime? timeStamp,
   }) {
     return Item(
       name: name ?? this.name,

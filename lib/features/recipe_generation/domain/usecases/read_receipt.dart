@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:smart_fridge/features/recipe_generation/domain/repository/gemini_repository.dart';
 
 class ReadReceipt {
-  final GeminiRepository repository;
+  final ReadReceiptRepository repository;
 
   ReadReceipt(this.repository);
 

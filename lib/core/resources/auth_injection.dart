@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:smart_fridge/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:smart_fridge/features/auth/data/repository/auth_repository_impl.dart';
@@ -25,6 +26,9 @@ class AuthInjection {
     // Register FirebaseFirestore instance
     serviceLocator.registerLazySingleton<FirebaseFirestore>(
       () => FirebaseFirestore.instance,
+    );
+    serviceLocator.registerLazySingleton<FirebaseStorage>(
+      () => FirebaseStorage.instance,
     );
 
     // Register AuthRemoteDataSource

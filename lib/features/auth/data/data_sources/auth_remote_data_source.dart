@@ -57,7 +57,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // return UserModel.fromFirestore(userDoc);
     } on FirebaseAuthException catch (e) {
       // Handle Firebase specific errors
-      print(e);
       throw Exception('FirebaseAuthException: ${e.message}');
     } on FirebaseException catch (e) {
       // Handle Firestore specific errors
