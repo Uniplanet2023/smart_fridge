@@ -1,9 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
+import 'package:smart_fridge/features/recipe_generation/domain/usecases/upload_image.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/bloc/read_receipt_bloc.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/pages/item_list_screen.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/widgets/new_items_page.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -66,9 +72,7 @@ class _AddPageState extends State<AddPage> {
       if (confirmUpload) {
         // Assuming 'image' is a global variable that holds the File
         // Here you could upload the image to your server and then update the user's profile image URL
-        // SnackbarGlobal.key.currentContext!
-        //     .read<AccountBloc>()
-        //     .add(UpdateProfileImageEvent(image: image!));
+        serviceLocator<ReadReceiptBloc>().add(ScanReceiptEvent(image!));
       } else {
         // Reset the image to null if the user cancels the upload
         setState(() {
@@ -107,83 +111,98 @@ class _AddPageState extends State<AddPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Scan receipt',
+    return BlocListener<ReadReceiptBloc, ReadReceiptState>(
+      listener: (context, state) {
+        // TODO: implement listener
+        if (state is ReadReceiptCompleted) {
+          // navigate to the item list screen
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ItemListScreen(items: state.receiptData),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Scan receipt',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge
+                              ?.copyWith(fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                      Text(
+                        '|',
                         style: Theme.of(context)
                             .textTheme
                             .headlineLarge
-                            ?.copyWith(fontWeight: FontWeight.w900),
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    Text(
-                      '|',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Share Video',
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Share Video',
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 20.h),
-              image != null ? Image.file(image!) : const SizedBox(),
-              FloatingActionButton(
-                onPressed: () {
-                  pickImage();
-                },
-                tooltip: 'Pick Image from gallery',
-                child: const Icon(Icons.photo),
-              ),
-              SizedBox(height: 10.h),
-              Text('Add receipt image from gallery'),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Row(
-                  children: [
-                    const Expanded(child: Divider()),
-                    Text(
-                      "   or    ",
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurfaceVariant, // Change this to your desired color
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const Expanded(
-                      child: Divider(),
-                    ),
-                  ],
+                SizedBox(height: 20.h),
+                image != null ? Image.file(image!) : const SizedBox(),
+                FloatingActionButton(
+                  heroTag: 'pickImageFromGallery', // Add a unique heroTag
+                  onPressed: () {
+                    pickImage();
+                  },
+                  tooltip: 'Pick Image from gallery',
+                  child: const Icon(Icons.photo),
                 ),
-              ),
-              FloatingActionButton(
-                onPressed: () {},
-                tooltip: 'Take a picture',
-                child: const Icon(Icons.camera_alt_outlined),
-              ),
-              SizedBox(height: 10.h),
-              Text('Take a picture of receipt'),
-            ],
+                SizedBox(height: 10.h),
+                const Text('Add receipt image from gallery'),
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Row(
+                    children: [
+                      const Expanded(child: Divider()),
+                      Text(
+                        "   or    ",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant, // Change this to your desired color
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const Expanded(
+                        child: Divider(),
+                      ),
+                    ],
+                  ),
+                ),
+                FloatingActionButton(
+                  heroTag: 'takePicture', // Add a unique heroTag
+                  onPressed: () {},
+                  tooltip: 'Take a picture',
+                  child: const Icon(Icons.camera_alt_outlined),
+                ),
+                SizedBox(height: 10.h),
+                const Text('Take a picture of receipt'),
+              ],
+            ),
           ),
         ),
       ),

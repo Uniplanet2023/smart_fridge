@@ -1,28 +1,26 @@
 import 'dart:io';
 
-import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:smart_fridge/core/helper/gemini_helper.dart';
+import 'package:smart_fridge/core/prompt/read_receipt.dart';
 import '../models/recipe_model.dart';
 
-abstract class GeminiRemoteDataSource {
+abstract class ReadReceiptRemoteDataSource {
   Future<RecipeModel?> generateRecipe(String prompt);
   Future<String?> readReceipt(File receiptImage);
 }
 
-class RecipeRemoteDataSourceImpl implements GeminiRemoteDataSource {
-  final Gemini gemini;
-
-  RecipeRemoteDataSourceImpl(this.gemini);
+class RecipeRemoteDataSourceImpl implements ReadReceiptRemoteDataSource {
+  RecipeRemoteDataSourceImpl();
 
   @override
   Future<RecipeModel?> generateRecipe(String prompt) async {
-    final result = await gemini.text(prompt);
+    final result = await GeminiHelper.instance.generateContent(prompt);
     if (result != null) {
       return RecipeModel(
         id: '', // Generate a unique ID
         name: 'Generated Recipe',
-        description: result.output ?? '',
-        instructions: result.output ?? '',
+        description: result,
+        instructions: result,
         timestamp: DateTime.now(),
         country: 'Unknown',
         shared: false,
@@ -35,7 +33,7 @@ class RecipeRemoteDataSourceImpl implements GeminiRemoteDataSource {
   Future<String?> readReceipt(File receiptImage) async {
     try {
       final result = await GeminiHelper.instance
-          .generateContentWithImage("Read this receipt", receiptImage);
+          .generateContentWithImage(readReceiptPromp, receiptImage);
 
       return result;
     } catch (e) {

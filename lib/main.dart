@@ -7,15 +7,17 @@ import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/bloc/item_list/item_list_bloc.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/bloc/read_receipt_bloc.dart';
 
 void main() async {
   // Initialize Firebase and set system UI overlay style
   await Initialization.init();
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(
-        create: (_) => serviceLocator<AuthBloc>(),
-      ),
+      BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+      BlocProvider(create: (_) => serviceLocator<ReadReceiptBloc>()),
+      BlocProvider(create: (_) => serviceLocator<ItemListBloc>()),
     ],
     child: const MyApp(),
   ));

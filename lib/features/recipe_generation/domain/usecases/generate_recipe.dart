@@ -2,7 +2,7 @@ import 'package:smart_fridge/features/recipe_generation/domain/repository/gemini
 import '../entities/recipe.dart';
 
 class GenerateRecipe {
-  final GeminiRepository repository;
+  final ReadReceiptRepository repository;
 
   GenerateRecipe(this.repository);
 
