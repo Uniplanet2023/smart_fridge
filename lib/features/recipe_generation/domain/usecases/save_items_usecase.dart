@@ -1,6 +1,6 @@
 import 'package:smart_fridge/features/recipe_generation/domain/repository/item_repository.dart';
 
-import '../entities/item.dart';
+import '../../../../core/entities/item.dart';
 
 class SaveItemsUseCase {
   final ItemRepository repository;
