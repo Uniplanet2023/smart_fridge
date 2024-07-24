@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiHelper {
   GeminiHelper._privateConstructor();
@@ -10,57 +8,46 @@ class GeminiHelper {
   static final GeminiHelper _instance = GeminiHelper._privateConstructor();
 
   static GeminiHelper get instance => _instance;
+  late final GenerativeModel _gemini;
 
   void initialize(String apiKey) {
-    Gemini.init(apiKey: apiKey);
+    print('Initializing Gemini with API key: $apiKey');
+    _gemini = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
   }
 
   Future<String?> generateContent(String prompt) async {
     try {
-      final gemini = Gemini.instance;
-      final result = await gemini.text(prompt);
-      return result?.output;
+      final content = [Content.text('Write a story about a magic backpack.')];
+      final response = await _gemini.generateContent(content);
+      print(response.text);
+      return response.text;
     } catch (e) {
+      log('Error generating content: $e');
       rethrow;
     }
-  }
-
-  Stream<String> streamGenerateContent(String prompt) {
-    final gemini = Gemini.instance;
-    return gemini.streamGenerateContent(prompt).map((value) => value.output!);
   }
 
   Future<String?> generateContentWithImage(String prompt, File image) async {
     try {
-      final gemini = Gemini.instance;
-      final result = await gemini.textAndImage(
-        text: prompt,
-        images: [Uint8List.fromList(image.readAsBytesSync())],
-      );
-      return result?.content?.parts?.last.text;
-    } catch (e) {
-      rethrow;
-    }
-  }
+      // Read the image bytes
+      final firstImage = await image.readAsBytes();
 
-  Future<int?> countTokens(String prompt) async {
-    try {
-      final gemini = Gemini.instance;
-      final result = await gemini.countTokens(prompt);
-      return result;
-    } catch (e) {
-      rethrow;
-    }
-  }
+      // Create a TextPart for the prompt
+      final textPart = TextPart(prompt);
 
-  Future<void> listModels() async {
-    try {
-      final gemini = Gemini.instance;
-      final models = await gemini.listModels();
-      for (var model in models) {
-        log(model.toString());
-      }
+      // Create DataPart for the image
+      final imageParts = [
+        DataPart('image/jpeg', firstImage),
+      ];
+
+      // Generate content using the multi-part content (text + image)
+      final response = await _gemini.generateContent([
+        Content.multi([textPart, ...imageParts])
+      ]);
+
+      return response.text;
     } catch (e) {
+      log('GeminiException: $e');
       rethrow;
     }
   }

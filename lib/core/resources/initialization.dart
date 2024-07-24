@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_fridge/core/helper/gemini_helper.dart';
+import 'package:smart_fridge/core/helper/isar_helper.dart';
 import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
 import 'package:smart_fridge/core/resources/auth_injection.dart';
 import 'package:smart_fridge/core/resources/firebase_options.dart';
 import 'package:get_it/get_it.dart';
+import 'package:smart_fridge/core/resources/read_recipe_injection.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/bloc/item_list/dependency.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -20,14 +23,15 @@ class Initialization {
     } else {
       GeminiHelper.instance.initialize(dotenv.env['GEMINI_API_KEY']!);
     }
-
+    await IsarHelper.instance.openIsar();
     // Initialize Firebase
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
 
     // Call Auth feature initialization
     await AuthInjection.init(serviceLocator);
-
+    initReadReceipt(serviceLocator);
+    initItemList();
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,

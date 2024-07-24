@@ -5,10 +5,10 @@ import 'package:smart_fridge/features/recipe_generation/domain/repository/gemini
 
 import '../../domain/entities/recipe.dart';
 
-class GeminiRepositoryImpl implements GeminiRepository {
-  final GeminiRemoteDataSource remoteDataSource;
+class ReadReceiptRepositoryImpl implements ReadReceiptRepository {
+  final ReadReceiptRemoteDataSource remoteDataSource;
 
-  GeminiRepositoryImpl(this.remoteDataSource);
+  ReadReceiptRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<Recipe?> generateRecipe(String prompt) async {
