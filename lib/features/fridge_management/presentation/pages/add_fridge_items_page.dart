@@ -13,7 +13,6 @@ class _AddFridgeItemsPageState extends State<AddFridgeItemsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _itemNameController = TextEditingController();
   final TextEditingController _quantitycontroller = TextEditingController();
-  final TextEditingController _expiryDatecontroller = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
 
@@ -21,7 +20,6 @@ class _AddFridgeItemsPageState extends State<AddFridgeItemsPage> {
   void dispose() {
     _itemNameController.dispose();
     _quantitycontroller.dispose();
-    _expiryDatecontroller.dispose();
     super.dispose();
   }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
+import 'package:smart_fridge/core/entities/item.dart';
 
 class EditFridgeItemsPage extends StatefulWidget {
-  const EditFridgeItemsPage({super.key});
+  final Item item;
+  const EditFridgeItemsPage({required this.item, super.key});
 
   @override
   State<EditFridgeItemsPage> createState() => _EditFridgeItemsPageState();
@@ -11,17 +13,17 @@ class EditFridgeItemsPage extends StatefulWidget {
 
 class _EditFridgeItemsPageState extends State<EditFridgeItemsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _itemNameController = TextEditingController();
-  final TextEditingController _quantitycontroller = TextEditingController();
-  final TextEditingController _expiryDatecontroller = TextEditingController();
+  late final TextEditingController _itemNameController =
+      TextEditingController(text: widget.item.name);
+  late final TextEditingController _quantitycontroller =
+      TextEditingController(text: widget.item.quantity.toString());
 
-  DateTime selectedDate = DateTime.now();
+  late DateTime selectedDate = widget.item.expiryDate;
 
   @override
   void dispose() {
     _itemNameController.dispose();
     _quantitycontroller.dispose();
-    _expiryDatecontroller.dispose();
     super.dispose();
   }
 
@@ -119,7 +121,7 @@ class _EditFridgeItemsPageState extends State<EditFridgeItemsPage> {
                       }
                     },
                     child: Text(
-                      'Add',
+                      'Edit',
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),
