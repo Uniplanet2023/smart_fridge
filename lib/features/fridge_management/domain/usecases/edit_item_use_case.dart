@@ -1,12 +1,12 @@
 import 'package:smart_fridge/core/entities/item.dart';
-import 'package:smart_fridge/features/fridge_management/domain/repository/fridge_management_repository.dart';
+import 'package:smart_fridge/features/fridge_management/domain/repository/item_repository.dart';
 
-class EditItemUseCase {
-  final FridgeManagementRepository repository;
+class UpdateItemUseCase {
+  final ItemRepository repository;
 
-  EditItemUseCase(this.repository);
+  UpdateItemUseCase(this.repository);
 
-  Future<Item?> call(Item item) async {
-    return await repository.editFridgeItem(item);
+  Future<void> call(Item item) async {
+    return await repository.updateItem(item);
   }
 }

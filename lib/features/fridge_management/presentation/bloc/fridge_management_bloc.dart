@@ -12,7 +12,7 @@ part 'fridge_management_state.dart';
 class FridgeManagementBloc
     extends Bloc<FridgeManagementEvent, FridgeManagementState> {
   final AddItemUseCase addItemUseCase;
-  final EditItemUseCase editItemUseCase;
+  final UpdateItemUseCase editItemUseCase;
   final DeleteItemUseCase deleteItemUseCase;
   final FetchItemsUseCase fetchItemsUseCase;
   FridgeManagementBloc({
@@ -70,7 +70,7 @@ class FridgeManagementBloc
       DeleteFridgeItemEvent event, Emitter<FridgeManagementState> emit) async {
     emit(FridgeManagementAddingItem());
     try {
-      await deleteItemUseCase(event.deletedItem);
+      await deleteItemUseCase(event.deletedItem.id);
       emit(FridgeManagementItemDeleted());
       add(LoadFridgeItemsEvent()); // Refetch items after adding
     } catch (e) {
