@@ -56,10 +56,10 @@ class FridgeManagementBloc
 
   Future<void> _onEditItemUseCase(
       EditFridgeItemEvent event, Emitter<FridgeManagementState> emit) async {
-    emit(FridgeManagementAddingItem());
+    emit(FridgeManagementEditingItem());
     try {
       await editItemUseCase(event.editedItem);
-      emit(FridgeManagementItemAdded());
+      emit(FridgeManagementItemEdited());
       add(LoadFridgeItemsEvent()); // Refetch items after adding
     } catch (e) {
       emit(const FridgeManagementError('Failed to edit item'));
@@ -68,7 +68,7 @@ class FridgeManagementBloc
 
   Future<void> _onDeleteItemUseCase(
       DeleteFridgeItemEvent event, Emitter<FridgeManagementState> emit) async {
-    emit(FridgeManagementAddingItem());
+    emit(FridgeManagementDeletingItem());
     try {
       await deleteItemUseCase(event.deletedItem.id);
       emit(FridgeManagementItemDeleted());
@@ -76,5 +76,18 @@ class FridgeManagementBloc
     } catch (e) {
       emit(const FridgeManagementError('Failed to delete item'));
     }
+  }
+
+  @override
+  void onChange(Change<FridgeManagementState> change) {
+    super.onChange(change);
+    print(change);
+  }
+
+  @override
+  void onTransition(
+      Transition<FridgeManagementEvent, FridgeManagementState> transition) {
+    super.onTransition(transition);
+    print(transition);
   }
 }

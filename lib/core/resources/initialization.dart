@@ -8,6 +8,7 @@ import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
 import 'package:smart_fridge/core/resources/auth_injection.dart';
 import 'package:smart_fridge/core/resources/firebase_options.dart';
 import 'package:get_it/get_it.dart';
+import 'package:smart_fridge/core/resources/fridge_management_injection.dart';
 import 'package:smart_fridge/core/resources/read_recipe_injection.dart';
 import 'package:smart_fridge/features/recipe_generation/presentation/bloc/item_list/dependency.dart';
 
@@ -24,6 +25,7 @@ class Initialization {
       GeminiHelper.instance.initialize(dotenv.env['GEMINI_API_KEY']!);
     }
     await IsarHelper.instance.openIsar();
+
     // Initialize Firebase
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
@@ -32,6 +34,7 @@ class Initialization {
     await AuthInjection.init(serviceLocator);
     initReadReceipt(serviceLocator);
     initItemList();
+
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -45,6 +48,9 @@ class Initialization {
 
     // Initialize SharedPreferences
     await SharedPreferencesHelper().init();
+
+    // Fridge Management feature initialization
+    await initDependencies();
 
     ErrorWidget.builder = (FlutterErrorDetails details) {
       bool inDebug = false;

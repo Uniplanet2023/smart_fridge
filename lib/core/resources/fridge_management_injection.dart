@@ -1,7 +1,5 @@
 // dependency_injection.dart
 import 'package:get_it/get_it.dart';
-import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/helper/isar_helper.dart';
 import 'package:smart_fridge/features/fridge_management/data/data_sources/item_data_source.dart';
 import 'package:smart_fridge/features/fridge_management/data/repository/item_repository_impl.dart';
 import 'package:smart_fridge/features/fridge_management/domain/repository/item_repository.dart';

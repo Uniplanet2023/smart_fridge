@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge_management_bloc.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/edit_fridge_items_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/widgets/fridge_item.dart';
 
@@ -12,128 +14,6 @@ class FridgeItemsPage extends StatefulWidget {
 }
 
 class _FridgeItemsPageState extends State<FridgeItemsPage> {
-  List<Item> fridgeItems = [
-    Item(
-        name: 'Milk long title long title long title fasaksjdlka',
-        quantity: 1.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 1))),
-    Item(
-        name: 'Milk',
-        quantity: 2.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 14))),
-    Item(
-        name: 'Tuna',
-        quantity: 12.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 4))),
-    Item(
-        name: 'Tomatoes',
-        quantity: 10.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 3))),
-    Item(
-        name: 'Eggs',
-        quantity: 6.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 7))),
-    Item(
-        name: 'Butter',
-        quantity: 1.5,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 30))),
-    Item(
-        name: 'Cheese',
-        quantity: 0.5,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 15))),
-    Item(
-        name: 'Yogurt',
-        quantity: 3.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 10))),
-    Item(
-        name: 'Apples',
-        quantity: 8.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 5))),
-    Item(
-        name: 'Bananas',
-        quantity: 5.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 2))),
-    Item(
-        name: 'Chicken Breast',
-        quantity: 4.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 6))),
-    Item(
-        name: 'Broccoli',
-        quantity: 3.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 4))),
-    Item(
-        name: 'Carrots',
-        quantity: 9.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 9))),
-    Item(
-        name: 'Orange Juice',
-        quantity: 2.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 12))),
-    Item(
-        name: 'Salmon',
-        quantity: 1.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 3))),
-    Item(
-        name: 'Ham',
-        quantity: 1.2,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 20))),
-    Item(
-        name: 'Grapes',
-        quantity: 2.5,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 5))),
-    Item(
-        name: 'Cucumber',
-        quantity: 7.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 7))),
-    Item(
-        name: 'Spinach',
-        quantity: 1.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 2))),
-    Item(
-        name: 'Almond Milk',
-        quantity: 2.0,
-        unitPrice: 0,
-        totalPrice: 0,
-        expiryDate: DateTime.now().add(const Duration(days: 30))),
-  ];
   // A list of bool equal to the size of fridge items that is used to track which
   // items are checked
   List<bool> checkedItems = [];
@@ -141,11 +21,7 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
   @override
   void initState() {
     super.initState();
-    // sort items based on expiry date
-    fridgeItems.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
-    // populate list with false bool value
-    // false -> item at index is unchecked, true -> item at index is checked
-    checkedItems = List<bool>.generate(fridgeItems.length, (index) => false);
+    context.read<FridgeManagementBloc>().add(LoadFridgeItemsEvent());
   }
 
   void handleCheckboxChange(int index, bool? isChecked) {
@@ -154,11 +30,11 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
     });
   }
 
-  void removeItem(int index) {
+  void removeItem(int index, Item item) {
     setState(() {
-      fridgeItems.removeAt(index);
       checkedItems.removeAt(index);
     });
+    context.read<FridgeManagementBloc>().add(DeleteFridgeItemEvent(item));
   }
 
   bool get isAnyItemSelected {
@@ -201,56 +77,84 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: fridgeItems.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(18),
-                                ),
-                                border: Border(
-                                  bottom: BorderSide(
+                  BlocBuilder<FridgeManagementBloc, FridgeManagementState>(
+                    builder: (context, state) {
+                      if (state is FridgeManagementLoaded) {
+                        // populate list with false bool value
+                        // false -> item at index is unchecked, true -> item at index is checked
+                        if (checkedItems.length != state.items.length) {
+                          checkedItems = List<bool>.generate(
+                              state.items.length, (index) => false);
+                        }
+                        // sort items based on expiry date
+                        state.items.sort(
+                            (a, b) => a.expiryDate.compareTo(b.expiryDate));
+                        return Expanded(
+                          child: ListView.builder(
+                            itemCount: state.items.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 2.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(18),
+                                      ),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .inverseSurface),
+                                      ),
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .inverseSurface),
-                                ),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainer),
-                            child: Column(
-                              children: [
-                                FridgeItem(
-                                  itemName: fridgeItems[index].name,
-                                  quantity: fridgeItems[index].quantity,
-                                  expiryDate: fridgeItems[index].expiryDate,
-                                  isChecked: checkedItems[index],
-                                  onChangeItemDetails: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            EditFridgeItemsPage(
-                                                item: fridgeItems[index]),
+                                          .surfaceContainer),
+                                  child: Column(
+                                    children: [
+                                      FridgeItem(
+                                        itemName: state.items[index].name,
+                                        quantity: state.items[index].quantity,
+                                        expiryDate:
+                                            state.items[index].expiryDate,
+                                        isChecked: checkedItems[index],
+                                        onChangeItemDetails: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditFridgeItemsPage(
+                                                      item: state.items[index]),
+                                            ),
+                                          );
+                                        },
+                                        onDeleteItem: () {
+                                          removeItem(index, state.items[index]);
+                                        },
+                                        checkboxOnChange: (bool? value) {
+                                          handleCheckboxChange(index, value);
+                                        },
                                       ),
-                                    );
-                                  },
-                                  onDeleteItem: () {
-                                    removeItem(index);
-                                  },
-                                  checkboxOnChange: (bool? value) {
-                                    handleCheckboxChange(index, value);
-                                  },
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
                         );
-                      },
-                    ),
+                      } else if (state is FridgeManagementLoading) {
+                        const Expanded(
+                          child: Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                        );
+                      }
+                      return const Expanded(
+                        child: Center(
+                          child: Text('No Items Added'),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

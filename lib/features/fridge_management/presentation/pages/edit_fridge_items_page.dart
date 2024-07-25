@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge_management_bloc.dart';
 
 class EditFridgeItemsPage extends StatefulWidget {
   final Item item;
@@ -102,22 +104,20 @@ class _EditFridgeItemsPageState extends State<EditFridgeItemsPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        print(
+                        double itemQuantitiy =
                             (double.parse(_quantitycontroller.text.trim()) * 4)
                                     .round() /
-                                4);
-
-                        //     serviceLocator.get<AuthBloc>().add(
-                        //           UpdatePasswordEvent(
-                        //             serviceLocator
-                        //                 .get<AuthBloc>()
-                        //                 .state
-                        //                 .user!
-                        //                 .email,
-                        //             _currentPasswordController.text.trim(),
-                        //             _newPasswordController.text.trim(),
-                        //           ),
-                        //         );
+                                4;
+                        context.read<FridgeManagementBloc>().add(
+                              EditFridgeItemEvent(
+                                Item(
+                                    name: _itemNameController.text.trim(),
+                                    quantity: itemQuantitiy,
+                                    unitPrice: 0,
+                                    totalPrice: 0,
+                                    expiryDate: selectedDate),
+                              ),
+                            );
                       }
                     },
                     child: Text(
