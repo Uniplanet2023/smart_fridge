@@ -181,6 +181,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     // Ensure the user document exists
     if (userDoc.exists) {
+      String savedUser = UserModel.fromFirestore(userDoc).toJson();
+      // Save user information string to shared preferences
+      SharedPreferencesHelper().saveString('userData', savedUser);
+
       return UserModel.fromFirestore(userDoc);
     } else {
       await firestore.collection('users').doc(userCredential.user!.uid).set({
