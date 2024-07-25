@@ -18,9 +18,21 @@ class ItemDataSource {
     });
   }
 
-  Future<void> updateItem(Item item) async {
+  Future<void> updateItem(Id id, Item item) async {
     await IsarHelper.isar.writeTxn(() async {
-      await IsarHelper.isar.items.put(item);
+      // Check if the item exists
+      final existingItem = await IsarHelper.isar.items.get(id);
+      if (existingItem != null) {
+        // Item exists, so update it
+        existingItem.name = item.name;
+        existingItem.quantity = item.quantity;
+        existingItem.expiryDate = item.expiryDate;
+        existingItem.totalPrice = item.totalPrice;
+        existingItem.unitPrice = item.unitPrice;
+        await IsarHelper.isar.items.put(existingItem);
+      } else {
+        throw Exception('Item not found');
+      }
     });
   }
 

@@ -45,6 +45,7 @@ class Item {
 
   // Add the copyWith method
   Item copyWith({
+    Id? id,
     String? name,
     double? quantity,
     double? unitPrice,

@@ -16,7 +16,7 @@ class ItemRepositoryImpl implements ItemRepository {
   Future<void> deleteItem(Id id) => dataSource.deleteItem(id);
 
   @override
-  Future<void> updateItem(Item item) => dataSource.updateItem(item);
+  Future<void> updateItem(Id id, Item item) => dataSource.updateItem(id, item);
 
   @override
   Future<Item?> getItem(Id id) => dataSource.getItem(id);

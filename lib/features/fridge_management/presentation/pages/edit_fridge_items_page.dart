@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge_management_bloc.dart';
 
 class EditFridgeItemsPage extends StatefulWidget {
@@ -108,16 +109,15 @@ class _EditFridgeItemsPageState extends State<EditFridgeItemsPage> {
                             (double.parse(_quantitycontroller.text.trim()) * 4)
                                     .round() /
                                 4;
-                        context.read<FridgeManagementBloc>().add(
-                              EditFridgeItemEvent(
-                                Item(
-                                    name: _itemNameController.text.trim(),
-                                    quantity: itemQuantitiy,
-                                    unitPrice: 0,
-                                    totalPrice: 0,
-                                    expiryDate: selectedDate),
-                              ),
-                            );
+                        Item newItem = widget.item.copyWith(
+                          name: _itemNameController.text.trim(),
+                          quantity: itemQuantitiy,
+                          expiryDate: selectedDate,
+                        );
+                        serviceLocator<FridgeManagementBloc>().add(
+                            EditFridgeItemEvent(
+                                editedItemId: widget.item.id,
+                                editedItem: newItem));
                       }
                     },
                     child: Text(
