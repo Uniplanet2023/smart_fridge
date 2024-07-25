@@ -7,19 +7,19 @@ class ItemDataSource {
   ItemDataSource();
 
   Future<void> addItem(Item item) async {
-    await IsarHelper.isar.writeTxn(() async {
+    IsarHelper.isar.writeTxn(() async {
       await IsarHelper.isar.items.put(item);
     });
   }
 
   Future<void> deleteItem(Id id) async {
-    await IsarHelper.isar.writeTxn(() async {
+    IsarHelper.isar.writeTxn(() async {
       await IsarHelper.isar.items.delete(id);
     });
   }
 
   Future<void> updateItem(Id id, Item item) async {
-    await IsarHelper.isar.writeTxn(() async {
+    IsarHelper.isar.writeTxn(() async {
       // Check if the item exists
       final existingItem = await IsarHelper.isar.items.get(id);
       if (existingItem != null) {
@@ -37,10 +37,10 @@ class ItemDataSource {
   }
 
   Future<Item?> getItem(Id id) async {
-    return await IsarHelper.isar.items.get(id);
+    return IsarHelper.isar.items.get(id);
   }
 
   Future<List<Item>> getAllItems() async {
-    return await IsarHelper.isar.items.where().findAll();
+    return IsarHelper.isar.items.where().findAll();
   }
 }

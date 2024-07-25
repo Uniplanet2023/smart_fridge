@@ -86,7 +86,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // First Convert UserModel to JSON string
       String savedUser = UserModel.fromFirestore(userDoc).toJson();
       // Save user information string to shared preferences
-      await SharedPreferencesHelper().saveString('userData', savedUser);
+      SharedPreferencesHelper().saveString('userData', savedUser);
 
       return UserModel.fromFirestore(userDoc);
     } catch (e) {
