@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/core/entities/item.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/widgets/edit_page.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/widgets/new_items_page.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/widgets/edit_page.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/widgets/new_items_page.dart';
 
 class ItemListScreen extends StatefulWidget {
   final List<Item> items;

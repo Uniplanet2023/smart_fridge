@@ -2,7 +2,7 @@
 
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:smart_fridge/features/recipe_generation/domain/repository/image_repository.dart';
+import 'package:smart_fridge/features/receipt_scanning/domain/repository/image_repository.dart';
 
 class ImageRepositoryImpl implements ImageRepository {
   final FirebaseStorage firebaseStorage;

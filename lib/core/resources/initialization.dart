@@ -10,7 +10,7 @@ import 'package:smart_fridge/core/resources/firebase_options.dart';
 import 'package:get_it/get_it.dart';
 import 'package:smart_fridge/core/resources/fridge_management_injection.dart';
 import 'package:smart_fridge/core/resources/read_recipe_injection.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/bloc/item_list/dependency.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/dependency.dart';
 
 final serviceLocator = GetIt.instance;
 

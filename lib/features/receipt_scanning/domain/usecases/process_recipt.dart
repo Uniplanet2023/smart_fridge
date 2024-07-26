@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'dart:convert';
-import 'package:smart_fridge/features/recipe_generation/domain/repository/item_repository.dart';
+import 'package:smart_fridge/features/receipt_scanning/domain/repository/item_repository.dart';
 
 class ProcessReceipt {
   final ItemRepository repository;

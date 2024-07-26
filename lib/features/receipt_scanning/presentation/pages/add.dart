@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/bloc/read_receipt_bloc.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/pages/item_list_screen.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/read_receipt_bloc.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/pages/item_list_screen.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});

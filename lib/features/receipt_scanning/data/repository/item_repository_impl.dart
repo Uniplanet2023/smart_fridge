@@ -1,5 +1,5 @@
 import 'package:smart_fridge/core/helper/isar_helper.dart';
-import 'package:smart_fridge/features/recipe_generation/domain/repository/item_repository.dart';
+import 'package:smart_fridge/features/receipt_scanning/domain/repository/item_repository.dart';
 import '../../../../core/entities/item.dart';
 
 class ItemRepositoryImpl implements ItemRepository {

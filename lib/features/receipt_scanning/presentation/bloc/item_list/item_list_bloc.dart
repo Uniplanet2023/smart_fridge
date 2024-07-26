@@ -2,7 +2,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smart_fridge/core/entities/item.dart';
-import 'package:smart_fridge/features/recipe_generation/domain/usecases/save_items_usecase.dart';
+import 'package:smart_fridge/features/receipt_scanning/domain/usecases/save_items_usecase.dart';
 
 part 'item_list_event.dart';
 part 'item_list_state.dart';

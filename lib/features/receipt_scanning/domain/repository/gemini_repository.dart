@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:smart_fridge/features/recipe_generation/domain/entities/recipe.dart';
+import 'package:smart_fridge/features/receipt_scanning/domain/entities/recipe.dart';
 
 abstract class ReadReceiptRepository {
   Future<Recipe?> generateRecipe(String prompt);
