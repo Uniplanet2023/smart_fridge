@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/entities/item.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/bloc/item_list/item_list_bloc.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/widgets/item_tile.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/item_list_bloc.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/widgets/item_tile.dart';
 
 class ItemListPage extends StatefulWidget {
   final List<Item> items;

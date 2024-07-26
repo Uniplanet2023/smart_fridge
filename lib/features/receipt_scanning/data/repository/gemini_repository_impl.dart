@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:smart_fridge/features/recipe_generation/data/data_sources/gemini_data_source.dart';
-import 'package:smart_fridge/features/recipe_generation/domain/repository/gemini_repository.dart';
+import 'package:smart_fridge/features/receipt_scanning/data/data_sources/gemini_data_source.dart';
+import 'package:smart_fridge/features/receipt_scanning/domain/repository/gemini_repository.dart';
 
 import '../../domain/entities/recipe.dart';
 

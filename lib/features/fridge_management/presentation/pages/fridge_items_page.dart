@@ -1,7 +1,13 @@
+import 'dart:ui';
+
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/resources/cuisine_list.dart';
+import 'package:smart_fridge/core/util/hero_dialog_route.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge_management_bloc.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/edit_fridge_items_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/widgets/fridge_item.dart';
@@ -161,7 +167,7 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 12.0),
+                  const EdgeInsets.symmetric(vertical: 50, horizontal: 12.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -169,24 +175,33 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       if (isAnyItemSelected) // Show button only if selected
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            side: WidgetStatePropertyAll(
-                              BorderSide(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryFixedDim,
-                                  width: 2),
+                        Hero(
+                          tag: _heroGenerateRecipe,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .push(HeroDialogRoute(builder: (context) {
+                                return _GenerateRecipePopupCard();
+                              }));
+                            },
+                            style: ButtonStyle(
+                              side: WidgetStatePropertyAll(
+                                BorderSide(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryFixedDim,
+                                    width: 2),
+                              ),
                             ),
-                          ),
-                          label: Text(
-                            'Generate Recipe',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          icon: Icon(
-                            Icons.auto_awesome_outlined,
-                            color: Theme.of(context).colorScheme.inverseSurface,
+                            label: Text(
+                              'Generate Recipe',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            icon: Icon(
+                              Icons.auto_awesome_outlined,
+                              color:
+                                  Theme.of(context).colorScheme.inverseSurface,
+                            ),
                           ),
                         ),
                     ],
@@ -195,6 +210,74 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Tag-value used for the generate recipe button.
+const String _heroGenerateRecipe = 'add-todo-hero';
+
+class _GenerateRecipePopupCard extends StatelessWidget {
+  const _GenerateRecipePopupCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Hero(
+          tag: _heroGenerateRecipe,
+          child: Material(
+            // color: Theme.of(context).colorScheme.primary,
+            elevation: 2,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select Cuisine',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    DropdownSearch<String>(
+                      popupProps: const PopupProps.menu(
+                        showSearchBox: true,
+                        showSelectedItems: true,
+                      ),
+                      items: cuisines_200,
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Generate',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
