@@ -12,12 +12,12 @@ final class RecipeGenerationInitial extends RecipeGenerationState {}
 final class RecipeGenerating extends RecipeGenerationState {}
 
 final class RecipeGenerated extends RecipeGenerationState {
-  final Recipe recipe;
+  final List<Recipe> recipes;
 
-  const RecipeGenerated(this.recipe);
+  const RecipeGenerated(this.recipes);
 
   @override
-  List<Object?> get props => [recipe];
+  List<Object?> get props => [recipes];
 }
 
 final class RecipeSaving extends RecipeGenerationState {}

@@ -31,12 +31,8 @@ class ReadReceiptBloc extends Bloc<ReadReceiptEvent, ReadReceiptState> {
           return;
         }
 
-        // Clean the JSON string if it contains unwanted text
-        final result =
-            itemJsonData.replaceAll('```json', '').replaceAll('```', '').trim();
-
         // Parse JSON data
-        final List<dynamic> parsedJson = jsonDecode(result);
+        final List<dynamic> parsedJson = jsonDecode(itemJsonData);
         final List<Item> finalResult = parsedJson
             .map((e) => Item.fromJson(e as Map<String, dynamic>))
             .toList();

@@ -10,6 +10,7 @@ import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge_management_bloc.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/item_list_bloc.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/read_receipt_bloc.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/bloc/bloc/recipe_generation_bloc.dart';
 
 void main() async {
   // Initialize Firebase and set system UI overlay style
@@ -20,6 +21,7 @@ void main() async {
       BlocProvider(create: (_) => serviceLocator<ReadReceiptBloc>()),
       BlocProvider(create: (_) => serviceLocator<ItemListBloc>()),
       BlocProvider(create: (_) => serviceLocator<FridgeManagementBloc>()),
+      BlocProvider(create: (_) => serviceLocator<RecipeGenerationBloc>()),
     ],
     child: const MyApp(),
   ));

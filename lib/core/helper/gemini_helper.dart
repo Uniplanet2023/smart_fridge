@@ -11,16 +11,19 @@ class GeminiHelper {
   late final GenerativeModel _gemini;
 
   void initialize(String apiKey) {
-    print('Initializing Gemini with API key: $apiKey');
     _gemini = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
   }
 
   Future<String?> generateContent(String prompt) async {
     try {
-      final content = [Content.text('Write a story about a magic backpack.')];
+      final content = [Content.text(prompt)];
       final response = await _gemini.generateContent(content);
-      print(response.text);
-      return response.text;
+      if (response.text == null) {
+        return null;
+      }
+      final result =
+          response.text!.replaceAll('```json', '').replaceAll('```', '').trim();
+      return result;
     } catch (e) {
       log('Error generating content: $e');
       rethrow;
@@ -44,8 +47,13 @@ class GeminiHelper {
       final response = await _gemini.generateContent([
         Content.multi([textPart, ...imageParts])
       ]);
+      if (response.text == null) {
+        return null;
+      }
+      final result =
+          response.text!.replaceAll('```json', '').replaceAll('```', '').trim();
 
-      return response.text;
+      return result;
     } catch (e) {
       log('GeminiException: $e');
       rethrow;

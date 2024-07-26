@@ -1,17 +1,10 @@
-import 'package:isar/isar.dart';
+import 'package:smart_fridge/core/entities/item.dart';
 
-part 'recipe.g.dart'; // Required for code generation
-
-@Collection()
 class Recipe {
-  Id id = Isar.autoIncrement; // Auto increment ID
-
-  @Index()
   late String name;
   late String cuisine;
   late List<String> instructions;
-  late List<String> ingredients;
-  late DateTime timestamp;
+  late List<Item> ingredients;
   late bool shared;
 
   Recipe({
@@ -19,7 +12,6 @@ class Recipe {
     required this.cuisine,
     required this.instructions,
     required this.ingredients,
-    required this.timestamp,
     required this.shared,
   });
 
@@ -27,11 +19,12 @@ class Recipe {
     return Recipe(
       name: json['name'] as String? ?? '',
       cuisine: json['cuisine'] as String? ?? '',
-      ingredients: json['ingredients'] as List<String>? ?? [],
-      instructions: json['instructions'] as List<String>? ?? [],
-      timestamp: json['expiryDate'] != null
-          ? DateTime.parse(json['expiryDate'] as String)
-          : DateTime.now(),
+      ingredients: (json['ingredients'] as List)
+          .map((e) => Item.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instructions: (json['instructions'] as List<dynamic>)
+          .map((e) => e.toString())
+          .toList(),
       shared: json['shared'] as bool? ?? false,
     );
   }
@@ -42,17 +35,15 @@ class Recipe {
       'cuisine': cuisine,
       'ingredients': ingredients,
       'instructions': instructions,
-      'timestamp': timestamp.toIso8601String(),
       'shared': shared
     };
   }
 
   // Add the copyWith method
   Recipe copyWith({
-    Id? id,
     String? name,
     String? cuisine,
-    List<String>? ingredients,
+    List<Item>? ingredients,
     List<String>? instructions,
     DateTime? timestamp,
     bool? shared,
@@ -62,7 +53,6 @@ class Recipe {
       cuisine: cuisine ?? this.cuisine,
       ingredients: ingredients ?? this.ingredients,
       instructions: instructions ?? this.instructions,
-      timestamp: timestamp ?? this.timestamp,
       shared: shared ?? this.shared,
     );
   }

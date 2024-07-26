@@ -8,10 +8,10 @@ sealed class RecipeGenerationEvent extends Equatable {
 }
 
 class GenerateRecipeEvent extends RecipeGenerationEvent {
-  final List<String> ingridients;
+  final List<Item> ingredients;
   final String cuisine;
 
-  const GenerateRecipeEvent(this.ingridients, this.cuisine);
+  const GenerateRecipeEvent({required this.ingredients, required this.cuisine});
 }
 
 class SaveRecipeEvent extends RecipeGenerationEvent {

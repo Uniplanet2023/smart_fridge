@@ -7,10 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/core/entities/item.dart';
 import 'package:smart_fridge/core/resources/cuisine_list.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/util/hero_dialog_route.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge_management_bloc.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/edit_fridge_items_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/widgets/fridge_item.dart';
+import 'package:smart_fridge/features/recipe_generation/presentation/bloc/bloc/recipe_generation_bloc.dart';
 
 class FridgeItemsPage extends StatefulWidget {
   const FridgeItemsPage({super.key});
@@ -23,6 +25,8 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
   // A list of bool equal to the size of fridge items that is used to track which
   // items are checked
   List<bool> checkedItems = [];
+  final List<Item> selectedItems = [];
+  String? selectedCuisine;
 
   @override
   void initState() {
@@ -30,9 +34,14 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
     context.read<FridgeManagementBloc>().add(LoadFridgeItemsEvent());
   }
 
-  void handleCheckboxChange(int index, bool? isChecked) {
+  void handleCheckboxChange(int index, bool? isChecked, Item item) {
     setState(() {
       checkedItems[index] = isChecked ?? false;
+      if (isChecked ?? false) {
+        selectedItems.add(item);
+      } else {
+        selectedItems.remove(item);
+      }
     });
   }
 
@@ -138,7 +147,8 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                                           removeItem(index, state.items[index]);
                                         },
                                         checkboxOnChange: (bool? value) {
-                                          handleCheckboxChange(index, value);
+                                          handleCheckboxChange(
+                                              index, value, state.items[index]);
                                         },
                                       ),
                                     ],
@@ -181,11 +191,13 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
                             onPressed: () {
                               Navigator.of(context)
                                   .push(HeroDialogRoute(builder: (context) {
-                                return _GenerateRecipePopupCard();
+                                return _GenerateRecipePopupCard(
+                                  selectedItems: selectedItems,
+                                );
                               }));
                             },
                             style: ButtonStyle(
-                              side: WidgetStatePropertyAll(
+                              side: WidgetStateProperty.all(
                                 BorderSide(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -219,18 +231,23 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
 /// Tag-value used for the generate recipe button.
 const String _heroGenerateRecipe = 'add-todo-hero';
 
+// _GenerateRecipePopupCard.dart
 class _GenerateRecipePopupCard extends StatelessWidget {
-  const _GenerateRecipePopupCard();
+  final List<Item> selectedItems;
+
+  const _GenerateRecipePopupCard({
+    required this.selectedItems,
+  });
 
   @override
   Widget build(BuildContext context) {
+    String? selectedCuisine;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Hero(
           tag: _heroGenerateRecipe,
           child: Material(
-            // color: Theme.of(context).colorScheme.primary,
             elevation: 2,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -257,6 +274,11 @@ class _GenerateRecipePopupCard extends StatelessWidget {
                         showSelectedItems: true,
                       ),
                       items: cuisines_200,
+                      onChanged: (value) {
+                        if (value != null) {
+                          selectedCuisine = value;
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 10.h,
@@ -265,7 +287,19 @@ class _GenerateRecipePopupCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (selectedCuisine == null) {
+                              return;
+                            }
+                            // Close the popup after selecting the cuisine
+                            serviceLocator<RecipeGenerationBloc>().add(
+                              GenerateRecipeEvent(
+                                ingredients: selectedItems,
+                                cuisine: selectedCuisine!,
+                              ),
+                            );
+                            Navigator.of(context).pop();
+                          },
                           child: Text(
                             'Generate',
                             style: Theme.of(context).textTheme.bodyLarge,

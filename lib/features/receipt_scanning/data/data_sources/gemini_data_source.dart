@@ -32,8 +32,9 @@ class RecipeRemoteDataSourceImpl implements ReadReceiptRemoteDataSource {
   @override
   Future<String?> readReceipt(File receiptImage) async {
     try {
-      final result = await GeminiHelper.instance
+      final String? result = await GeminiHelper.instance
           .generateContentWithImage(readReceiptPromp, receiptImage);
+      // Clean the JSON string if it contains unwanted text
 
       return result;
     } catch (e) {
