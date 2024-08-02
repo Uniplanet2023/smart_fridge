@@ -40,8 +40,25 @@ class ReadReceiptBloc extends Bloc<ReadReceiptEvent, ReadReceiptState> {
         emit(ReadReceiptCompleted(receiptData: finalResult));
       } catch (e) {
         print(e);
-        emit(ReadReceiptError(message: e.toString()));
+        emit(
+          const ReadReceiptError(
+            message:
+                'There was an error while reading the receipt. Please ensure the image you uploaded is indeed a receipt, or try uploading it again.',
+          ),
+        );
       }
     });
+
+    @override
+    void onChange(Change<ReadReceiptState> change) {
+      super.onChange(change);
+    }
+
+    @override
+    void onTransition(
+        Transition<ReadReceiptEvent, ReadReceiptState> transition) {
+      super.onTransition(transition);
+      print(transition);
+    }
   }
 }

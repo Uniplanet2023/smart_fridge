@@ -10,7 +10,7 @@ import 'package:smart_fridge/features/fridge_management/presentation/pages/fridg
 import 'package:smart_fridge/features/auth/presentation/pages/account_settings_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/profile_page.dart';
 import 'package:smart_fridge/features/recipes/presentation/pages/recipes_page.dart';
-import 'package:smart_fridge/features/receipt_scanning/presentation/pages/add.dart';
+import 'package:smart_fridge/features/receipt_scanning/presentation/pages/add_page.dart';
 import 'package:smart_fridge/features/recipes/presentation/pages/saved_recipe_details_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {

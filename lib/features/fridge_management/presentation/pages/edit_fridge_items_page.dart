@@ -90,7 +90,7 @@ class _EditFridgeItemsPageState extends State<EditFridgeItemsPage> {
                     ),
                     IconButton(
                         onPressed: () {
-                          _selectDate(context);
+                          _selectDate(context, widget.item.expiryDate);
                         },
                         icon: const Icon(Icons.calendar_month_outlined))
                   ],
@@ -133,12 +133,12 @@ class _EditFridgeItemsPageState extends State<EditFridgeItemsPage> {
     );
   }
 
-  _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context, DateTime initialTime) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       initialDatePickerMode: DatePickerMode.day,
-      firstDate: DateTime(2024),
+      firstDate: DateTime(initialTime.year),
       lastDate: DateTime(2030),
       selectableDayPredicate: _decideWhichDayToEnable,
       helpText: 'Select item expiry date',
@@ -153,7 +153,10 @@ class _EditFridgeItemsPageState extends State<EditFridgeItemsPage> {
   }
 
   bool _decideWhichDayToEnable(DateTime day) {
-    if (day.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
+    if ((day.year == widget.item.expiryDate.year &&
+            day.month == widget.item.expiryDate.month &&
+            day.day == widget.item.expiryDate.day) ||
+        day.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
       return true;
     }
     return false;
