@@ -1,4 +1,4 @@
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
 
 String generateRecipePrompt(List<Item> ingredientsList, String cuisine) {
   // Convert each item in the ingredientsList to a string representation

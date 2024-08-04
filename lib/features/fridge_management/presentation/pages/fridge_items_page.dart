@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/routes/names.dart';
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
 import 'package:smart_fridge/core/resources/cuisine_list.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/util/hero_dialog_route.dart';

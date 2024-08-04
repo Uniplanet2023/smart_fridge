@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/item_list_bloc.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/widgets/edit_item_dialog.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/widgets/add_item_dialog.dart';

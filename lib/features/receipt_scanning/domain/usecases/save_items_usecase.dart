@@ -1,6 +1,6 @@
 import 'package:smart_fridge/features/receipt_scanning/domain/repository/item_repository.dart';
 
-import '../../../../core/entities/item.dart';
+import '../../../../core/isar_models/item.dart';
 
 class SaveItemsUseCase {
   final ItemRepository repository;
