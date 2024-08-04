@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/features/recipe_generation/data/models/recipe_model.dart';
 
 class IsarHelper {
   IsarHelper._privateConstructor();
@@ -13,7 +14,7 @@ class IsarHelper {
   Future<Isar> openIsar() async {
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open(
-      [ItemSchema],
+      [ItemSchema, RecipeModelSchema],
       directory: dir.path,
     );
     return isar;

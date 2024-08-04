@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
 import 'package:smart_fridge/core/entities/recipe.dart';
 import 'package:smart_fridge/core/helper/gemini_helper.dart';
 import 'package:smart_fridge/core/prompt/generate_recipe.dart';

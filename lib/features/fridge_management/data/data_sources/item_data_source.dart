@@ -1,6 +1,6 @@
 // item_data_source.dart (in data/datasources)
 import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
 import 'package:smart_fridge/core/helper/isar_helper.dart';
 
 class ItemDataSource {

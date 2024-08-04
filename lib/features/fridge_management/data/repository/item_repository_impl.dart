@@ -1,6 +1,6 @@
 // item_repository_impl.dart (in data/repositories)
 import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
 import 'package:smart_fridge/features/fridge_management/data/data_sources/item_data_source.dart';
 import 'package:smart_fridge/features/fridge_management/domain/repository/item_repository.dart';
 

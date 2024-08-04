@@ -1,4 +1,4 @@
-import 'package:smart_fridge/core/entities/item.dart';
+import 'package:smart_fridge/core/isar_models/item.dart';
 import 'package:smart_fridge/core/entities/recipe.dart';
 import 'package:smart_fridge/features/recipe_generation/data/data_sources/recipe_local_data_source.dart';
 import 'package:smart_fridge/features/recipe_generation/data/data_sources/recipe_remote_data_source.dart';
