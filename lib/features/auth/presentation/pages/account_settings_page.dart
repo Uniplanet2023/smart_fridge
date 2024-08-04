@@ -54,120 +54,149 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Account Settings',
-          style: Theme.of(context)
-              .textTheme
-              .headlineLarge
-              ?.copyWith(fontWeight: FontWeight.bold),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthChangedName) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+              content: Text(
+                'Successfully Changed Name',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inverseSurface),
+              ),
+            ),
+          );
+        } else if (state is AuthError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              content: Text(
+                state.message,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inverseSurface),
+              ),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Account Settings',
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            children: [
-              SizedBox(height: 15.h),
-              Container(
-                alignment: Alignment.bottomLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  "Account Information",
-                  style: Theme.of(context).textTheme.bodyLarge,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              children: [
+                SizedBox(height: 15.h),
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    "Account Information",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              MenuSection(
-                title: "Change Name",
-                icon: Icons.manage_accounts_outlined,
-                ontap: () {
-                  return _buildChangeNameDialog();
-                },
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              MenuSection(
-                title: "Change Password",
-                icon: Icons.manage_accounts_outlined,
-                ontap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChangePasswordPage(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              MenuSection(
-                title: "Delete Account",
-                icon: Icons.no_accounts_outlined,
-                color: Theme.of(context).colorScheme.error,
-                ontap: () {
-                  return _buildDeleteAccountDialog();
-                },
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Container(
-                alignment: Alignment.bottomLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  "Notifications",
-                  style: Theme.of(context).textTheme.bodyLarge,
+                SizedBox(
+                  height: 5.h,
                 ),
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              MenuSection(
-                title: 'Allow Notifications',
-                icon: Icons.notifications_outlined,
-                transition: Switch(
-                  thumbIcon: thumbIcon,
-                  value: notify,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  onChanged: (bool value) {
-                    // This is called when the user toggles the switch.
-                    updateNotification(value);
+                MenuSection(
+                  title: "Change Name",
+                  icon: Icons.manage_accounts_outlined,
+                  ontap: () {
+                    return _buildChangeNameDialog();
                   },
                 ),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Container(
-                alignment: Alignment.bottomLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  "Display Theme",
-                  style: Theme.of(context).textTheme.bodyLarge,
+                SizedBox(
+                  height: 5.h,
                 ),
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              MenuSection(
-                title: 'Appearance',
-                icon: Icons.light_mode_outlined,
-                transition: Switch(
-                  thumbIcon: displayIcon,
-                  value: theme,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  onChanged: (bool value) {
-                    toggleTheme(value);
+                MenuSection(
+                  title: "Change Password",
+                  icon: Icons.manage_accounts_outlined,
+                  ontap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePasswordPage(),
+                      ),
+                    );
                   },
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 5.h,
+                ),
+                MenuSection(
+                  title: "Delete Account",
+                  icon: Icons.no_accounts_outlined,
+                  color: Theme.of(context).colorScheme.error,
+                  ontap: () {
+                    return _buildDeleteAccountDialog();
+                  },
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    "Notifications",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                MenuSection(
+                  title: 'Allow Notifications',
+                  icon: Icons.notifications_outlined,
+                  transition: Switch(
+                    thumbIcon: thumbIcon,
+                    value: notify,
+                    activeColor: Theme.of(context).colorScheme.primary,
+                    onChanged: (bool value) {
+                      // This is called when the user toggles the switch.
+                      updateNotification(value);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    "Display Theme",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                MenuSection(
+                  title: 'Appearance',
+                  icon: Icons.light_mode_outlined,
+                  transition: Switch(
+                    thumbIcon: displayIcon,
+                    value: theme,
+                    activeColor: Theme.of(context).colorScheme.primary,
+                    onChanged: (bool value) {
+                      toggleTheme(value);
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -22,83 +22,99 @@ class _RecipeCardState extends State<RecipeCard> {
       onTap: () {
         Navigator.pushNamed(context, AppRoutes.savedRecipeDetailsPage);
       },
-      child: Card(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.recipeName,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const Divider(
-                thickness: 1,
-              ),
-              Text(
-                'Ingredients:',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                widget.recipeIngredients[0],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w400),
-              ),
-              widget.recipeIngredients.length < 2
-                  ? const SizedBox()
-                  : Text(
-                      widget.recipeIngredients[1],
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context)
+                  .colorScheme
+                  .primaryContainer
+                  .withOpacity(0.4),
+              blurRadius: 8,
+              offset: const Offset(0, 6),
+            )
+          ],
+        ),
+        child: Card(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          elevation: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.recipeName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const Divider(
+                  thickness: 1,
+                ),
+                Text(
+                  'Ingredients:',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  widget.recipeIngredients[0],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w400),
+                ),
+                widget.recipeIngredients.length < 2
+                    ? const SizedBox()
+                    : Text(
+                        widget.recipeIngredients[1],
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w400),
+                      ),
+                widget.recipeIngredients.length < 2
+                    ? const SizedBox()
+                    : Text(
+                        widget.recipeIngredients[2],
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w400),
+                      ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'read more >',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyMedium
+                          .bodySmall
                           ?.copyWith(fontWeight: FontWeight.w400),
                     ),
-              widget.recipeIngredients.length < 2
-                  ? const SizedBox()
-                  : Text(
-                      widget.recipeIngredients[2],
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.w400),
-                    ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'read more >',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

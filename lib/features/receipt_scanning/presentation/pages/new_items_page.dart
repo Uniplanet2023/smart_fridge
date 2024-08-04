@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/entities/item.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/item_list_bloc.dart';
@@ -121,70 +123,81 @@ class ItemListPageState extends State<ItemListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(
-          'Item List',
-          style: Theme.of(context)
-              .textTheme
-              .headlineLarge
-              ?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.add,
-              size: 30,
+    return BlocListener<ItemListBloc, ItemListState>(
+      listener: (context, state) {
+        if (state is ItemListSaved) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const BottomBar(),
             ),
-            onPressed: handleAdd,
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text(
+            'Item List',
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Checkbox(
-                value: checkAll,
-                onChanged: toggleSelectAll,
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.add,
+                size: 30,
               ),
-              Text(
-                'Select All',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                return ItemTile(
-                  item: item,
-                  isChecked: itemCheckedStatus[index],
-                  onCheckboxChanged: (isChecked) =>
-                      toggleItemSelection(index, isChecked),
-                  onEdit: handleEdit,
-                  onDelete: handleDelete,
-                  checkAll: checkAll,
-                );
-              },
+              onPressed: handleAdd,
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: Visibility(
-        visible: isAnyItemSelected,
-        child: FloatingActionButton(
-          onPressed: handleSave,
-          tooltip: 'Save',
-          child: const Icon(Icons.save),
+          ],
         ),
+        body: Column(
+          children: [
+            Row(
+              children: [
+                Checkbox(
+                  value: checkAll,
+                  onChanged: toggleSelectAll,
+                ),
+                Text(
+                  'Select All',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return ItemTile(
+                    item: item,
+                    isChecked: itemCheckedStatus[index],
+                    onCheckboxChanged: (isChecked) =>
+                        toggleItemSelection(index, isChecked),
+                    onEdit: handleEdit,
+                    onDelete: handleDelete,
+                    checkAll: checkAll,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: Visibility(
+          visible: isAnyItemSelected,
+          child: FloatingActionButton(
+            onPressed: handleSave,
+            tooltip: 'Save',
+            child: const Icon(Icons.save),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

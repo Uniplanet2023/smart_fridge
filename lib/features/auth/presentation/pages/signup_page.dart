@@ -4,7 +4,9 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:smart_fridge/config/routes/names.dart';
+import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 
 class SignupPage extends StatefulWidget {
@@ -30,166 +32,178 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Form(
-                  key: _signUpFormKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Sign Up",
-                        style: Theme.of(context)
-                            .textTheme
-                            .displaySmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Create your account 🥳",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: SignInButton(
-                          elevation: 1,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          Buttons.Google,
-                          text: "Sign Up with Google",
-                          onPressed: () {},
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoaded) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const BottomBar(),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Form(
+                    key: _signUpFormKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Sign Up",
+                          style: Theme.of(context)
+                              .textTheme
+                              .displaySmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        children: [
-                          const Expanded(child: Divider()),
-                          Text(
-                            "   or sign up with Email   ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant, // Change this to your desired color
-                                    fontWeight: FontWeight.w600),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Create your account 🥳",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: SignInButton(
+                            elevation: 1,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            Buttons.Google,
+                            text: "Sign up with Google",
+                            onPressed: () => serviceLocator<AuthBloc>()
+                                .add(SignInWithGoogleEvent()),
                           ),
-                          const Expanded(child: Divider()),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      CustomTextField(
-                        controller: _usernameController,
-                        hintText: "Enter Username",
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CustomTextField(
-                        controller: _emailController,
-                        hintText: "Enter Email Address",
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CustomTextField(
-                        controller: _passwordController,
-                        hintText: 'Password',
-                        obscureText: true,
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        height: 90,
-                        child: FlutterPwValidator(
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          children: [
+                            const Expanded(child: Divider()),
+                            Text(
+                              "   or sign up with Email   ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant, // Change this to your desired color
+                                      fontWeight: FontWeight.w600),
+                            ),
+                            const Expanded(child: Divider()),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        CustomTextField(
+                          controller: _usernameController,
+                          hintText: "Enter Username",
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
+                          controller: _emailController,
+                          hintText: "Enter Email Address",
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
                           controller: _passwordController,
-                          minLength: 6,
-                          uppercaseCharCount: 1,
-                          numericCharCount: 1,
-                          width: 350,
-                          height: 150,
-                          onSuccess: () {
-                            setState(() {
-                              validPassword = true;
-                            });
-                          },
-                          onFail: () {
-                            setState(() {
-                              validPassword = false;
-                            });
-                          },
+                          hintText: 'Password',
+                          obscureText: true,
+                          isPassword: true,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 60,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_signUpFormKey.currentState!.validate()) {
-                              context.read<AuthBloc>().add(
-                                    SignupEvent(
-                                      _emailController.text.trim(),
-                                      _passwordController.text.trim(),
-                                      _usernameController.text.trim(),
-                                    ),
-                                  );
-                            }
-                          },
-                          child: Text(
-                            'Sign Up',
-                            style: Theme.of(context).textTheme.headlineLarge,
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          height: 90,
+                          child: FlutterPwValidator(
+                            controller: _passwordController,
+                            minLength: 6,
+                            uppercaseCharCount: 1,
+                            numericCharCount: 1,
+                            width: 350,
+                            height: 150,
+                            onSuccess: () {
+                              setState(() {
+                                validPassword = true;
+                              });
+                            },
+                            onFail: () {
+                              setState(() {
+                                validPassword = false;
+                              });
+                            },
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Already have an account? '),
-                          TextButton(
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 60,
+                          child: ElevatedButton(
                             onPressed: () {
-                              Navigator.popAndPushNamed(
-                                  context, AppRoutes.signinPage);
+                              if (_signUpFormKey.currentState!.validate()) {
+                                context.read<AuthBloc>().add(
+                                      SignupEvent(
+                                        _emailController.text.trim(),
+                                        _passwordController.text.trim(),
+                                        _usernameController.text.trim(),
+                                      ),
+                                    );
+                              }
                             },
                             child: Text(
-                              "Sign In!",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                              'Sign Up',
+                              style: Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Already have an account? '),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.popAndPushNamed(
+                                    context, AppRoutes.signinPage);
+                              },
+                              child: Text(
+                                "Sign In!",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

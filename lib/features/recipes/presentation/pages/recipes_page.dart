@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 
 import '../widgets/recipe_card.dart';
@@ -12,6 +13,13 @@ class RecipesPage extends StatefulWidget {
 
 class _RecipesPageState extends State<RecipesPage> {
   final TextEditingController searchController = TextEditingController();
+  bool _isSearchVisible = false;
+
+  void _toggleSearch() {
+    setState(() {
+      _isSearchVisible = !_isSearchVisible;
+    });
+  }
 
   List<RecipeItemData> recipeItems = [
     RecipeItemData(
@@ -231,9 +239,9 @@ class _RecipesPageState extends State<RecipesPage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'My Recpies',
@@ -242,14 +250,23 @@ class _RecipesPageState extends State<RecipesPage> {
                           .headlineLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
+                    InkWell(
+                      onTap: _toggleSearch,
+                      child: const Icon(
+                        Icons.search_sharp,
+                        size: 30,
+                      ),
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                  prefixIcon: const Icon(Icons.search_sharp),
-                  controller: searchController,
-                  hintText: 'Search saved recipes'),
+              const SizedBox(height: 10),
+              _isSearchVisible
+                  ? CustomTextField(
+                      prefixIcon: const Icon(Icons.search_sharp),
+                      controller: searchController,
+                      hintText: 'Search saved recipes')
+                  : const SizedBox.shrink(),
               const SizedBox(
                 height: 20,
               ),
@@ -257,11 +274,19 @@ class _RecipesPageState extends State<RecipesPage> {
                 child: ListView.builder(
                   itemCount: recipeItems.length,
                   itemBuilder: (context, index) {
-                    return RecipeCard(
-                        recipeName: recipeItems[index].recipeName,
-                        recipeIngredients: recipeItems[index].recipeIngredients,
-                        recipeInstructions:
-                            recipeItems[index].recipeInstructions);
+                    return Column(
+                      children: [
+                        RecipeCard(
+                            recipeName: recipeItems[index].recipeName,
+                            recipeIngredients:
+                                recipeItems[index].recipeIngredients,
+                            recipeInstructions:
+                                recipeItems[index].recipeInstructions),
+                        SizedBox(
+                          height: 5.h,
+                        )
+                      ],
+                    );
                   },
                 ),
               ),
