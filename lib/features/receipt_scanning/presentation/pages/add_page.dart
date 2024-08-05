@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
+import 'package:smart_fridge/core/util/image_permissions.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/read_receipt_bloc.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/pages/new_items_page.dart';
 
@@ -20,41 +20,11 @@ class AddPage extends StatefulWidget {
 class _AddPageState extends State<AddPage> {
   File? image;
 
-  Future<void> selectImage() async {
-    final permissionStatus = await Permission.photos.status;
-    if (permissionStatus.isGranted ||
-        permissionStatus.isLimited ||
-        Platform.isAndroid) {
-      pickImage();
-    } else if (permissionStatus.isPermanentlyDenied) {
-      Permission.photos.request();
-      openAppSettings();
-    } else {
-      Permission.photos.request();
-      if (context.mounted) {
-        showDialog(
-          // ignore: use_build_context_synchronously
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: const Text("Permission needed"),
-            content: const Text("This app needs gallery access to pick images"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("Deny"),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              TextButton(
-                child: const Text("Settings"),
-                onPressed: () => openAppSettings(), // Open app settings
-              ),
-            ],
-          ),
-        );
-      }
-    }
-  }
-
   Future<void> pickImage() async {
+    // Check gallery permission, if not allowed stop
+    if (await ImagePermissions(context).isAllowed() == false) {
+      return;
+    }
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.gallery);
@@ -70,7 +40,7 @@ class _AddPageState extends State<AddPage> {
       bool confirmUpload = await showUploadConfirmationDialog();
       if (confirmUpload) {
         // Assuming 'image' is a global variable that holds the File
-        // Here you could upload the image to your server and then update the user's profile image URL
+        // Here you could upload the image and then fetch the items in the receipt
         serviceLocator<ReadReceiptBloc>().add(ScanReceiptEvent(image!));
       } else {
         // Reset the image to null if the user cancels the upload
@@ -283,7 +253,6 @@ class _AddPageState extends State<AddPage> {
     );
   }
 }
-
 
 // Text.rich(
 //   TextSpan(

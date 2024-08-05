@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:smart_fridge/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/domain/repository/auth_repository.dart';
@@ -51,5 +53,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User?> checkUserTokenExists() async {
     return remoteDataSource.checkUserTokenExists();
+  }
+
+  @override
+  Future<void> updateProfilePicture(File newImage) {
+    // TODO: implement updateProfilePicture
+    throw UnimplementedError();
   }
 }

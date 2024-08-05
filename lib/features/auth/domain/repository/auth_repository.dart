@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 
 abstract class AuthRepository {
@@ -11,4 +13,5 @@ abstract class AuthRepository {
   Future<void> changeName(String newName);
   Future<User> signInWithGoogle();
   Future<User?> checkUserTokenExists();
+  Future<void> updateProfilePicture(File newImage);
 }

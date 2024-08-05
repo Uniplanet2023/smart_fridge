@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:smart_fridge/config/routes/names.dart';
-import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class ReauthenticatePage extends StatefulWidget {
+  const ReauthenticatePage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<ReauthenticatePage> createState() => _ReauthenticatePageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
-  final _signUpFormKey = GlobalKey<FormState>();
+class _ReauthenticatePageState extends State<ReauthenticatePage> {
+  final _signInFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool validPassword = false;
 
   @override
   void dispose() {
@@ -35,10 +33,27 @@ class _SignupPageState extends State<SignupPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoaded) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const BottomBar(),
+          // user login was successful, continue with Account Deletion
+          context.read<AuthBloc>().add(DeleteUserEvent());
+        } else if (state is AuthDeleted) {
+          // if account deleted state is invoked, Show successful deletion of 
+          // user account then navigate to sign up page
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+              content: Text(
+                'Account successfully deleted!',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inverseSurface),
+              ),
             ),
+          );
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const SignupPage(),
+            ),
+            ModalRoute.withName(AppRoutes.signinPage),
           );
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -55,6 +70,7 @@ class _SignupPageState extends State<SignupPage> {
         }
       },
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
@@ -63,13 +79,13 @@ class _SignupPageState extends State<SignupPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Form(
-                    key: _signUpFormKey,
+                    key: _signInFormKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Sign Up",
+                          "Reauthenticate",
                           style: Theme.of(context)
                               .textTheme
                               .displaySmall
@@ -79,7 +95,7 @@ class _SignupPageState extends State<SignupPage> {
                           height: 10,
                         ),
                         Text(
-                          "Create your account 🥳",
+                          "Please log in with your credentials to proceed with the account deletion process.",
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         const SizedBox(
@@ -93,9 +109,11 @@ class _SignupPageState extends State<SignupPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
                             Buttons.Google,
-                            text: "Sign up with Google",
-                            onPressed: () => serviceLocator<AuthBloc>()
-                                .add(SignInWithGoogleEvent()),
+                            text: "Sign in with Google",
+                            onPressed: () {
+                              serviceLocator<AuthBloc>()
+                                  .add(SignInWithGoogleEvent());
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -105,7 +123,7 @@ class _SignupPageState extends State<SignupPage> {
                           children: [
                             const Expanded(child: Divider()),
                             Text(
-                              "   or sign up with Email   ",
+                              "   or Login with Email   ",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall
@@ -122,13 +140,6 @@ class _SignupPageState extends State<SignupPage> {
                           height: 30,
                         ),
                         CustomTextField(
-                          controller: _usernameController,
-                          hintText: "Enter Username",
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomTextField(
                           controller: _emailController,
                           hintText: "Enter Email Address",
                         ),
@@ -136,32 +147,37 @@ class _SignupPageState extends State<SignupPage> {
                           height: 20,
                         ),
                         CustomTextField(
-                          controller: _passwordController,
-                          hintText: 'Password',
                           obscureText: true,
                           isPassword: true,
+                          controller: _passwordController,
+                          hintText: "Enter Password",
                         ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          height: 90,
-                          child: FlutterPwValidator(
-                            controller: _passwordController,
-                            minLength: 6,
-                            uppercaseCharCount: 1,
-                            numericCharCount: 1,
-                            width: 350,
-                            height: 150,
-                            onSuccess: () {
-                              setState(() {
-                                validPassword = true;
-                              });
-                            },
-                            onFail: () {
-                              setState(() {
-                                validPassword = false;
-                              });
-                            },
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgottenPasswordPage(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Forgot Password?',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
@@ -171,12 +187,11 @@ class _SignupPageState extends State<SignupPage> {
                           height: 60,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (_signUpFormKey.currentState!.validate()) {
+                              if (_signInFormKey.currentState!.validate()) {
                                 context.read<AuthBloc>().add(
-                                      SignupEvent(
+                                      LoginEvent(
                                         _emailController.text.trim(),
                                         _passwordController.text.trim(),
-                                        _usernameController.text.trim(),
                                       ),
                                     );
                               }
@@ -187,7 +202,7 @@ class _SignupPageState extends State<SignupPage> {
                                   return const CircularProgressIndicator();
                                 } else {
                                   return Text(
-                                    'Sign Up',
+                                    'Sign in',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineLarge,
@@ -200,30 +215,11 @@ class _SignupPageState extends State<SignupPage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('Already have an account? '),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.popAndPushNamed(
-                                    context, AppRoutes.signinPage);
-                              },
-                              child: Text(
-                                "Sign In!",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),

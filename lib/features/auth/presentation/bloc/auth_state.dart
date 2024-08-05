@@ -61,6 +61,13 @@ class AuthChangedName extends AuthState {
   List<Object?> get props => [user];
 }
 
+class AuthUpdatedProfilePicture extends AuthState {
+  const AuthUpdatedProfilePicture(User user) : super(user: user);
+
+  @override
+  List<Object?> get props => [user];
+}
+
 class AuthError extends AuthState {
   final String message;
 

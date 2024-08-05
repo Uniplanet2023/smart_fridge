@@ -38,6 +38,18 @@ class _SigninPageState extends State<SigninPage> {
               builder: (context) => const BottomBar(),
             ),
           );
+        } else if (state is AuthError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              content: Text(
+                state.message,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inverseSurface),
+              ),
+            ),
+          );
         }
       },
       child: Scaffold(
@@ -166,9 +178,19 @@ class _SigninPageState extends State<SigninPage> {
                                     );
                               }
                             },
-                            child: Text(
-                              'Sign in',
-                              style: Theme.of(context).textTheme.headlineLarge,
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                if (state is AuthLoading) {
+                                  return const CircularProgressIndicator();
+                                } else {
+                                  return Text(
+                                    'Sign in',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
+                                  );
+                                }
+                              },
                             ),
                           ),
                         ),

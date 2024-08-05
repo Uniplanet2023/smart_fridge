@@ -134,21 +134,50 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
+                        if (!passwordsMatch) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.errorContainer,
+                              content: Text(
+                                'New password must match with confirmation password',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .inverseSurface),
+                              ),
+                            ),
+                          );
+                        }
+                        if (!validPassword) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.errorContainer,
+                              content: Text(
+                                'Password is not Valid',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .inverseSurface),
+                              ),
+                            ),
+                          );
+                        }
                         if (validPassword && passwordsMatch) {
                           serviceLocator.get<AuthBloc>().add(
                                 UpdatePasswordEvent(
                                   serviceLocator
                                       .get<AuthBloc>()
                                       .state
-                                      .user!
+                                      .user
                                       .email,
                                   _currentPasswordController.text.trim(),
                                   _newPasswordController.text.trim(),
                                 ),
                               );
-                        } else {
-                          // print('Password validation failed');
-                          // TODO: Add a Snackbar to ask user to check password validity
                         }
                       }
                     },

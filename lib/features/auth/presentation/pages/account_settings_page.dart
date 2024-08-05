@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/change_password_page.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/reauthenticate_page.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 import 'package:smart_fridge/features/auth/presentation/widgets/menu_selection.dart';
 
 class AccountSettingsPage extends StatefulWidget {
@@ -66,6 +67,12 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.inverseSurface),
               ),
+            ),
+          );
+        } else if (state is AuthDeleted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const SignupPage(),
             ),
           );
         } else if (state is AuthError) {
@@ -243,9 +250,14 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
                   color: Theme.of(context).colorScheme.error,
                 ),
               ),
-              onPressed: () {
-                context.read<AuthBloc>().add(DeleteUserEvent());
-                Navigator.of(context).pop();
+              onPressed: () => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ReauthenticatePage(),
+                  ),
+                )
+                // context.read<AuthBloc>().add(DeleteUserEvent());
+                // Navigator.of(context).pop();
               },
             ),
           ],
@@ -255,23 +267,36 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
   }
 
   _buildChangeNameDialog() {
+    final formKey = GlobalKey<FormState>();
+
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Change Name'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Enter a new name:'),
-              const SizedBox(height: 10),
-              CustomTextField(
-                controller: _updateNameController,
-                hintText: 'Enter a new name',
-              )
-            ],
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Enter a new name:'),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _updateNameController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter a new name',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Enter a valid username';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -280,10 +305,12 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
               ),
               child: const Text('Save'),
               onPressed: () {
-                context
-                    .read<AuthBloc>()
-                    .add(ChangeNameEvent(_updateNameController.text.trim()));
-                Navigator.of(context).pop();
+                if (formKey.currentState!.validate()) {
+                  context
+                      .read<AuthBloc>()
+                      .add(ChangeNameEvent(_updateNameController.text.trim()));
+                  Navigator.of(context).pop();
+                }
               },
             ),
           ],

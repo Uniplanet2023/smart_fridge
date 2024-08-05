@@ -61,4 +61,13 @@ class ChangeNameEvent extends AuthEvent {
   List<Object?> get props => [newName];
 }
 
+class ChangeProfilePictureEvent extends AuthEvent {
+  final File image;
+
+  ChangeProfilePictureEvent(this.image);
+
+  @override
+  List<Object?> get props => [image];
+}
+
 class CheckUserTokenEvent extends AuthEvent {}
