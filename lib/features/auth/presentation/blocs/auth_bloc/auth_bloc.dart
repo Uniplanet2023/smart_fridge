@@ -12,7 +12,6 @@ import 'package:smart_fridge/features/auth/domain/usecases/logout_use_case.dart'
 import 'package:smart_fridge/features/auth/domain/usecases/reset_password_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/update_password_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/change_name_use_case.dart';
-import 'package:smart_fridge/features/auth/domain/usecases/update_profile_picture_use_case.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -27,7 +26,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final ChangeNameUseCase changeNameUseCase;
   final SignInWithGoogle signInWithGoogle;
   final CheckTokenUseCase checkTokenUseCase;
-  final UpdateProfilePictureUseCase updateProfilePictureUseCase;
 
   AuthBloc({
     required this.loginUseCase,
@@ -39,7 +37,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.changeNameUseCase,
     required this.signInWithGoogle,
     required this.checkTokenUseCase,
-    required this.updateProfilePictureUseCase,
   }) : super(const AuthInitial()) {
     on<LoginEvent>((event, emit) async {
       try {
@@ -120,18 +117,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthChangedName(newUser));
       } catch (e) {
         emit(const AuthError('Failed to change name'));
-      }
-    });
-
-    on<ChangeProfilePictureEvent>((event, emit) async {
-      try {
-        emit(AuthLoading(state.user));
-        await updateProfilePictureUseCase(event.image);
-        // TODO: update user profile picture
-        // User newUser = state.user.copyWith(profilePicture: );
-        // emit(AuthUpdatedProfilePicture(newUser));
-      } catch (e) {
-        emit(const AuthError('Failed to change Profile Picture'));
       }
     });
 

@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/util/image_permissions.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
-import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/profile/presentation/bloc/profile_bloc.dart';
 
 class UserCard extends StatefulWidget {

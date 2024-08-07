@@ -1,7 +1,7 @@
 // domain/usecases/upload_profile_image_usecase.dart
 
 import 'dart:io';
-import '../repositories/profile_repository.dart';
+import '../repository/profile_repository.dart';
 
 class UploadProfileImageUseCase {
   final ProfileRepository repository;
