@@ -43,7 +43,7 @@ class RecipeGenerationBloc
       await saveRecipeUseCase(event.recipe);
       emit(RecipeSaved());
     } catch (e) {
-      emit(const RecipeGenerationError('Recipe saved!'));
+      emit(RecipeGenerationError(e.toString()));
     }
   }
 }
