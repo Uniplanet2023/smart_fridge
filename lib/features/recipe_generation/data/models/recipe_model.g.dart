@@ -25,7 +25,7 @@ const RecipeModelSchema = CollectionSchema(
     r'ingredients': PropertySchema(
       id: 1,
       name: r'ingredients',
-      type: IsarType.string,
+      type: IsarType.stringList,
     ),
     r'instructions': PropertySchema(
       id: 2,
@@ -79,6 +79,12 @@ int _recipeModelEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.cuisine.length * 3;
   bytesCount += 3 + object.ingredients.length * 3;
+  {
+    for (var i = 0; i < object.ingredients.length; i++) {
+      final value = object.ingredients[i];
+      bytesCount += value.length * 3;
+    }
+  }
   bytesCount += 3 + object.instructions.length * 3;
   {
     for (var i = 0; i < object.instructions.length; i++) {
@@ -97,7 +103,7 @@ void _recipeModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.cuisine);
-  writer.writeString(offsets[1], object.ingredients);
+  writer.writeStringList(offsets[1], object.ingredients);
   writer.writeStringList(offsets[2], object.instructions);
   writer.writeString(offsets[3], object.name);
   writer.writeBool(offsets[4], object.shared);
@@ -111,7 +117,7 @@ RecipeModel _recipeModelDeserialize(
 ) {
   final object = RecipeModel(
     cuisine: reader.readString(offsets[0]),
-    ingredients: reader.readString(offsets[1]),
+    ingredients: reader.readStringList(offsets[1]) ?? [],
     instructions: reader.readStringList(offsets[2]) ?? [],
     name: reader.readString(offsets[3]),
     shared: reader.readBool(offsets[4]),
@@ -130,7 +136,7 @@ P _recipeModelDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 2:
       return (reader.readStringList(offset) ?? []) as P;
     case 3:
@@ -468,7 +474,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsEqualTo(
+      ingredientsElementEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -482,7 +488,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsGreaterThan(
+      ingredientsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -498,7 +504,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsLessThan(
+      ingredientsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -514,7 +520,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsBetween(
+      ingredientsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -534,7 +540,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsStartsWith(
+      ingredientsElementStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -548,7 +554,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsEndsWith(
+      ingredientsElementEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -562,7 +568,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsContains(String value, {bool caseSensitive = true}) {
+      ingredientsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'ingredients',
@@ -573,7 +579,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsMatches(String pattern, {bool caseSensitive = true}) {
+      ingredientsElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'ingredients',
@@ -584,7 +590,7 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsIsEmpty() {
+      ingredientsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'ingredients',
@@ -594,12 +600,101 @@ extension RecipeModelQueryFilter
   }
 
   QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
-      ingredientsIsNotEmpty() {
+      ingredientsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'ingredients',
         value: '',
       ));
+    });
+  }
+
+  QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
+      ingredientsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
+      ingredientsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
+      ingredientsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
+      ingredientsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
+      ingredientsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeModel, RecipeModel, QAfterFilterCondition>
+      ingredientsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -990,18 +1085,6 @@ extension RecipeModelQuerySortBy
     });
   }
 
-  QueryBuilder<RecipeModel, RecipeModel, QAfterSortBy> sortByIngredients() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'ingredients', Sort.asc);
-    });
-  }
-
-  QueryBuilder<RecipeModel, RecipeModel, QAfterSortBy> sortByIngredientsDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'ingredients', Sort.desc);
-    });
-  }
-
   QueryBuilder<RecipeModel, RecipeModel, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -1053,18 +1136,6 @@ extension RecipeModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<RecipeModel, RecipeModel, QAfterSortBy> thenByIngredients() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'ingredients', Sort.asc);
-    });
-  }
-
-  QueryBuilder<RecipeModel, RecipeModel, QAfterSortBy> thenByIngredientsDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'ingredients', Sort.desc);
-    });
-  }
-
   QueryBuilder<RecipeModel, RecipeModel, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -1099,10 +1170,9 @@ extension RecipeModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<RecipeModel, RecipeModel, QDistinct> distinctByIngredients(
-      {bool caseSensitive = true}) {
+  QueryBuilder<RecipeModel, RecipeModel, QDistinct> distinctByIngredients() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'ingredients', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'ingredients');
     });
   }
 
@@ -1140,7 +1210,8 @@ extension RecipeModelQueryProperty
     });
   }
 
-  QueryBuilder<RecipeModel, String, QQueryOperations> ingredientsProperty() {
+  QueryBuilder<RecipeModel, List<String>, QQueryOperations>
+      ingredientsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'ingredients');
     });

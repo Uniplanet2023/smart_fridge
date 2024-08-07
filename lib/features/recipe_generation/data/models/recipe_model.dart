@@ -11,9 +11,9 @@ class RecipeModel {
   @Index()
   late String name;
   late String cuisine;
-  late List<String> instructions; // item json format
-  final String ingredients;
 
+  late List<String> instructions;
+  late List<String> ingredients;
   late bool shared;
 
   RecipeModel({
@@ -28,7 +28,8 @@ class RecipeModel {
     final recipe = RecipeModel(
       name: json['name'] as String? ?? '',
       cuisine: json['cuisine'] as String? ?? '',
-      ingredients: json['ingredients'] as String? ?? '',
+      ingredients:
+          (json['ingredients'] as List).map((e) => e as String).toList(),
       instructions:
           (json['instructions'] as List).map((e) => e as String).toList(),
       shared: json['shared'] as bool? ?? false,
@@ -55,12 +56,15 @@ class RecipeModel {
     List<String>? instructions,
     bool? shared,
   }) {
+    final newIngredients =
+        ingredients?.map((item) => item.name).toList() ?? this.ingredients;
+
     final newRecipe = RecipeModel(
       name: name ?? this.name,
       cuisine: cuisine ?? this.cuisine,
       instructions: instructions ?? this.instructions,
       shared: shared ?? this.shared,
-      ingredients: this.ingredients,
+      ingredients: newIngredients,
     );
 
     return newRecipe;
