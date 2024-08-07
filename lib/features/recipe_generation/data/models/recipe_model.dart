@@ -1,9 +1,9 @@
 import 'package:isar/isar.dart';
 import 'package:smart_fridge/core/isar_models/item.dart';
-import 'dart:convert';
 
 part 'recipe_model.g.dart';
 
+//Isar
 @Collection()
 class RecipeModel {
   Id id = Isar.autoIncrement; // Auto increment ID
@@ -11,7 +11,7 @@ class RecipeModel {
   @Index()
   late String name;
   late String cuisine;
-  late List<String> instructions;
+  late List<String> instructions; // item json format
   final String ingredients;
 
   late bool shared;

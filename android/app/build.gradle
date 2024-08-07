@@ -4,7 +4,11 @@ plugins {
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
-
+buildscript {
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+    }
+}
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
@@ -27,6 +31,7 @@ android {
     namespace = "com.nati.test"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    compileSdkVersion = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -38,8 +43,8 @@ android {
         applicationId = "com.nati.test"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 21
+        targetSdk = 34
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }

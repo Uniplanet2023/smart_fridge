@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:get_it/get_it.dart';
 import 'package:smart_fridge/core/resources/fridge_management_injection.dart';
 import 'package:smart_fridge/core/resources/read_recipe_injection.dart';
 import 'package:smart_fridge/core/resources/recipe_generation_injection.dart';
+import 'package:smart_fridge/features/profile/presentation/bloc/injection_profile.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/dependency.dart';
 
 final serviceLocator = GetIt.instance;
@@ -33,9 +35,31 @@ class Initialization {
 
     // Call Auth feature initialization
     await AuthInjection.init(serviceLocator);
+
+    // notification setting
+    AwesomeNotifications().initialize(
+      null, // Your app icon resource path
+      [
+        NotificationChannel(
+          channelKey: 'scheduled_channel',
+          channelName: 'Scheduled Notifications',
+          channelDescription:
+              'Notification channel for scheduled notifications',
+          defaultColor: const Color(0xFF9D50DD),
+          ledColor: Colors.white,
+          importance: NotificationImportance.High,
+        )
+      ],
+    );
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
     initReadReceipt(serviceLocator);
     initItemList();
     initGeneratingRecipe();
+    initProfile();
 
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

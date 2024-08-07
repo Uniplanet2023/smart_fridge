@@ -6,7 +6,7 @@ import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/account_settings_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
 import 'package:smart_fridge/features/auth/presentation/widgets/menu_selection.dart';
-import 'package:smart_fridge/features/auth/presentation/widgets/user_card.dart';
+import 'package:smart_fridge/features/profile/presentation/widgets/user_card.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

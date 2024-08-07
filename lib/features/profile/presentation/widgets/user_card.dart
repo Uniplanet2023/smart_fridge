@@ -8,6 +8,7 @@ import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/util/image_permissions.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smart_fridge/features/profile/presentation/bloc/profile_bloc.dart';
 
 class UserCard extends StatefulWidget {
   final User? currentUser;
@@ -41,7 +42,9 @@ class _UserCardState extends State<UserCard> {
       if (confirmUpload) {
         // Assuming 'image' is a global variable that holds the File
         // Here you could upload the image to your server and then update the user's profile image URL
-        serviceLocator<AuthBloc>().add(ChangeProfilePictureEvent(image!));
+        // serviceLocator<AuthBloc>().add(ChangeProfilePictureEvent(image!));
+        serviceLocator<ProfileBloc>()
+            .add(UploadProfileImage(image!, widget.currentUser!.userId));
       } else {
         // Reset the image to null if the user cancels the upload
         setState(() {

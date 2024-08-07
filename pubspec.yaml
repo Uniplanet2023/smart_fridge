@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  awesome_notifications: any # Any attribute updates automatically your source to the last version
   cached_network_image: ^3.3.1
   cloud_firestore: ^4.17.5
   connectivity_plus: ^6.0.3

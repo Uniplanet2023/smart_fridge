@@ -1,5 +1,4 @@
 import 'package:isar/isar.dart';
-import 'package:smart_fridge/features/recipe_generation/data/models/recipe_model.dart';
 
 part 'item.g.dart'; // Required for code generation
 

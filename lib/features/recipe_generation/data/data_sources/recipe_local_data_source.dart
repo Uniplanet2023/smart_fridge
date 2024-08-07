@@ -14,7 +14,6 @@ class RecipeLocalDataSource {
       shared: recipe.shared,
     );
     await IsarHelper.isar.writeTxn(() async {
-      await IsarHelper.isar.recipeModels.clear();
       await IsarHelper.isar.recipeModels.put(recipeModel);
     });
   }
