@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/change_password_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/reauthenticate_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';

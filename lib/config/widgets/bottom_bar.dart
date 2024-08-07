@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/fridge_items_page.dart';
-import 'package:smart_fridge/features/profile/presentation/pages/profile_page.dart';
+import 'package:smart_fridge/features/auth/presentation/pages/profile_page.dart';
 import 'package:smart_fridge/features/recipes/presentation/pages/recipes_page.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/pages/add_page.dart';
 

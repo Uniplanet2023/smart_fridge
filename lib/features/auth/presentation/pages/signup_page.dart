@@ -7,7 +7,7 @@ import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
-import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});

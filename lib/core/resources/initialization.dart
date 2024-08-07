@@ -12,8 +12,9 @@ import 'package:get_it/get_it.dart';
 import 'package:smart_fridge/core/resources/fridge_management_injection.dart';
 import 'package:smart_fridge/core/resources/read_recipe_injection.dart';
 import 'package:smart_fridge/core/resources/recipe_generation_injection.dart';
-import 'package:smart_fridge/features/profile/presentation/bloc/injection_profile.dart';
+import 'package:smart_fridge/features/auth/presentation/blocs/profile_bloc/injection_profile.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/dependency.dart';
+import 'package:smart_fridge/features/recipes/presentation/bloc/injection.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -60,6 +61,7 @@ class Initialization {
     initItemList();
     initGeneratingRecipe();
     initProfile();
+    setupRecipe();
 
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

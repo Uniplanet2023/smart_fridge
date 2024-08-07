@@ -2,7 +2,7 @@
 
 import 'dart:io';
 import 'package:smart_fridge/core/helper/firebase_storage_helper.dart';
-import 'package:smart_fridge/features/profile/domain/repositories/profile_repository.dart';
+import 'package:smart_fridge/features/auth/domain/repository/profile_repository.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   final FirebaseStorageService firebaseStorageService;

@@ -1,9 +1,11 @@
+// data/models/recipe_model.dart
+
 import 'package:isar/isar.dart';
+import 'package:smart_fridge/core/entities/recipe.dart';
 import 'package:smart_fridge/core/isar_models/item.dart';
 
 part 'recipe_model.g.dart';
 
-//Isar
 @Collection()
 class RecipeModel {
   Id id = Isar.autoIncrement; // Auto increment ID
@@ -13,7 +15,7 @@ class RecipeModel {
   late String cuisine;
 
   late List<String> instructions;
-  late List<String> ingredients;
+  late List<String> ingredients; // Storing item names as strings
   late bool shared;
 
   RecipeModel({
@@ -25,7 +27,7 @@ class RecipeModel {
   });
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) {
-    final recipe = RecipeModel(
+    return RecipeModel(
       name: json['name'] as String? ?? '',
       cuisine: json['cuisine'] as String? ?? '',
       ingredients:
@@ -34,8 +36,6 @@ class RecipeModel {
           (json['instructions'] as List).map((e) => e as String).toList(),
       shared: json['shared'] as bool? ?? false,
     );
-
-    return recipe;
   }
 
   Map<String, dynamic> toJson() {
@@ -44,7 +44,7 @@ class RecipeModel {
       'cuisine': cuisine,
       'instructions': instructions,
       'ingredients': ingredients,
-      'shared': shared
+      'shared': shared,
     };
   }
 
@@ -52,21 +52,36 @@ class RecipeModel {
     Id? id,
     String? name,
     String? cuisine,
-    List<Item>? ingredients,
+    List<String>? ingredients,
     List<String>? instructions,
     bool? shared,
   }) {
-    final newIngredients =
-        ingredients?.map((item) => item.name).toList() ?? this.ingredients;
-
-    final newRecipe = RecipeModel(
+    return RecipeModel(
       name: name ?? this.name,
       cuisine: cuisine ?? this.cuisine,
       instructions: instructions ?? this.instructions,
       shared: shared ?? this.shared,
-      ingredients: newIngredients,
+      ingredients: ingredients ?? this.ingredients,
     );
+  }
 
-    return newRecipe;
+  Recipe toDomain(List<Item> items) {
+    return Recipe(
+      name: name,
+      cuisine: cuisine,
+      instructions: instructions,
+      ingredients: items,
+      shared: shared,
+    );
+  }
+
+  factory RecipeModel.fromDomain(Recipe recipe) {
+    return RecipeModel(
+      name: recipe.name,
+      cuisine: recipe.cuisine,
+      instructions: recipe.instructions,
+      ingredients: recipe.ingredients.map((item) => item.name).toList(),
+      shared: recipe.shared,
+    );
   }
 }

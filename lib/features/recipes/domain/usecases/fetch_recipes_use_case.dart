@@ -1,4 +1,5 @@
 import 'package:smart_fridge/core/entities/recipe.dart';
+import 'package:smart_fridge/features/recipe_generation/data/models/recipe_model.dart';
 import 'package:smart_fridge/features/recipes/domain/repository/recipe_repository.dart';
 
 class FetchRecipesUseCase {
@@ -6,7 +7,7 @@ class FetchRecipesUseCase {
 
   FetchRecipesUseCase(this.repository);
 
-  Future<List<Recipe>?> call() async {
-    return await repository.fetchSavedRecipes();
+  Future<List<RecipeModel>> call() {
+    return repository.fetchRecipes();
   }
 }

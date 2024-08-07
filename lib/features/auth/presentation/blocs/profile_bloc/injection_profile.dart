@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:smart_fridge/features/profile/data/repositories/profile_repository_impl.dart';
-import 'package:smart_fridge/features/profile/domain/repositories/profile_repository.dart';
-import 'package:smart_fridge/features/profile/domain/usecases/upload_profile_image_usecase.dart';
-import 'package:smart_fridge/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:smart_fridge/features/auth/data/repository/profile_repository_impl.dart';
+import 'package:smart_fridge/features/auth/domain/repository/profile_repository.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/upload_profile_image_usecase.dart';
+import 'package:smart_fridge/features/auth/presentation/blocs/profile_bloc/profile_bloc.dart';
 
-import '../../../../core/helper/firebase_storage_helper.dart';
+import '../../../../../core/helper/firebase_storage_helper.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 

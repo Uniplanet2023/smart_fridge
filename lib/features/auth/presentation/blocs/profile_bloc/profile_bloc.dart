@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smart_fridge/features/profile/domain/usecases/upload_profile_image_usecase.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/upload_profile_image_usecase.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

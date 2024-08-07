@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 import 'package:smart_fridge/core/entities/recipe.dart';
+import 'package:smart_fridge/features/recipe_generation/data/models/recipe_model.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/delete_recipes_use_case.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/fetch_recipes_use_case.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/search_recipes_use_case.dart';
@@ -10,8 +11,8 @@ part 'recipe_event.dart';
 part 'recipe_state.dart';
 
 class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
-  final FetchRecipesUseCase fetchRecipesUseCase;
   final DeleteRecipesUseCase deleteRecipesUseCase;
+  final FetchRecipesUseCase fetchRecipesUseCase;
   final SearchRecipesUseCase searchRecipesUseCase;
 
   RecipeBloc({
@@ -29,7 +30,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     emit(RecipeLoading());
     try {
       final recipes = await fetchRecipesUseCase();
-      if (recipes!.isEmpty) {
+      if (recipes.isEmpty) {
         emit(RecipeEmpty());
       } else {
         emit(RecipeLoaded(recipes));
@@ -56,7 +57,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     emit(RecipeSearching());
     try {
       final searchResults = await searchRecipesUseCase(event.searchQuery);
-      if (searchResults!.isEmpty) {
+      if (searchResults.isEmpty) {
         emit(RecipeSearchResultEmpty());
       } else {
         emit(RecipeSearchSuccess(searchResults));

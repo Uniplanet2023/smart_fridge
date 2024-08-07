@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
+import 'package:smart_fridge/core/resources/initialization.dart';
+import 'package:smart_fridge/features/recipes/presentation/bloc/recipe_bloc.dart';
 
 import '../widgets/recipe_card.dart';
 
@@ -14,6 +16,12 @@ class RecipesPage extends StatefulWidget {
 class _RecipesPageState extends State<RecipesPage> {
   final TextEditingController searchController = TextEditingController();
   bool _isSearchVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    serviceLocator<RecipeBloc>().add(FetchRecipesEvent());
+  }
 
   void _toggleSearch() {
     setState(() {

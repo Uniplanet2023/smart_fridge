@@ -5,7 +5,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
-import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 
@@ -36,7 +36,7 @@ class _ReauthenticatePageState extends State<ReauthenticatePage> {
           // user login was successful, continue with Account Deletion
           context.read<AuthBloc>().add(DeleteUserEvent());
         } else if (state is AuthDeleted) {
-          // if account deleted state is invoked, Show successful deletion of 
+          // if account deleted state is invoked, Show successful deletion of
           // user account then navigate to sign up page
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

@@ -3,7 +3,7 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/widgets/custom_textfield.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
-import 'package:smart_fridge/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
