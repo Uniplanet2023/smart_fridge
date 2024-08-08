@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "670291926367",
+    "project_id": "smart-fridge-b2440",
+    "storage_bucket": "smart-fridge-b2440.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670291926367:android:459d6e4d27cccd17446aea",
+        "android_client_info": {
+          "package_name": "shop.uniplanet.smart_fridge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670291926367-kro3g6dougpuvjlbjr12vtdisvaaf2u8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "shop.uniplanet.smart_fridge",
+            "certificate_hash": "bd93349dc162df4345c13f297dc71b0a0238068a"
+          }
+        },
+        {
+          "client_id": "670291926367-36f5vj9l1c8q67pdlpkfg3v3qduv1cc5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT-MnkQz-i20iWrDhWamHGiIOdCd0xqp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670291926367-36f5vj9l1c8q67pdlpkfg3v3qduv1cc5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "670291926367-aqoldo7boaebpkm5uqrjgqcopiiq9u72.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "shop.uniplanet.smart-fridge"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,12 +3,9 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services'
 }
-buildscript {
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
-    }
-}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
@@ -28,10 +25,9 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.nati.test"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "shop.uniplanet.smart_fridge"
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
-    compileSdkVersion = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -40,7 +36,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.nati.test"
+        applicationId = "shop.uniplanet.smart_fridge"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = 21
