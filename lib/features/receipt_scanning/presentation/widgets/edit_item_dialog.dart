@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/domain_layer_entities/item.dart';
 
 class EditItemDialog extends StatefulWidget {
   final Item item;
@@ -93,13 +93,15 @@ class _EditItemDialogState extends State<EditItemDialog> {
         ),
         TextButton(
           onPressed: () {
+            // Use setState to create a new updated item
             setState(() {
-              widget.item.name = nameController.text;
-              widget.item.quantity = double.parse(quantityController.text);
-              widget.item.expiryDate =
-                  DateFormat.yMMMd().parse(dateController.text);
+              final updatedItem = widget.item.copyWith(
+                name: nameController.text,
+                quantity: double.parse(quantityController.text),
+                expiryDate: DateFormat.yMMMd().parse(dateController.text),
+              );
+              widget.onSave(updatedItem);
             });
-            widget.onSave(widget.item);
             Navigator.of(context).pop();
           },
           child: const Text('Save'),

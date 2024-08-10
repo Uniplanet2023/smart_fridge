@@ -1,46 +1,39 @@
 // item_data_source.dart (in data/datasources)
 import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/data_layer_models/item_model.dart';
 import 'package:smart_fridge/core/helper/isar_helper.dart';
 
 class ItemDataSource {
-  ItemDataSource();
+  final Isar isar = IsarHelper.isar;
 
-  Future<void> addItem(Item item) async {
-    IsarHelper.isar.writeTxn(() async {
-      await IsarHelper.isar.items.put(item);
+  Future<void> addItem(ItemModel item) async {
+    await isar.writeTxn(() async {
+      await isar.itemModels.put(item);
     });
   }
 
-  Future<void> deleteItem(Id id) async {
-    IsarHelper.isar.writeTxn(() async {
-      await IsarHelper.isar.items.delete(id);
+  Future<void> deleteItem(ItemModel item) async {
+    await isar.writeTxn(() async {
+      await isar.itemModels.delete(item.id);
     });
   }
 
-  Future<void> updateItem(Id id, Item item) async {
-    IsarHelper.isar.writeTxn(() async {
-      // Check if the item exists
-      final existingItem = await IsarHelper.isar.items.get(id);
+  Future<void> updateItem(ItemModel item) async {
+    await isar.writeTxn(() async {
+      final existingItem = await isar.itemModels.get(item.id);
       if (existingItem != null) {
-        // Item exists, so update it
-        existingItem.name = item.name;
-        existingItem.quantity = item.quantity;
-        existingItem.expiryDate = item.expiryDate;
-        existingItem.totalPrice = item.totalPrice;
-        existingItem.unitPrice = item.unitPrice;
-        await IsarHelper.isar.items.put(existingItem);
+        await isar.itemModels.put(item);
       } else {
         throw Exception('Item not found');
       }
     });
   }
 
-  Future<Item?> getItem(Id id) async {
-    return IsarHelper.isar.items.get(id);
+  Future<ItemModel?> getItem(Id id) async {
+    return await isar.itemModels.get(id);
   }
 
-  Future<List<Item>> getAllItems() async {
-    return IsarHelper.isar.items.where().findAll();
+  Future<List<ItemModel>> getAllItems() async {
+    return await isar.itemModels.where().findAll();
   }
 }

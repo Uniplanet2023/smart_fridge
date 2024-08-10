@@ -14,11 +14,9 @@ class AddFridgeItemEvent extends FridgeManagementEvent {
 }
 
 class EditFridgeItemEvent extends FridgeManagementEvent {
-  final Id editedItemId;
   final Item editedItem;
 
-  const EditFridgeItemEvent(
-      {required this.editedItemId, required this.editedItem});
+  const EditFridgeItemEvent({required this.editedItem});
 }
 
 class DeleteFridgeItemEvent extends FridgeManagementEvent {

@@ -1,8 +1,7 @@
-import 'package:isar/isar.dart';
-import 'package:smart_fridge/features/recipe_generation/data/models/recipe_model.dart';
+import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 
 abstract class RecipeRepository {
-  Future<List<RecipeModel>> fetchRecipes();
-  Future<List<RecipeModel>> searchRecipes(String query);
-  Future<void> deleteSavedRecipe(Id id);
+  Future<List<SaveRecipe>> fetchRecipes();
+  Future<List<SaveRecipe>> searchRecipes(String query);
+  Future<void> deleteSavedRecipe(SaveRecipe recipe);
 }

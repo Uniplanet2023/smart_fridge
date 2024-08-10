@@ -12,7 +12,7 @@ final class RecipeInitial extends RecipeState {}
 final class RecipeSearching extends RecipeState {}
 
 final class RecipeSearchSuccess extends RecipeState {
-  final List<RecipeModel> recipes;
+  final List<SaveRecipe> recipes;
 
   const RecipeSearchSuccess(this.recipes);
 
@@ -25,7 +25,7 @@ final class RecipeSearchResultEmpty extends RecipeState {}
 final class RecipeLoading extends RecipeState {}
 
 final class RecipeLoaded extends RecipeState {
-  final List<RecipeModel> recipes;
+  final List<SaveRecipe> recipes;
 
   const RecipeLoaded(this.recipes);
 

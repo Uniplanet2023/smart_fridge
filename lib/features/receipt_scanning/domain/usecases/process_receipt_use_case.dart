@@ -2,10 +2,10 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:smart_fridge/features/receipt_scanning/domain/repository/item_repository.dart';
 
-class ProcessReceipt {
+class ProcessReceiptUseCase {
   final ItemRepository repository;
 
-  ProcessReceipt(this.repository);
+  ProcessReceiptUseCase(this.repository);
 
   Future<void> call(Uint8List receiptImage) async {}
 

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/domain_layer_entities/item.dart';
+
 import 'package:smart_fridge/features/fridge_management/domain/usecases/add_item_use_case.dart';
 import 'package:smart_fridge/features/fridge_management/domain/usecases/delete_item_use_case.dart';
 import 'package:smart_fridge/features/fridge_management/domain/usecases/edit_item_use_case.dart';
@@ -59,7 +59,7 @@ class FridgeManagementBloc
       EditFridgeItemEvent event, Emitter<FridgeManagementState> emit) async {
     emit(FridgeManagementEditingItem());
     try {
-      await editItemUseCase(event.editedItemId, event.editedItem);
+      await editItemUseCase(event.editedItem);
       emit(FridgeManagementItemEdited());
       add(LoadFridgeItemsEvent()); // Refetch items after adding
     } catch (e) {
@@ -71,7 +71,7 @@ class FridgeManagementBloc
       DeleteFridgeItemEvent event, Emitter<FridgeManagementState> emit) async {
     emit(FridgeManagementDeletingItem());
     try {
-      await deleteItemUseCase(event.deletedItem.id);
+      await deleteItemUseCase(event.deletedItem);
       emit(FridgeManagementItemDeleted());
       add(LoadFridgeItemsEvent()); // Refetch items after adding
     } catch (e) {

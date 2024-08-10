@@ -1,13 +1,15 @@
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/data_layer_models/item_model.dart';
+import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 
-class Recipe {
+// Model used for Recipe generation - data layer
+class RecipeModel {
   late String name;
   late String cuisine;
   late List<String> instructions;
-  late List<Item> ingredients;
+  late List<ItemModel> ingredients;
   late bool shared;
 
-  Recipe({
+  RecipeModel({
     required this.name,
     required this.cuisine,
     required this.instructions,
@@ -15,12 +17,12 @@ class Recipe {
     required this.shared,
   });
 
-  factory Recipe.fromJson(Map<String, dynamic> json) {
-    return Recipe(
+  factory RecipeModel.fromJson(Map<String, dynamic> json) {
+    return RecipeModel(
       name: json['name'] as String? ?? '',
       cuisine: json['cuisine'] as String? ?? '',
       ingredients: (json['ingredients'] as List)
-          .map((e) => Item.fromJson(e as Map<String, dynamic>))
+          .map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       instructions: (json['instructions'] as List<dynamic>)
           .map((e) => e.toString())
@@ -39,16 +41,38 @@ class Recipe {
     };
   }
 
+  factory RecipeModel.fromDomain(Recipe recipe) {
+    return RecipeModel(
+      name: recipe.name,
+      cuisine: recipe.cuisine,
+      ingredients:
+          recipe.ingredients.map((item) => ItemModel.fromDomain(item)).toList(),
+      instructions: recipe.instructions,
+      shared: recipe.shared,
+    );
+  }
+
+  Recipe toDomain() {
+    return Recipe(
+      name: name,
+      cuisine: cuisine,
+      ingredients:
+          ingredients.map((itemModel) => itemModel.toDomain()).toList(),
+      instructions: instructions,
+      shared: shared,
+    );
+  }
+
   // Add the copyWith method
-  Recipe copyWith({
+  RecipeModel copyWith({
     String? name,
     String? cuisine,
-    List<Item>? ingredients,
+    List<ItemModel>? ingredients,
     List<String>? instructions,
     DateTime? timestamp,
     bool? shared,
   }) {
-    return Recipe(
+    return RecipeModel(
       name: name ?? this.name,
       cuisine: cuisine ?? this.cuisine,
       ingredients: ingredients ?? this.ingredients,

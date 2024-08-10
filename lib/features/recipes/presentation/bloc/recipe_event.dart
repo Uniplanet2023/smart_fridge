@@ -14,9 +14,9 @@ class SearchRecipeStartedEvent extends RecipeEvent {
 }
 
 class DeleteRecipeEvent extends RecipeEvent {
-  final Id id;
+  final SaveRecipe recipe;
 
-  const DeleteRecipeEvent(this.id);
+  const DeleteRecipeEvent(this.recipe);
 }
 
 class FetchRecipesEvent extends RecipeEvent {}

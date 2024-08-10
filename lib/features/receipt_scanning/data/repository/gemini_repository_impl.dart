@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:smart_fridge/core/data_layer_models/item_model.dart';
+import 'package:smart_fridge/core/domain_layer_entities/item.dart';
 import 'package:smart_fridge/features/receipt_scanning/data/data_sources/gemini_data_source.dart';
-import 'package:smart_fridge/features/receipt_scanning/domain/repository/gemini_repository.dart';
-
-import '../../domain/entities/recipe.dart';
+import 'package:smart_fridge/features/receipt_scanning/domain/repository/gemini_read_receipt_repository.dart';
 
 class ReadReceiptRepositoryImpl implements ReadReceiptRepository {
   final ReadReceiptRemoteDataSource remoteDataSource;
@@ -11,12 +11,16 @@ class ReadReceiptRepositoryImpl implements ReadReceiptRepository {
   ReadReceiptRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Recipe?> generateRecipe(String prompt) async {
-    return await remoteDataSource.generateRecipe(prompt);
-  }
+  Future<List<Item>> readReceipt(File receiptImage) async {
+    final List<ItemModel>? itemModels =
+        await remoteDataSource.readReceipt(receiptImage);
 
-  @override
-  Future<String?> readReceipt(File receiptImage) async {
-    return await remoteDataSource.readReceipt(receiptImage);
+    if (itemModels == null) {
+      throw ReadReceiptException(
+          'Error while reading the receipt: No items found.');
+    }
+
+    // Convert List<ItemModel> to List<Item>
+    return itemModels.map((itemModel) => itemModel.toDomain()).toList();
   }
 }

@@ -11,7 +11,7 @@ import 'package:smart_fridge/features/auth/presentation/pages/account_settings_p
 import 'package:smart_fridge/features/auth/presentation/pages/profile_page.dart';
 import 'package:smart_fridge/features/recipes/presentation/pages/recipes_page.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/pages/add_page.dart';
-import 'package:smart_fridge/features/recipes/presentation/pages/saved_recipe_details_page.dart';
+
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -55,12 +55,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const ProfilePage(),
       );
-    case AppRoutes.savedRecipeDetailsPage:
-      //  var recipe = routeSettings.arguments as Product;
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const SavedRecipeDetailsPage(),
-      );
+   
     case AppRoutes.accountSettingsPage:
       return MaterialPageRoute(
         settings: routeSettings,
