@@ -9,7 +9,7 @@ import 'package:smart_fridge/features/fridge_management/domain/usecases/edit_ite
 import 'package:smart_fridge/features/fridge_management/domain/usecases/fetch_items_use_case.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge_management_bloc.dart';
 
-Future<void> initDependencies(GetIt serviceLocator) async {
+void setupItem(GetIt serviceLocator) {
   serviceLocator
     // Data sources
     ..registerFactory<ItemDataSource>(() => ItemDataSource())

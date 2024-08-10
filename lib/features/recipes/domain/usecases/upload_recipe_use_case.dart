@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/core/error/failures.dart';
-import 'package:smart_fridge/features/recipes/domain/entities/shared_recipe.dart';
+import 'package:smart_fridge/features/home/data/models/shared_recipe.dart';
 import 'package:smart_fridge/features/recipes/domain/repository/recipe_repository.dart';
 import 'package:smart_fridge/features/recipes/domain/repository/video_repository.dart';
 

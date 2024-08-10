@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_fridge/core/helper/gemini_helper.dart';
 import 'package:smart_fridge/core/helper/isar_helper.dart';
 import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
+import 'package:smart_fridge/core/notification/notification_permission.dart';
 import 'package:smart_fridge/core/resources/auth_injection.dart';
 import 'package:smart_fridge/core/resources/firebase_options.dart';
 import 'package:get_it/get_it.dart';
@@ -15,6 +16,7 @@ import 'package:smart_fridge/core/resources/recipe_generation_injection.dart';
 import 'package:smart_fridge/core/resources/injection_profile.dart';
 import 'package:smart_fridge/core/resources/scanned_items_save_dependency.dart';
 import 'package:smart_fridge/core/resources/recipe_injection.dart';
+import 'package:smart_fridge/core/resources/shared_recipe_injection.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -52,18 +54,15 @@ class Initialization {
         )
       ],
     );
-    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
-      if (!isAllowed) {
-        AwesomeNotifications().requestPermissionToSendNotifications();
-      }
-    });
+    await requestNotificationPermission();
 
     initReadReceipt(serviceLocator); // Read receipt feature initialization
-    initItemList(serviceLocator);    // scanned items saving feature initialization  
+    initItemList(serviceLocator); // scanned items saving feature initialization
     initGeneratingRecipe(); // Generate Recipe initialization
-    initProfile(serviceLocator);  // Profile initialization in Auth
+    initProfile(serviceLocator); // Profile initialization in Auth
     setupRecipe(serviceLocator); // Recipe feature initializations
-    await initDependencies(serviceLocator); // Fridge Management feature initialization
+    setupSharedRecipe(serviceLocator); // Shared Recipe feature initialization
+    setupItem(serviceLocator); // Fridge Management feature initialization
 
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
 import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/change_password_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/reauthenticate_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 import 'package:smart_fridge/features/auth/presentation/widgets/menu_selection.dart';
+import 'package:smart_fridge/core/notification/notification_permission.dart';
 
 class AccountSettingsPage extends StatefulWidget {
   const AccountSettingsPage({super.key});
@@ -18,6 +20,14 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
   final TextEditingController _updateNameController = TextEditingController();
   bool notify = false;
   bool theme = false;
+
+  @override
+  void initState() {
+    super.initState();
+    notify =
+        SharedPreferencesHelper().getBool('notificationPermission') ?? false;
+    theme = false;
+  }
 
   // returns display switch button icons based on notification is allowed or not
   final WidgetStateProperty<Icon?> thumbIcon =
@@ -42,8 +52,9 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
   );
 
   // TODO: notification function
-  void updateNotification(bool currentState) async {
-    notify = !notify;
+  void updateNotification(bool changedValue) async {
+    bool notificationPermission = await toggleNotifications(changedValue);
+    notify = notificationPermission;
     setState(() {});
   }
 
