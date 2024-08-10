@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/domain_layer_entities/item.dart';
 
 class ItemTile extends StatefulWidget {
   final Item item;

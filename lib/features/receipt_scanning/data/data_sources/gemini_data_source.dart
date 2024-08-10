@@ -1,44 +1,45 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:smart_fridge/core/data_layer_models/item_model.dart';
 import 'package:smart_fridge/core/helper/gemini_helper.dart';
 import 'package:smart_fridge/core/prompt/read_receipt.dart';
-import '../models/recipe_model.dart';
 
 abstract class ReadReceiptRemoteDataSource {
-  Future<RecipeModel?> generateRecipe(String prompt);
-  Future<String?> readReceipt(File receiptImage);
+  Future<List<ItemModel>?> readReceipt(File receiptImage);
 }
 
 class RecipeRemoteDataSourceImpl implements ReadReceiptRemoteDataSource {
   RecipeRemoteDataSourceImpl();
 
   @override
-  Future<RecipeModel?> generateRecipe(String prompt) async {
-    final result = await GeminiHelper.instance.generateContent(prompt);
-    if (result != null) {
-      return RecipeModel(
-        id: '', // Generate a unique ID
-        name: 'Generated Recipe',
-        description: result,
-        instructions: result,
-        timestamp: DateTime.now(),
-        country: 'Unknown',
-        shared: false,
-      );
-    }
-    return null;
-  }
-
-  @override
-  Future<String?> readReceipt(File receiptImage) async {
+  Future<List<ItemModel>> readReceipt(File receiptImage) async {
     try {
       final String? result = await GeminiHelper.instance
           .generateContentWithImage(readReceiptPromp, receiptImage);
       // Clean the JSON string if it contains unwanted text
 
-      return result;
+      if (result == null) {
+        throw ReadReceiptException(
+            'Error while reading the receipt: Please ensure the image you uploaded is indeed a receipt.');
+      }
+
+      // Parse JSON data
+      final List<dynamic> parsedJson = jsonDecode(result);
+
+      return parsedJson
+          .map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
+          .toList();
     } catch (e) {
-      rethrow;
+      throw ReadReceiptException(e.toString());
     }
   }
+}
+
+class ReadReceiptException implements Exception {
+  final String message;
+  ReadReceiptException(this.message);
+
+  @override
+  String toString() => message;
 }

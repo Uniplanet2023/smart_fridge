@@ -12,9 +12,9 @@ import 'package:get_it/get_it.dart';
 import 'package:smart_fridge/core/resources/fridge_management_injection.dart';
 import 'package:smart_fridge/core/resources/read_recipe_injection.dart';
 import 'package:smart_fridge/core/resources/recipe_generation_injection.dart';
-import 'package:smart_fridge/features/auth/presentation/blocs/profile_bloc/injection_profile.dart';
-import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/item_list/dependency.dart';
-import 'package:smart_fridge/features/recipes/presentation/bloc/injection.dart';
+import 'package:smart_fridge/core/resources/injection_profile.dart';
+import 'package:smart_fridge/core/resources/scanned_items_save_dependency.dart';
+import 'package:smart_fridge/core/resources/recipe_injection.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -57,11 +57,13 @@ class Initialization {
         AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
-    initReadReceipt(serviceLocator);
-    initItemList();
-    initGeneratingRecipe();
-    initProfile();
-    setupRecipe();
+
+    initReadReceipt(serviceLocator); // Read receipt feature initialization
+    initItemList(serviceLocator);    // scanned items saving feature initialization  
+    initGeneratingRecipe(); // Generate Recipe initialization
+    initProfile(serviceLocator);  // Profile initialization in Auth
+    setupRecipe(serviceLocator); // Recipe feature initializations
+    await initDependencies(serviceLocator); // Fridge Management feature initialization
 
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -76,9 +78,6 @@ class Initialization {
 
     // Initialize SharedPreferences
     await SharedPreferencesHelper().init();
-
-    // Fridge Management feature initialization
-    await initDependencies();
 
     ErrorWidget.builder = (FlutterErrorDetails details) {
       bool inDebug = false;

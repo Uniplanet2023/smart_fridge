@@ -1,10 +1,9 @@
-import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/domain_layer_entities/item.dart';
 
 abstract class ItemRepository {
   Future<void> addItem(Item item);
-  Future<void> deleteItem(Id id);
-  Future<void> updateItem(Id id, Item item);
-  Future<Item?> getItem(Id id);
+  Future<void> deleteItem(Item item);
+  Future<void> updateItem(Item item);
+  Future<Item?> getItem(int id);
   Future<List<Item>> getAllItems();
 }

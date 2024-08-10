@@ -123,64 +123,67 @@ class _AddPageState extends State<AddPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Scan receipt',
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Scan receipt',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge
+                                    ?.copyWith(fontWeight: FontWeight.w900),
+                              ),
+                            ),
+                            Text(
+                              '|',
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineLarge
-                                  ?.copyWith(fontWeight: FontWeight.w900),
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          Text(
-                            '|',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Share Video',
-                              style: Theme.of(context).textTheme.headlineMedium,
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Share Video',
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
+                              ),
                             ),
-                          ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Lottie.asset(
+                        'assets/animations/scan receipt.json',
+                        height: 400.h,
+                      ),
+                      SizedBox(height: 10.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildAddReceiptOptions(
+                              const Icon(Icons.camera_alt_outlined),
+                              'Take Photo',
+                              () {}),
+                          _buildAddReceiptOptions(
+                              const Icon(Icons.image_outlined),
+                              'Add from Gallery',
+                              pickImage),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Lottie.asset(
-                      'assets/animations/scan receipt.json',
-                      height: 400.h,
-                    ),
-                    SizedBox(height: 10.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildAddReceiptOptions(
-                            const Icon(Icons.camera_alt_outlined),
-                            'Take Photo',
-                            () {}),
-                        _buildAddReceiptOptions(
-                            const Icon(Icons.image_outlined),
-                            'Add from Gallery',
-                            pickImage),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

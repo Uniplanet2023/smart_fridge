@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:smart_fridge/config/routes/names.dart';
+import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
+import 'package:smart_fridge/features/recipes/presentation/pages/saved_recipe_details_page.dart';
 
 class RecipeCard extends StatefulWidget {
-  final String recipeName;
-  final List<String> recipeIngredients;
-  final List<String> recipeInstructions;
-  const RecipeCard(
-      {super.key,
-      required this.recipeName,
-      required this.recipeIngredients,
-      required this.recipeInstructions});
+  final SaveRecipe recipe;
+
+  const RecipeCard({
+    super.key,
+    required this.recipe,
+    
+  });
 
   @override
   State<RecipeCard> createState() => _RecipeCardState();
@@ -20,7 +20,15 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.savedRecipeDetailsPage);
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => SavedRecipeDetailsPage(
+              recipe: widget.recipe,
+               
+                ),
+          ),
+        );
       },
       child: Container(
         width: double.infinity,
@@ -46,14 +54,15 @@ class _RecipeCardState extends State<RecipeCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.recipeName,
+                  widget.recipe.name,
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const Divider(
-                  thickness: 1,
+                Divider(
+                  thickness: 3,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 Text(
                   'Ingredients:',
@@ -67,37 +76,16 @@ class _RecipeCardState extends State<RecipeCard> {
                 const SizedBox(
                   height: 10,
                 ),
-                Text(
-                  widget.recipeIngredients[0],
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w400),
-                ),
-                widget.recipeIngredients.length < 2
-                    ? const SizedBox()
-                    : Text(
-                        widget.recipeIngredients[1],
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w400),
-                      ),
-                widget.recipeIngredients.length < 2
-                    ? const SizedBox()
-                    : Text(
-                        widget.recipeIngredients[2],
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w400),
-                      ),
+                for (var i = 0; i < widget.recipe.ingredients.length && i < 3; i++)
+                  Text(
+                    widget.recipe.ingredients[i],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w400),
+                  ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -106,10 +94,9 @@ class _RecipeCardState extends State<RecipeCard> {
                   children: [
                     Text(
                       'read more >',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(fontWeight: FontWeight.w400),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.inverseSurface),
                     ),
                   ],
                 ),

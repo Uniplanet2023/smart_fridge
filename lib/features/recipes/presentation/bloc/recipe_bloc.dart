@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/entities/recipe.dart';
-import 'package:smart_fridge/features/recipe_generation/data/models/recipe_model.dart';
+import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/delete_recipes_use_case.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/fetch_recipes_use_case.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/search_recipes_use_case.dart';
@@ -44,7 +42,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       DeleteRecipeEvent event, Emitter<RecipeState> emit) async {
     emit(RecipeDeleting());
     try {
-      await deleteRecipesUseCase(event.id);
+      await deleteRecipesUseCase(event.recipe);
       emit(RecipeDeletionSuccess());
       add(FetchRecipesEvent());
     } catch (e) {

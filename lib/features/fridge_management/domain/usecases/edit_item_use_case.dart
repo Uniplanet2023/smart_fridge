@@ -1,5 +1,4 @@
-import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/domain_layer_entities/item.dart';
 import 'package:smart_fridge/features/fridge_management/domain/repository/item_repository.dart';
 
 class UpdateItemUseCase {
@@ -7,7 +6,7 @@ class UpdateItemUseCase {
 
   UpdateItemUseCase(this.repository);
 
-  Future<void> call(Id id, Item item) async {
-    return await repository.updateItem(id, item);
+  Future<void> call(Item item) async {
+    return await repository.updateItem(item);
   }
 }

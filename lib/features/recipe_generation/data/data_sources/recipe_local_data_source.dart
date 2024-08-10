@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/entities/recipe.dart';
+import 'package:smart_fridge/core/data_layer_models/recipe_model.dart';
 import 'package:smart_fridge/core/helper/isar_helper.dart';
-import 'package:smart_fridge/features/recipe_generation/data/models/recipe_model.dart';
+import 'package:smart_fridge/core/data_layer_models/save_recipe_model.dart';
 
 class RecipeLocalDataSource {
   RecipeLocalDataSource();
 
-  Future<void> saveRecipe(Recipe recipe) async {
-    RecipeModel recipeModel = RecipeModel(
+  Future<void> saveRecipe(RecipeModel recipe) async {
+    SaveRecipeModel recipeModel = SaveRecipeModel(
       name: recipe.name,
       cuisine: recipe.cuisine,
       instructions: recipe.instructions,
@@ -16,6 +16,7 @@ class RecipeLocalDataSource {
           recipe.ingredients.map((ingredient) => ingredient.name).toList(),
       shared: recipe.shared,
     );
+
 
     // Check if the recipe already exists
     final exists = await _recipeExists(recipeModel);
@@ -25,13 +26,13 @@ class RecipeLocalDataSource {
     }
 
     await IsarHelper.isar.writeTxn(() async {
-      await IsarHelper.isar.recipeModels.put(recipeModel);
+      await IsarHelper.isar.saveRecipeModels.put(recipeModel);
     });
   }
 
-  Future<bool> _recipeExists(RecipeModel recipeModel) async {
+  Future<bool> _recipeExists(SaveRecipeModel recipeModel) async {
     // Query the database to see if a recipe with the same name and cuisine exists
-    final existingRecipes = await IsarHelper.isar.recipeModels
+    final existingRecipes = await IsarHelper.isar.saveRecipeModels
         .filter()
         .nameEqualTo(recipeModel.name)
         .cuisineEqualTo(recipeModel.cuisine)

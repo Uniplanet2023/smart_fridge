@@ -1,7 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/data_layer_models/item_model.dart';
 
-void scheduleNotificationForItem(Item item) {
+void scheduleNotificationForItem(ItemModel item) {
   AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: item.id.hashCode,
@@ -16,7 +16,7 @@ void scheduleNotificationForItem(Item item) {
   );
 }
 
-void scheduleNotificationForItems(List<Item> items) {
+void scheduleNotificationForItems(List<ItemModel> items) {
   for (final item in items) {
     scheduleNotificationForItem(item);
   }

@@ -4,11 +4,9 @@ import 'package:smart_fridge/features/auth/domain/repository/profile_repository.
 import 'package:smart_fridge/features/auth/domain/usecases/upload_profile_image_usecase.dart';
 import 'package:smart_fridge/features/auth/presentation/blocs/profile_bloc/profile_bloc.dart';
 
-import '../../../../../core/helper/firebase_storage_helper.dart';
+import '../helper/firebase_storage_helper.dart';
 
-final GetIt serviceLocator = GetIt.instance;
-
-void initProfile() async {
+void initProfile(GetIt serviceLocator) async {
   serviceLocator
     // Repository
     ..registerFactory<ProfileRepository>(

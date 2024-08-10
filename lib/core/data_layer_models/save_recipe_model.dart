@@ -1,24 +1,22 @@
-// data/models/recipe_model.dart
-
 import 'package:isar/isar.dart';
-import 'package:smart_fridge/core/entities/recipe.dart';
-import 'package:smart_fridge/core/isar_models/item.dart';
+import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 
-part 'recipe_model.g.dart';
+part 'save_recipe_model.g.dart';
 
+// For saving recipes - Data layer
 @Collection()
-class RecipeModel {
+class SaveRecipeModel {
   Id id = Isar.autoIncrement; // Auto increment ID
 
   @Index()
   late String name;
   late String cuisine;
-
   late List<String> instructions;
   late List<String> ingredients; // Storing item names as strings
   late bool shared;
 
-  RecipeModel({
+  SaveRecipeModel({
+    this.id = Isar.autoIncrement,
     required this.name,
     required this.cuisine,
     required this.instructions,
@@ -26,8 +24,9 @@ class RecipeModel {
     required this.shared,
   });
 
-  factory RecipeModel.fromJson(Map<String, dynamic> json) {
-    return RecipeModel(
+  factory SaveRecipeModel.fromJson(Map<String, dynamic> json) {
+    return SaveRecipeModel(
+      id: json['id'] != null ? json['id'] as int : Isar.autoIncrement,
       name: json['name'] as String? ?? '',
       cuisine: json['cuisine'] as String? ?? '',
       ingredients:
@@ -40,6 +39,7 @@ class RecipeModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'cuisine': cuisine,
       'instructions': instructions,
@@ -48,7 +48,7 @@ class RecipeModel {
     };
   }
 
-  RecipeModel copyWith({
+  SaveRecipeModel copyWith({
     Id? id,
     String? name,
     String? cuisine,
@@ -56,7 +56,7 @@ class RecipeModel {
     List<String>? instructions,
     bool? shared,
   }) {
-    return RecipeModel(
+    return SaveRecipeModel(
       name: name ?? this.name,
       cuisine: cuisine ?? this.cuisine,
       instructions: instructions ?? this.instructions,
@@ -65,22 +65,24 @@ class RecipeModel {
     );
   }
 
-  Recipe toDomain(List<Item> items) {
-    return Recipe(
+  SaveRecipe toDomain() {
+    return SaveRecipe(
+      id: id,
       name: name,
       cuisine: cuisine,
       instructions: instructions,
-      ingredients: items,
+      ingredients: ingredients,
       shared: shared,
     );
   }
 
-  factory RecipeModel.fromDomain(Recipe recipe) {
-    return RecipeModel(
+  factory SaveRecipeModel.fromDomain(SaveRecipe recipe) {
+    return SaveRecipeModel(
+      id: recipe.id ?? Isar.autoIncrement,
       name: recipe.name,
       cuisine: recipe.cuisine,
       instructions: recipe.instructions,
-      ingredients: recipe.ingredients.map((item) => item.name).toList(),
+      ingredients: recipe.ingredients,
       shared: recipe.shared,
     );
   }
