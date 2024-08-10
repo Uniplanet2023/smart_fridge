@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/config/widgets/custom_button.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
@@ -129,9 +130,14 @@ class _SavedRecipeDetailsPageState extends State<SavedRecipeDetailsPage> {
                 ),
                 SizedBox(height: 4.h),
                 CustomButton(
-                  text: 'Share Recipe',
-                  onTap: () {},
-                  icon: const Icon(Icons.share),
+                  text: 'Post your Cooking',
+                  width: 1.sw,
+                  fontSize: 13.sp,
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.postRecipeImagePage,
+                        arguments: widget.recipe);
+                  },
+                  icon: const Icon(Icons.add_box_outlined),
                 ),
                 SizedBox(height: 4.h),
               ],

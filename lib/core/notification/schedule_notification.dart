@@ -10,8 +10,8 @@ void scheduleNotificationForItem(ItemModel item) {
       body: '${item.name} is expiring on tomorrow!',
     ),
     schedule: NotificationCalendar.fromDate(
-      date: DateTime.now()
-          .add(const Duration(seconds: 10)), // Schedule for 10 seconds later
+      date: item.expiryDate.subtract(
+          const Duration(days: 1)), // Schedule for 1 day before expiry
     ),
   );
 }

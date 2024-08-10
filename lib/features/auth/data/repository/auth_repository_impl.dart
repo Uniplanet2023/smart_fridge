@@ -57,7 +57,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> updateProfilePicture(File newImage) {
-    // TODO: implement updateProfilePicture
     throw UnimplementedError();
   }
 }

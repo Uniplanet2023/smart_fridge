@@ -20,3 +20,9 @@ class DeleteRecipeEvent extends RecipeEvent {
 }
 
 class FetchRecipesEvent extends RecipeEvent {}
+
+class UploadRecipeEvent extends RecipeEvent {
+  final SaveRecipe recipe;
+  final File? videoFile;
+  const UploadRecipeEvent({required this.recipe, this.videoFile});
+}

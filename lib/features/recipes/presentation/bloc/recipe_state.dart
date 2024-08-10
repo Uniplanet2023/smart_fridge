@@ -47,3 +47,16 @@ final class RecipeError extends RecipeState {
   @override
   List<Object?> get props => [message];
 }
+
+final class RecipeUploading extends RecipeState {}
+
+final class RecipeUploadSuccess extends RecipeState {}
+
+final class RecipeUploadError extends RecipeState {
+  final String message;
+
+  const RecipeUploadError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

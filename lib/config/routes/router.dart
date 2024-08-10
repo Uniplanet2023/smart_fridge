@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/config/routes/names.dart';
+import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
+import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/change_password_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/add_fridge_items_page.dart';
+import 'package:smart_fridge/features/recipes/presentation/pages/post_recipe_image.dart';
 import 'package:smart_fridge/features/video_sharing/presentation/pages/home_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/fridge_items_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/account_settings_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/profile_page.dart';
 import 'package:smart_fridge/features/recipes/presentation/pages/recipes_page.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/pages/add_page.dart';
-
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -55,7 +57,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const ProfilePage(),
       );
-   
+
     case AppRoutes.accountSettingsPage:
       return MaterialPageRoute(
         settings: routeSettings,
@@ -70,6 +72,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const AddFridgeItemsPage(),
+      );
+    case AppRoutes.postRecipeImagePage:
+      final recipe = routeSettings.arguments as SaveRecipe;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => PostRecipeImagePage(
+          recipe: recipe,
+        ),
       );
     default:
       return MaterialPageRoute(
