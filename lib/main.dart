@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/routes/router.dart';
-import 'package:smart_fridge/config/theme/theme.dart';
+import 'package:smart_fridge/config/theme/cubit/theme_cubit.dart';
 import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
@@ -26,6 +26,7 @@ void main() async {
       BlocProvider(create: (_) => serviceLocator<RecipeGenerationBloc>()),
       BlocProvider(create: (_) => serviceLocator<ProfileBloc>()),
       BlocProvider(create: (_) => serviceLocator<RecipeBloc>()),
+      BlocProvider(create: (context) => ThemeCubit()),
     ],
     child: const MyApp(),
   ));
@@ -53,21 +54,24 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        navigatorKey: MyApp.navigatorKey,
-        title: 'Smart Fridge',
-        onGenerateRoute: (settings) => generateRoute(settings),
-        theme: lightMode,
-        darkTheme: darkMode,
-        home: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) {
-            if (state is AuthLoaded) {
-              return const BottomBar();
-            }
-            return const SigninPage();
-          },
-        ),
+      child: BlocBuilder<ThemeCubit, ThemeData>(
+        builder: (context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            navigatorKey: MyApp.navigatorKey,
+            title: 'Smart Fridge',
+            onGenerateRoute: (settings) => generateRoute(settings),
+            theme: state,
+            home: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                if (state is AuthLoaded) {
+                  return const BottomBar();
+                }
+                return const SigninPage();
+              },
+            ),
+          );
+        },
       ),
     );
   }
