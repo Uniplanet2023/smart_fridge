@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_fridge/config/pages/help_page.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/account_settings_page.dart';
@@ -70,7 +71,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     MenuSection(
                       title: "Help",
                       icon: Icons.help_outline_outlined,
-                      ontap: () {},
+                      ontap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HelpPage(),
+                          ),
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 5.h,
@@ -82,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         // Navigator.push(
                         //   context,
                         //   MaterialPageRoute(
-                        //     builder: (context) => const TermsAndPolicies(),
+                        //     builder: (context) => const TermsAndPolicies()HelpPage,
                         //   ),
                         // );
                       },

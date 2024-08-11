@@ -226,7 +226,6 @@ class _AddPageState extends State<AddPage> {
                     ),
                   );
                 }
-
                 return const SizedBox.shrink();
               },
             ),
@@ -266,56 +265,3 @@ class _AddPageState extends State<AddPage> {
   }
 }
 
-// Text.rich(
-//   TextSpan(
-//     text: '1. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text: 'Upload or capture a receipt image',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),
-// SizedBox(height: 20.h),
-// Text.rich(
-//   TextSpan(
-//     text: '2. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text:
-//             'Review scanned items: add missing \nitems, correct details, and remove errors.',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),
-// SizedBox(height: 20.h),
-// Text.rich(
-//   TextSpan(
-//     text: '3. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text: 'Select items to add to fridge inventory.',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),
-// SizedBox(height: 20.h),
-// Text.rich(
-//   TextSpan(
-//     text: '4. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text:
-//             'Save and verify items in fridge \n    inventory page.',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),
