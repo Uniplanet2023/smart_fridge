@@ -26,7 +26,7 @@ void main() async {
       BlocProvider(create: (_) => serviceLocator<RecipeGenerationBloc>()),
       BlocProvider(create: (_) => serviceLocator<ProfileBloc>()),
       BlocProvider(create: (_) => serviceLocator<RecipeBloc>()),
-      BlocProvider(create: (context) => ThemeCubit()),
+      BlocProvider(create: (_) => ThemeCubit()),
     ],
     child: const MyApp(),
   ));
