@@ -11,6 +11,7 @@ import 'package:smart_fridge/features/auth/domain/usecases/delete_user_use_case.
 import 'package:smart_fridge/features/auth/domain/usecases/login_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/logout_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/reset_password_use_case.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/save_user_info_to_prefs_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/update_password_use_case.dart';
@@ -81,6 +82,9 @@ class AuthInjection {
     serviceLocator.registerFactory(
       () => CheckTokenUseCase(serviceLocator()),
     );
+    serviceLocator.registerFactory(
+      () => SaveUserInfoToPrefsUseCase(serviceLocator()),
+    );
 
     // Register a single instance of AuthBloc
     serviceLocator.registerLazySingleton(
@@ -94,6 +98,7 @@ class AuthInjection {
         changeNameUseCase: serviceLocator(),
         signInWithGoogle: serviceLocator(),
         checkTokenUseCase: serviceLocator(),
+        saveUserInfoToPrefsUseCase: serviceLocator(),
       ),
     );
   }

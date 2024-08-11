@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
@@ -39,9 +40,7 @@ class _UserCardState extends State<UserCard> {
       // Show confirmation dialog
       bool confirmUpload = await showUploadConfirmationDialog();
       if (confirmUpload) {
-        // Assuming 'image' is a global variable that holds the File
-        // Here you could upload the image to your server and then update the user's profile image URL
-        // serviceLocator<AuthBloc>().add(ChangeProfilePictureEvent(image!));
+        // Upload the image to your server and then update the user's profile image URL
         serviceLocator<ProfileBloc>()
             .add(UploadProfileImage(image!, widget.currentUser!.userId));
       } else {
@@ -99,71 +98,127 @@ class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-            blurRadius: 8,
-            offset: const Offset(0, 12),
-          )
-        ],
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 15.h,
-          ),
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: 50.w,
-                backgroundImage: const CachedNetworkImageProvider(
-                  'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=826&t=st=1721237500~exp=1721238100~hmac=43d94e13fa49ce48c9d21d0156c3beeddb78238322d055c7b270d37fc2217f99',
-                ),
+    return BlocListener<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state is ProfileUploaded) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+              content: Text(
+                "Profile picture updated!",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inverseSurface),
               ),
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: InkWell(
-                  onTap: pickImage,
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                    size: 24,
+            ),
+          );
+        } else if (state is ProfileError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              content: Text(
+                "Error while updating profile picture!",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inverseSurface),
+              ),
+            ),
+          );
+        }
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 12),
+            )
+          ],
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 15.h,
+            ),
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileUploading) {
+                  return const CircularProgressIndicator.adaptive();
+                } else {
+                  return Stack(
+                    children: [
+                      (widget.currentUser!.profilePicture != null)
+                          ? CircleAvatar(
+                              radius: 50.w,
+                              backgroundImage: CachedNetworkImageProvider(
+                                  widget.currentUser!.profilePicture!),
+                            )
+                          : (widget.currentUser != null)
+                              ? CircleAvatar(
+                                  radius: 50.w,
+                                  child: Text(
+                                    widget.currentUser!.name[0].toUpperCase(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 50.w,
+                                  child: Image(
+                                    height: 50.w,
+                                    fit: BoxFit.contain,
+                                    image: const AssetImage(
+                                        'assets/images/user_default_pfp.png'),
+                                  ),
+                                ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: InkWell(
+                          onTap: pickImage,
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              },
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            Text(
+              widget.currentUser!.name,
+              maxLines: 2,
+              overflow: TextOverflow.clip,
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-          Text(
-            widget.currentUser!.name,
-            maxLines: 2,
-            overflow: TextOverflow.clip,
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.surface,
-                ),
-          ),
-          Text(
-            widget.currentUser!.email,
-            maxLines: 1,
-            overflow: TextOverflow.clip,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.surface,
-                ),
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-        ],
+            ),
+            Text(
+              widget.currentUser!.email,
+              maxLines: 1,
+              overflow: TextOverflow.clip,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+          ],
+        ),
       ),
     );
   }

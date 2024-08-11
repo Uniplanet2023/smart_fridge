@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:smart_fridge/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:smart_fridge/features/auth/data/models/user_model.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/domain/repository/auth_repository.dart';
 
@@ -59,5 +60,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> updateProfilePicture(File newImage) {
     // TODO: implement updateProfilePicture
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> saveUserToPrefs(User user) {
+    final userModel = UserModel.fromDomain(user);
+    return remoteDataSource.saveUserToPrefs(userModel);
   }
 }

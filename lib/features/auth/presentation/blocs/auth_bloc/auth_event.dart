@@ -52,6 +52,15 @@ class UpdatePasswordEvent extends AuthEvent {
   List<Object?> get props => [newPassword];
 }
 
+class UpdateProfilePictureEvent extends AuthEvent {
+  final String imageUrl;
+
+  UpdateProfilePictureEvent(this.imageUrl);
+
+  @override
+  List<Object> get props => [imageUrl];
+}
+
 class ChangeNameEvent extends AuthEvent {
   final String newName;
 
