@@ -18,23 +18,28 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.play();
-      });
+    _initializePlayer();
+  }
+
+  Future<void> _initializePlayer() async {
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
+
+    await _controller.initialize();
+
     _chewieController = ChewieController(
       videoPlayerController: _controller,
       aspectRatio: _controller.value.aspectRatio,
       autoPlay: true,
       looping: true,
     );
+
+    setState(() {}); // Rebuild the widget after initialization
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     _chewieController?.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
