@@ -4,7 +4,7 @@ class SharedRecipe {
   final List<String> ingredients;
   final List<String> instructions;
   final String cuisine;
-  final String pictureUrl;
+  final String videoUrl;
   final List<String> likes;
 
   SharedRecipe({
@@ -13,7 +13,7 @@ class SharedRecipe {
     required this.ingredients,
     required this.instructions,
     required this.cuisine,
-    required this.pictureUrl,
+    required this.videoUrl,
     required this.likes,
   });
   // copy with
@@ -23,7 +23,7 @@ class SharedRecipe {
     List<String>? ingredients,
     List<String>? instructions,
     String? cuisine,
-    String? pictureUrl,
+    String? videoUrl,
     List<String>? likes,
   }) {
     return SharedRecipe(
@@ -32,7 +32,7 @@ class SharedRecipe {
       ingredients: ingredients ?? this.ingredients,
       instructions: instructions ?? this.instructions,
       cuisine: cuisine ?? this.cuisine,
-      pictureUrl: pictureUrl ?? this.pictureUrl,
+      videoUrl: videoUrl ?? this.videoUrl,
       likes: likes ?? this.likes,
     );
   }

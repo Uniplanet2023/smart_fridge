@@ -6,8 +6,8 @@ import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password
 import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signup_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/add_fridge_items_page.dart';
+import 'package:smart_fridge/features/home/presentation/pages/home.dart';
 import 'package:smart_fridge/features/recipes/presentation/pages/post_recipe_image.dart';
-import 'package:smart_fridge/features/video_sharing/presentation/pages/home_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/pages/fridge_items_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/account_settings_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/profile_page.dart';

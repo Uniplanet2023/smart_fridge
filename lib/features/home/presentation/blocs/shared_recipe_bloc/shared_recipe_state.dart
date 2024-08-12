@@ -9,12 +9,12 @@ sealed class SharedRecipeState extends Equatable {
 
 final class SharedRecipeInitial extends SharedRecipeState {}
 
-final class RecipeLoading extends SharedRecipeState {}
+final class SharedRecipeLoading extends SharedRecipeState {}
 
-final class RecipeLoaded extends SharedRecipeState {
+final class SharedRecipeLoaded extends SharedRecipeState {
   final List<SharedRecipe> recipes;
 
-  const RecipeLoaded(this.recipes);
+  const SharedRecipeLoaded(this.recipes);
 
   @override
   List<Object> get props => [recipes];

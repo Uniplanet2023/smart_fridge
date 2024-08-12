@@ -25,7 +25,7 @@ class SharedRecipeRemoteDataSourceImpl implements SharedRecipeRemoteDataSource {
           ingredients: List<String>.from(doc['ingredients']),
           instructions: List<String>.from(doc['instructions']),
           cuisine: doc['cuisine'],
-          pictureUrl: doc['pictureUrl'],
+          videoUrl: doc['videoUrl'],
           likes: List<String>.from(doc['likes']),
         );
       }).toList();
@@ -51,7 +51,7 @@ class SharedRecipeRemoteDataSourceImpl implements SharedRecipeRemoteDataSource {
         'ingredients': recipe.ingredients,
         'instructions': recipe.instructions,
         'cuisine': recipe.cuisine,
-        'pictureUrl': recipe.pictureUrl,
+        'videoUrl': recipe.videoUrl,
         'likes': recipe.likes,
       });
     } catch (e) {

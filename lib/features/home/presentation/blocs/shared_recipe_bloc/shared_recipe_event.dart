@@ -7,7 +7,12 @@ sealed class SharedRecipeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchSharedRecipesEvent extends SharedRecipeEvent {}
+class FetchSharedRecipesEvent extends SharedRecipeEvent {
+  const FetchSharedRecipesEvent();
+
+  @override
+  List<Object> get props => [];
+}
 
 class DeleteSharedRecipeEvent extends SharedRecipeEvent {
   final String recipeId;
