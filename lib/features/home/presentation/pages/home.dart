@@ -32,51 +32,55 @@ class _HomePageState extends State<HomePage> {
         }
         return Scaffold(
           backgroundColor: Colors.black,
-          body: PageView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: videoUrls.length,
-            itemBuilder: (context, index) {
-              return Stack(
-                children: [
-                  VideoPlayerWidget(videoUrl: videoUrls[index]),
-                  const Positioned(
-                    right: 10,
-                    top: 100,
-                    child: Column(
+          body: videoUrls.isNotEmpty
+              ? PageView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: videoUrls.length,
+                  itemBuilder: (context, index) {
+                    return Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 25,
-                          backgroundImage: NetworkImage(
-                              'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'),
+                        VideoPlayerWidget(videoUrl: videoUrls[index]),
+                        const Positioned(
+                          right: 10,
+                          top: 100,
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundImage: NetworkImage(
+                                    'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'),
+                              ),
+                              SizedBox(height: 10),
+                              Icon(Icons.favorite, color: Colors.red, size: 40),
+                              SizedBox(height: 10),
+                              Text('2', style: TextStyle(color: Colors.white)),
+                              SizedBox(height: 10),
+                              Icon(Icons.chat_bubble_outline,
+                                  color: Colors.white, size: 40),
+                              SizedBox(height: 10),
+                              Text('0', style: TextStyle(color: Colors.white)),
+                              SizedBox(height: 10),
+                              Icon(Icons.reply, color: Colors.white, size: 40),
+                              SizedBox(height: 10),
+                              Text('0', style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 10),
-                        Icon(Icons.favorite, color: Colors.red, size: 40),
-                        SizedBox(height: 10),
-                        Text('2', style: TextStyle(color: Colors.white)),
-                        SizedBox(height: 10),
-                        Icon(Icons.chat_bubble_outline,
-                            color: Colors.white, size: 40),
-                        SizedBox(height: 10),
-                        Text('0', style: TextStyle(color: Colors.white)),
-                        SizedBox(height: 10),
-                        Icon(Icons.reply, color: Colors.white, size: 40),
-                        SizedBox(height: 10),
-                        Text('0', style: TextStyle(color: Colors.white)),
+                        const Positioned(
+                          bottom: 10,
+                          left: 10,
+                          child: Text(
+                            'rivaanranawat\nNo Song, Only Trip!',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                  const Positioned(
-                    bottom: 10,
-                    left: 10,
-                    child: Text(
-                      'rivaanranawat\nNo Song, Only Trip!',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
+                    );
+                  },
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
         );
       },
     );
