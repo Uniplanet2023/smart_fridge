@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:smart_fridge/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:smart_fridge/features/auth/data/models/user_model.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/domain/repository/auth_repository.dart';
 
@@ -33,12 +36,34 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> updatePassword(String newPassword) async {
-    return await remoteDataSource.updatePassword(newPassword);
+  Future<void> updatePassword(
+      String email, String password, String newPassword) async {
+    return await remoteDataSource.updatePassword(email, password, newPassword);
   }
 
   @override
   Future<void> changeName(String newName) async {
     return await remoteDataSource.changeName(newName);
+  }
+
+  @override
+  Future<User> signInWithGoogle() {
+    return remoteDataSource.signInWithGoogle();
+  }
+
+  @override
+  Future<User?> checkUserTokenExists() async {
+    return remoteDataSource.checkUserTokenExists();
+  }
+
+  @override
+  Future<void> updateProfilePicture(File newImage) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> saveUserToPrefs(User user) {
+    final userModel = UserModel.fromDomain(user);
+    return remoteDataSource.saveUserToPrefs(userModel);
   }
 }

@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
 import 'package:smart_fridge/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -8,8 +10,12 @@ abstract class AuthRemoteDataSource {
   Future<void> deleteUser();
   Future<void> logout();
   Future<void> resetPassword(String email);
-  Future<void> updatePassword(String newPassword);
+  Future<void> updatePassword(
+      String email, String password, String newPassword);
   Future<void> changeName(String newName);
+  Future<UserModel> signInWithGoogle();
+  Future<UserModel?> checkUserTokenExists();
+  Future<void> saveUserToPrefs(UserModel user);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -26,13 +32,38 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      DocumentSnapshot userDoc = await firestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
-      return UserModel.fromFirestore(userDoc);
+
+      // Get user information from Firestore
+      if (userCredential.user != null) {
+        DocumentSnapshot userDoc = await firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .get();
+
+        // Ensure the user document exists
+        if (userDoc.exists) {
+          // Save user information in device using shared preferences
+          // First Convert UserModel to JSON string
+          String savedUser = UserModel.fromFirestore(userDoc).toJson();
+          // Save user information string to shared preferences
+          await SharedPreferencesHelper().saveString('userData', savedUser);
+
+          return UserModel.fromFirestore(userDoc);
+        } else {
+          throw Exception('User does not exist');
+        }
+      } else {
+        throw Exception('User credential is null');
+      }
+      // return UserModel.fromFirestore(userDoc);
+    } on FirebaseAuthException catch (e) {
+      // Handle Firebase specific errors
+      throw Exception('FirebaseAuthException: ${e.message}');
+    } on FirebaseException catch (e) {
+      // Handle Firestore specific errors
+      throw Exception('FirebaseException: ${e.message}');
     } catch (e) {
-      throw Exception('Failed to login');
+      throw Exception('Failed to login: ${e.toString()}');
     }
   }
 
@@ -51,6 +82,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .collection('users')
           .doc(userCredential.user!.uid)
           .get();
+
+      // Save user information in device using shared preferences
+      // First Convert UserModel to JSON string
+      String savedUser = UserModel.fromFirestore(userDoc).toJson();
+      // Save user information string to shared preferences
+      SharedPreferencesHelper().saveString('userData', savedUser);
+
       return UserModel.fromFirestore(userDoc);
     } catch (e) {
       throw Exception('Failed to signup');
@@ -63,6 +101,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       User user = firebaseAuth.currentUser!;
       await firestore.collection('users').doc(user.uid).delete();
       await user.delete();
+      // remove user information string from shared preferences
+      await SharedPreferencesHelper().remove('userData');
     } catch (e) {
       throw Exception('Failed to delete user');
     }
@@ -72,6 +112,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> logout() async {
     try {
       await firebaseAuth.signOut();
+      // remove user information string from shared preferences
+      await SharedPreferencesHelper().remove('userData');
     } catch (e) {
       throw Exception('Failed to logout');
     }
@@ -87,8 +129,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> updatePassword(String newPassword) async {
+  Future<void> updatePassword(
+      String email, String password, String newPassword) async {
     try {
+      UserCredential userCredential = await firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (userCredential.user == null) {
+        throw Exception('User credential is null');
+      }
       User user = firebaseAuth.currentUser!;
       await user.updatePassword(newPassword);
     } catch (e) {
@@ -107,5 +155,70 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } catch (e) {
       throw Exception('Failed to change name');
     }
+  }
+
+  @override
+  Future<UserModel> signInWithGoogle() async {
+    final googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      throw Exception('Failed to sign in with Google');
+    }
+
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final userCredential = await firebaseAuth.signInWithCredential(credential);
+    final user = userCredential.user;
+
+    if (user == null) {
+      throw Exception('Failed to retrieve user from Firebase');
+    }
+
+    DocumentSnapshot userDoc =
+        await firestore.collection('users').doc(userCredential.user!.uid).get();
+
+    // Ensure the user document exists
+    if (userDoc.exists) {
+      String savedUser = UserModel.fromFirestore(userDoc).toJson();
+      // Save user information string to shared preferences
+      SharedPreferencesHelper().saveString('userData', savedUser);
+
+      return UserModel.fromFirestore(userDoc);
+    } else {
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': user.email!,
+        'displayName': user.displayName!,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      return UserModel(
+        userId: user.uid,
+        name: user.displayName!,
+        email: user.email!,
+      );
+    }
+  }
+
+  @override
+  Future<UserModel?> checkUserTokenExists() async {
+    try {
+      // Get the user data from shared preferences
+      String? userData = SharedPreferencesHelper().getString('userData');
+      if (userData != null) {
+        // Convert JSON string to UserModel
+        return UserModel.fromJson(userData);
+      }
+    } catch (e) {
+      // Handle any exceptions
+      throw Exception('Error checking user token: $e');
+    }
+    return null;
+  }
+
+  @override
+  Future<void> saveUserToPrefs(user) async {
+    SharedPreferencesHelper().saveString('userData', user.toJson());
   }
 }

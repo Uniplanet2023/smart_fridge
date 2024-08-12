@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "670291926367-kro3g6dougpuvjlbjr12vtdisvaaf2u8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "shop.uniplanet.smart_fridge",
+            "certificate_hash": "bd93349dc162df4345c13f297dc71b0a0238068a"
+          }
+        },
+        {
           "client_id": "670291926367-36f5vj9l1c8q67pdlpkfg3v3qduv1cc5.apps.googleusercontent.com",
           "client_type": 3
         }
