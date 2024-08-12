@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
+import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/util/image_permissions.dart';
@@ -25,6 +25,7 @@ class _PostRecipeImagePageState extends State<PostRecipeImagePage> {
   File? video;
   VideoPlayerController? _videoPlayerController;
   final int maxVideoDurationInSeconds = 120; // 2 minutes = 120 seconds
+  bool isVideoProcessing = false;
 
   Future<void> pickVideo() async {
     // Check gallery permission, if not allowed stop
@@ -85,26 +86,26 @@ class _PostRecipeImagePageState extends State<PostRecipeImagePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ReadReceiptBloc, ReadReceiptState>(
+    return BlocListener<RecipeBloc, RecipeState>(
       listener: (context, state) {
-        if (state is ReadReceiptCompleted) {
-          // navigate to the item list screen
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ItemListPage(items: state.receiptData),
-            ),
-          );
-        } else if (state is ReadReceiptError) {
+        if (state is RecipeUploading) {
+          isVideoProcessing = true;
+          setState(() {});
+        } else if (state is RecipeUploadSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               content: Text(
-                state.message,
+                'Recipe uploaded successfully!',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.inverseSurface),
               ),
             ),
+          );
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            AppRoutes.bottomBarPage,
+            (route) => false,
           );
         }
       },
@@ -127,6 +128,7 @@ class _PostRecipeImagePageState extends State<PostRecipeImagePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      if (isVideoProcessing) const CircularProgressIndicator(),
                       if (video != null && _videoPlayerController != null)
                         AspectRatio(
                           aspectRatio:

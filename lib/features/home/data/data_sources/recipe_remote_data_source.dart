@@ -20,6 +20,7 @@ class SharedRecipeRemoteDataSourceImpl implements SharedRecipeRemoteDataSource {
       final snapshot = await firestore.collection('recipes').get();
       return snapshot.docs.map((doc) {
         return SharedRecipe(
+          recipeId: doc['recipeId'],
           userId: doc['userId'],
           name: doc['name'],
           ingredients: List<String>.from(doc['ingredients']),

@@ -45,7 +45,14 @@ class RecipeRepositoryImpl implements RecipeRepository {
       } else {
         user = jsonDecode(userData);
       }
-      await firestore.collection('recipes').doc().set({
+
+      // Generate a new document with an auto-generated ID
+      DocumentReference docRef = firestore.collection('recipes').doc();
+      String recipeId = docRef.id;
+
+      // Save the recipe data with the generated ID
+      await docRef.set({
+        'recipeId': recipeId, // Storing the generated recipe ID
         'userId': user['userId'],
         'name': recipe.name,
         'ingredients': recipe.ingredients,

@@ -62,14 +62,8 @@ class _FridgeItemsPageState extends State<FridgeItemsPage> {
         BlocListener<RecipeGenerationBloc, RecipeGenerationState>(
           listener: (context, state) {
             if (state is RecipeGenerated) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GeneratedRecipesPage(
-                    generatedRecipes: state.recipes,
-                  ),
-                ),
-              );
+              Navigator.pushNamed(context, AppRoutes.generatedRecipesPage,
+                  arguments: state.recipes);
             } else if (state is RecipeGenerationError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

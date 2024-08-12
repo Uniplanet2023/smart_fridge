@@ -1,4 +1,5 @@
 class SharedRecipe {
+  final String recipeId;
   final String userId;
   final String name;
   final List<String> ingredients;
@@ -8,6 +9,7 @@ class SharedRecipe {
   final List<String> likes;
 
   SharedRecipe({
+    required this.recipeId,
     required this.userId,
     required this.name,
     required this.ingredients,
@@ -18,6 +20,7 @@ class SharedRecipe {
   });
   // copy with
   SharedRecipe copyWith({
+    String? recipeId,
     String? userId,
     String? name,
     List<String>? ingredients,
@@ -27,6 +30,7 @@ class SharedRecipe {
     List<String>? likes,
   }) {
     return SharedRecipe(
+      recipeId: recipeId ?? this.recipeId,
       userId: userId ?? this.userId,
       name: name ?? this.name,
       ingredients: ingredients ?? this.ingredients,

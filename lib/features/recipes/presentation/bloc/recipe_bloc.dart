@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
+
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/delete_recipes_use_case.dart';
 import 'package:smart_fridge/features/recipes/domain/usecases/fetch_recipes_use_case.dart';

@@ -15,4 +15,6 @@ class AppRoutes {
   static const String changePasswordPage = '/change-password-page';
   static const String addFridgeItemsPage = '/add-fridge-items-page';
   static const String postRecipeImagePage = '/post-recipe-image-page';
+  static const String generatedRecipesPage = '/generated-recipes-page';
+  static const String saveRecipeDetailPage = '/save-recipe-detail-page';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/features/recipes/presentation/pages/saved_recipe_details_page.dart';
 
@@ -8,7 +9,6 @@ class RecipeCard extends StatefulWidget {
   const RecipeCard({
     super.key,
     required this.recipe,
-    
   });
 
   @override
@@ -20,14 +20,10 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => SavedRecipeDetailsPage(
-              recipe: widget.recipe,
-               
-                ),
-          ),
+          AppRoutes.saveRecipeDetailPage,
+          arguments: widget.recipe,
         );
       },
       child: Container(
@@ -76,7 +72,9 @@ class _RecipeCardState extends State<RecipeCard> {
                 const SizedBox(
                   height: 10,
                 ),
-                for (var i = 0; i < widget.recipe.ingredients.length && i < 3; i++)
+                for (var i = 0;
+                    i < widget.recipe.ingredients.length && i < 3;
+                    i++)
                   Text(
                     widget.recipe.ingredients[i],
                     maxLines: 1,
