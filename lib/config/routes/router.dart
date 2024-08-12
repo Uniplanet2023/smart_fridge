@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/config/routes/names.dart';
-import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/change_password_page.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/forgotten_password_page.dart';

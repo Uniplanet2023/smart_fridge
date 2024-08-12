@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/core/data_layer_models/save_recipe_model.dart';
 import 'package:smart_fridge/core/error/failures.dart';

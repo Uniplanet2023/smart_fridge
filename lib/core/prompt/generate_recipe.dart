@@ -8,7 +8,13 @@ String generateRecipePrompt(List<Item> ingredientsList, String cuisine) {
       .join(', ');
 
   return '''
-    Generate 5 recipes using the following ingredients and specify the cuisine type. Each recipe should include a name, the cuisine type, a list of ingredients with their quantities, detailed cooking instructions, and a flag indicating whether the recipe is shared. The ingredients should be used as provided. The response should be in JSON format as specified below.
+    Generate 5 recipes using the following ingredients and specify the cuisine type. 
+    Each recipe should include a name, the cuisine type, a list of ingredients with their quantities, 
+    detailed cooking instructions, and a flag indicating whether the recipe is shared. 
+    The ingredients should be used as provided. If given ingredients are not food items ignore them.
+    If all given ingredients are not food items, the response should be an empty list. 
+    
+    The response should be in JSON format as specified below.
 
     **Ingredients:**
     $formattedIngredients
@@ -59,3 +65,21 @@ String generateRecipePrompt(List<Item> ingredientsList, String cuisine) {
     ]
     ''';
 }
+
+
+/**
+ * Task 
+ * Context
+ * exemplar
+ * persona
+ * format
+ * tone
+ * 
+ * 
+ * 
+ * Generate 5 recipes using the following ingredients and specify the cuisine type. 
+ * Each recipe should include a name, the cuisine type, a list of ingredients with their quantities, 
+ * detailed cooking instructions, and a flag indicating whether the recipe is shared. 
+ * The ingredients should be used as provided. The response should be in JSON format as specified below.
+
+ */

@@ -17,7 +17,6 @@ class RecipeLocalDataSource {
       shared: recipe.shared,
     );
 
-
     // Check if the recipe already exists
     final exists = await _recipeExists(recipeModel);
 

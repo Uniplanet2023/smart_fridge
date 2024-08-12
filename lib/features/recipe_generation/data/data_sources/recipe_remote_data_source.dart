@@ -16,11 +16,17 @@ class RecipeRemoteDataSource {
       final prompt = generateRecipePrompt(ingredients, cuisine);
 
       final response = await GeminiHelper.instance.generateContent(prompt);
+
       if (response == null) {
         throw Exception("Failed to generate recipe");
       }
 
       final List<dynamic> jsonResult = jsonDecode(response) as List<dynamic>;
+
+      // throw an exception if no recipe was generated
+      if (jsonResult.isEmpty) {
+        throw "Failed to generate recipe";
+      }
       // use data layer recipe model to change JSON result to appropriate recipe model
       final List<RecipeModel> results = jsonResult
           .map((e) => RecipeModel.fromJson(e as Map<String, dynamic>))

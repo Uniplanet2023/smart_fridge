@@ -5,7 +5,6 @@ import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 import 'package:smart_fridge/features/recipe_generation/domain/usecases/generate_recipe_use_case.dart';
 import 'package:smart_fridge/features/recipe_generation/domain/usecases/save_recipe_use_case.dart';
 
-
 part 'recipe_generation_event.dart';
 part 'recipe_generation_state.dart';
 
@@ -29,7 +28,6 @@ class RecipeGenerationBloc
         event.ingredients,
         event.cuisine,
       );
-      await saveRecipeUseCase(generatedRecipe.first);
       emit(RecipeGenerated(generatedRecipe));
     } catch (e) {
       emit(RecipeGenerationError(e.toString()));

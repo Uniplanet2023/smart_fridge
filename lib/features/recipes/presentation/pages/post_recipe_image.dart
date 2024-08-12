@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/util/image_permissions.dart';
