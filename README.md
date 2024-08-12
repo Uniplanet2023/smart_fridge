@@ -9,6 +9,7 @@ The app is built following the principles of Clean Architecture to ensure scalab
 ## Project Structure
 
 This project follows Clean Architecture principles, dividing the codebase into distinct layers:
+```bash
 lib/
 |-- config/
 |-- core/
@@ -21,7 +22,7 @@ lib/
 | | |-- domain/
 | | |-- presentation/
 |-- main.dart
-
+```
 - **Core**: Contains shared components and utilities.
 - **Config**: Contains Theme, styling, shared pages and widgets.
 - **Features**: Contains all the feature-specific folders, each following the Clean Architecture pattern.
@@ -50,23 +51,82 @@ Before you begin, ensure you have the following tools installed:
    ```
 
 2. **Install Dependencies:**
-
-Fetch the project dependencies by running:
-
-    ```bash
-    flutter pub get
-    ```
+  Fetch the project dependencies by running:
+  ```bash
+  flutter pub get
+  ```
 
 3. **Configure the Environment:**
 
-Create a `.env` file in the root of the project and add your environment-specific variables, such as API keys.
-
-Example `.env` file:
-
-    ```bash
-        API_KEY=your_api_key_here
-    ```
+  Create a `.env` file in the root of the project and add your environment-specific variables, such as API keys.
+  
+  Example `.env` file:
+  
+  ```bash
+  API_KEY=your_api_key_here
+  ```
 4. **Assets:**
 
-    Ensure that the assets are correctly referenced in your pubspec.yaml file. Assets include images, animations, and other resources.
+  Ensure that the assets are correctly referenced in your pubspec.yaml file. Assets include images, animations, and other resources.
+
+5. **Run the app:**
+  ```bash
+  flutter run
+  ```
+
+## Core Concepts
+
+### Use Cases
+Use cases encapsulate business logic and are responsible for executing specific tasks within the app. Here’s an example of a use case:
+
+  ```dart
+  class GetRecipesUseCase {
+    final RecipeRepository repository;
+  
+    GetRecipesUseCase(this.repository);
+  
+    Future<List<Recipe>> call(List<Ingredient> ingredients) {
+      return repository.getRecipes(ingredients);
+    }
+  }
+  ```
+
+### Repositories
+
+Repositories act as an abstraction layer between the domain and data layers, handling data operations. Example:
+
+  ```dart
+  abstract class RecipeRepository {
+    Future<List<Recipe>> getRecipes(List<Ingredient> ingredients);
+  }
+  ```
+
+### Dependency Injection
+We use get_it for dependency injection, ensuring that each layer is independent and can be tested in isolation.
+
+  ```dart
+  
+  final sl = GetIt.instance;
+  
+  void init() {
+    sl.registerLazySingleton<RecipeRepository>(() => RecipeRepositoryImpl());
+    sl.registerFactory(() => GetRecipesUseCase(sl()));
+  }
+  ```
+
+
+## Data Flow
+
+### Data Sources
+Data sources are responsible for fetching and saving data. This app uses both local and remote data sources.
+
+### Error Handling
+We use custom exceptions to handle errors across the app and ensure a smooth user experience.
+
+### Caching
+The app caches data locally to improve performance and provide offline access.
+
+
+
+   
 
