@@ -15,6 +15,7 @@ abstract class AuthRemoteDataSource {
   Future<void> changeName(String newName);
   Future<UserModel> signInWithGoogle();
   Future<UserModel?> checkUserTokenExists();
+  Future<void> saveUserToPrefs(UserModel user);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -214,5 +215,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw Exception('Error checking user token: $e');
     }
     return null;
+  }
+
+  @override
+  Future<void> saveUserToPrefs(user) async {
+    SharedPreferencesHelper().saveString('userData', user.toJson());
   }
 }

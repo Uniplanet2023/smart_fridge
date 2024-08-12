@@ -42,4 +42,24 @@ class UserModel extends User {
       profilePicture: data['profilePicture'],
     );
   }
+
+  // Convert UserModel to User (domain layer)
+  User toDomain() {
+    return User(
+      userId: userId,
+      name: name,
+      email: email,
+      profilePicture: profilePicture,
+    );
+  }
+
+  // Create a UserModel from a User (domain layer)
+  factory UserModel.fromDomain(User user) {
+    return UserModel(
+      userId: user.userId,
+      name: user.name,
+      email: user.email,
+      profilePicture: user.profilePicture,
+    );
+  }
 }

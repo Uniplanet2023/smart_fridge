@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
+import 'package:smart_fridge/core/util/camera_service.dart';
 import 'package:smart_fridge/core/util/image_permissions.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/read_receipt_bloc.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/pages/new_items_page.dart';
@@ -51,6 +52,35 @@ class _AddPageState extends State<AddPage> {
     } else {
       // Handle the case where no image is picked
       print("No image selected");
+    }
+  }
+
+  void selectImageFromCamera() async {
+    // Open the camera and capture an image
+    File? capturedImage = await CameraService().openCamera(context);
+
+    // Check if an image was captured
+    if (capturedImage != null) {
+      // Update the state with the captured image
+      setState(() {
+        image = capturedImage;
+      });
+
+      // Show the confirmation dialog
+      bool confirmUpload = await showUploadConfirmationDialog();
+
+      if (confirmUpload) {
+        // If confirmed, trigger the ScanReceiptEvent with the captured image
+        serviceLocator<ReadReceiptBloc>().add(ScanReceiptEvent(image!));
+      } else {
+        // If the user cancels, reset the image to null
+        setState(() {
+          image = null;
+        });
+      }
+    } else {
+      // Handle the case where no image was captured
+      print("No image captured");
     }
   }
 
@@ -132,35 +162,12 @@ class _AddPageState extends State<AddPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Scan receipt',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineLarge
-                                    ?.copyWith(fontWeight: FontWeight.w900),
-                              ),
-                            ),
-                            Text(
-                              '|',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Share Video',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                              ),
-                            ),
-                          ],
+                        child: Text(
+                          'Scan receipt',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
                       SizedBox(height: 10.h),
@@ -173,13 +180,15 @@ class _AddPageState extends State<AddPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildAddReceiptOptions(
-                              const Icon(Icons.camera_alt_outlined),
-                              'Take Photo',
-                              () {}),
+                            const Icon(Icons.camera_alt_outlined),
+                            'Take Photo',
+                            selectImageFromCamera,
+                          ),
                           _buildAddReceiptOptions(
-                              const Icon(Icons.image_outlined),
-                              'Add from Gallery',
-                              pickImage),
+                            const Icon(Icons.image_outlined),
+                            'Add from Gallery',
+                            pickImage,
+                          ),
                         ],
                       ),
                     ],
@@ -217,7 +226,6 @@ class _AddPageState extends State<AddPage> {
                     ),
                   );
                 }
-
                 return const SizedBox.shrink();
               },
             ),
@@ -257,56 +265,3 @@ class _AddPageState extends State<AddPage> {
   }
 }
 
-// Text.rich(
-//   TextSpan(
-//     text: '1. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text: 'Upload or capture a receipt image',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),
-// SizedBox(height: 20.h),
-// Text.rich(
-//   TextSpan(
-//     text: '2. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text:
-//             'Review scanned items: add missing \nitems, correct details, and remove errors.',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),
-// SizedBox(height: 20.h),
-// Text.rich(
-//   TextSpan(
-//     text: '3. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text: 'Select items to add to fridge inventory.',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),
-// SizedBox(height: 20.h),
-// Text.rich(
-//   TextSpan(
-//     text: '4. ',
-//     style: Theme.of(context).textTheme.headlineLarge,
-//     children: [
-//       TextSpan(
-//         text:
-//             'Save and verify items in fridge \n    inventory page.',
-//         style: Theme.of(context).textTheme.headlineMedium,
-//       ),
-//     ],
-//   ),
-// ),

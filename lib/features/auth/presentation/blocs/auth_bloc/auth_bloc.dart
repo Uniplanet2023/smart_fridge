@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_fridge/features/auth/domain/entities/user.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/check_token_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/login_use_case.dart';
+import 'package:smart_fridge/features/auth/domain/usecases/save_user_info_to_prefs_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:smart_fridge/features/auth/domain/usecases/delete_user_use_case.dart';
@@ -26,6 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final ChangeNameUseCase changeNameUseCase;
   final SignInWithGoogle signInWithGoogle;
   final CheckTokenUseCase checkTokenUseCase;
+  final SaveUserInfoToPrefsUseCase saveUserInfoToPrefsUseCase;
 
   AuthBloc({
     required this.loginUseCase,
@@ -37,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.changeNameUseCase,
     required this.signInWithGoogle,
     required this.checkTokenUseCase,
+    required this.saveUserInfoToPrefsUseCase,
   }) : super(const AuthInitial()) {
     on<LoginEvent>((event, emit) async {
       try {
@@ -103,6 +106,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthLoading(state.user));
         await updatePasswordUseCase(
             event.email, event.password, event.newPassword);
+        await saveUserInfoToPrefsUseCase(state.user);
         emit(AuthUpdatedPassword(state.user));
       } catch (e) {
         emit(const AuthError('Failed to update password'));
@@ -114,9 +118,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthLoading(state.user));
         await changeNameUseCase(event.newName);
         User newUser = state.user.copyWith(name: event.newName);
+        await saveUserInfoToPrefsUseCase(newUser);
         emit(AuthChangedName(newUser));
       } catch (e) {
         emit(const AuthError('Failed to change name'));
+      }
+    });
+
+    on<UpdateProfilePictureEvent>((event, emit) async {
+      try {
+        emit(AuthLoading(state.user));
+
+        User updatedUser = state.user.copyWith(profilePicture: event.imageUrl);
+        await saveUserInfoToPrefsUseCase(updatedUser);
+        emit(AuthLoaded(updatedUser));
+      } catch (e) {
+        emit(const AuthError('Failed to update profile picture'));
       }
     });
 

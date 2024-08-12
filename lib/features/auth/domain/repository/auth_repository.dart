@@ -14,4 +14,5 @@ abstract class AuthRepository {
   Future<User> signInWithGoogle();
   Future<User?> checkUserTokenExists();
   Future<void> updateProfilePicture(File newImage);
+  Future<void> saveUserToPrefs(User user);
 }
