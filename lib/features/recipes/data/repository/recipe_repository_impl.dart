@@ -51,7 +51,7 @@ class RecipeRepositoryImpl implements RecipeRepository {
         'ingredients': recipe.ingredients,
         'instructions': recipe.instructions,
         'cuisine': recipe.cuisine,
-        'pictureUrl': videoUrl,
+        'videoUrl': videoUrl,
         'likes': [],
       });
     } catch (e) {

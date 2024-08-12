@@ -66,9 +66,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             theme: state,
             home: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
-                if (state is AuthLoaded) {
-                  return const BottomBar();
-                }
                 return const SigninPage();
               },
             ),

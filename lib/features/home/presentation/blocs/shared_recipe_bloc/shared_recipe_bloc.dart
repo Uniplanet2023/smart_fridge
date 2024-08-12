@@ -21,12 +21,10 @@ class SharedRecipeBloc extends Bloc<SharedRecipeEvent, SharedRecipeState> {
     required this.updateSharedRecipeUseCase,
     required this.likeRecipeUseCase,
   }) : super(SharedRecipeInitial()) {
-    on<SharedRecipeEvent>((event, emit) {
-      on<FetchSharedRecipesEvent>(_onFetchRecipesEvent);
-      on<DeleteSharedRecipeEvent>(_onDeleteRecipeEvent);
-      on<UpdateSharedRecipeEvent>(_onUpdateRecipeEvent);
-      on<LikeSharedRecipeEvent>(_onLikeRecipeEvent);
-    });
+    on<FetchSharedRecipesEvent>(_onFetchRecipesEvent);
+    on<DeleteSharedRecipeEvent>(_onDeleteRecipeEvent);
+    on<UpdateSharedRecipeEvent>(_onUpdateRecipeEvent);
+    on<LikeSharedRecipeEvent>(_onLikeRecipeEvent);
   }
 
   Future<void> _onLikeRecipeEvent(
@@ -40,10 +38,10 @@ class SharedRecipeBloc extends Bloc<SharedRecipeEvent, SharedRecipeState> {
 
   Future<void> _onFetchRecipesEvent(
       FetchSharedRecipesEvent event, Emitter<SharedRecipeState> emit) async {
-    emit(RecipeLoading());
+    emit(SharedRecipeLoading());
     try {
       final recipes = await fetchSharedRecipeUseCase();
-      emit(RecipeLoaded(recipes));
+      emit(SharedRecipeLoaded(recipes));
     } catch (e) {
       emit(const RecipeError('Failed to load recipes'));
     }
@@ -54,7 +52,7 @@ class SharedRecipeBloc extends Bloc<SharedRecipeEvent, SharedRecipeState> {
     try {
       await deleteSharedRecipeUseCase(event.recipeId);
       emit(SharedRecipeDeletionSuccess());
-      add(FetchSharedRecipesEvent());
+      add(const FetchSharedRecipesEvent());
     } catch (e) {
       emit(const SharedRecipeError('Failed to delete recipe'));
     }
