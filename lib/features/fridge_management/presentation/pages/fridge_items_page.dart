@@ -11,7 +11,6 @@ import 'package:smart_fridge/features/fridge_management/presentation/bloc/fridge
 import 'package:smart_fridge/features/fridge_management/presentation/pages/edit_fridge_items_page.dart';
 import 'package:smart_fridge/features/fridge_management/presentation/widgets/fridge_item.dart';
 import 'package:smart_fridge/features/recipe_generation/presentation/bloc/bloc/recipe_generation_bloc.dart';
-import 'package:smart_fridge/features/recipe_generation/presentation/pages/generated_recipes_page.dart';
 
 class FridgeItemsPage extends StatefulWidget {
   const FridgeItemsPage({super.key});

@@ -341,7 +341,6 @@ class HelpPage extends StatelessWidget {
   }
 
   _buildSharingRecipe(BuildContext context) {
-    //TODO: Add after feature is done
     return ExpansionTile(
       tilePadding: EdgeInsets.symmetric(horizontal: 4.w),
       childrenPadding: EdgeInsets.symmetric(horizontal: 6.w),

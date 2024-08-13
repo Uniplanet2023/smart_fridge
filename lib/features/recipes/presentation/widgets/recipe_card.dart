@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_fridge/config/routes/names.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
-import 'package:smart_fridge/features/recipes/presentation/pages/saved_recipe_details_page.dart';
 
 class RecipeCard extends StatefulWidget {
   final SaveRecipe recipe;
