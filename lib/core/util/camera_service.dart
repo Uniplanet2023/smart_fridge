@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -49,7 +50,7 @@ class CameraService {
 
   // Private method to show a message when permission is denied
   void _showPermissionDeniedMessage() {
-    print('Camera permission is denied.');
+    log('Camera permission is denied.');
   }
 
   // Private method to show a dialog directing the user to settings

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -51,7 +52,7 @@ class _UserCardState extends State<UserCard> {
       }
     } else {
       // Handle the case where no image is picked
-      print("No image selected");
+      log("No image selected");
     }
   }
 

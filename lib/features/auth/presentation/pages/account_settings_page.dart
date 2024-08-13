@@ -53,7 +53,6 @@ class _AccountSettingsState extends State<AccountSettingsPage> {
     },
   );
 
-  // TODO: notification function
   void updateNotification(bool changedValue) async {
     bool notificationPermission = await toggleNotifications(changedValue);
     notify = notificationPermission;

@@ -1,6 +1,4 @@
-import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
-import 'package:smart_fridge/features/home/data/models/shared_recipe.dart';
 
 abstract class RecipeRepository {
   Future<List<SaveRecipe>> fetchRecipes();

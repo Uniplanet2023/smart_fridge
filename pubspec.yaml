@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   awesome_notifications: any
+  bloc: ^8.1.4
   cached_network_image: ^3.3.1
   chewie: ^1.8.3
   cloud_firestore: ^4.17.5
@@ -59,6 +60,7 @@ dependencies:
   isar: ^3.1.0
   isar_flutter_libs: ^3.1.0+1
   lottie: ^3.1.2
+  path_provider: ^2.1.4
   permission_handler: ^11.3.1
   retrofit: ^4.1.0
   share_plus: ^10.0.0

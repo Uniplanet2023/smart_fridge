@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_fridge/config/widgets/bottom_bar.dart';
@@ -82,7 +84,7 @@ class ItemListPageState extends State<ItemListPage> {
         .where((entry) => itemCheckedStatus[entry.key])
         .map((entry) => entry.value)
         .toList();
-    print('Selected Items saved: $selectedItems');
+    log('Selected Items saved: $selectedItems');
     serviceLocator<ItemListBloc>().add(SaveItemsEvent(items: selectedItems));
 
     serviceLocator<ItemListBloc>().stream.listen((state) {

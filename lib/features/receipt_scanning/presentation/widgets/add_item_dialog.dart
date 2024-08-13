@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_fridge/core/domain_layer_entities/item.dart';
 
-
 class AddItemDialog extends StatefulWidget {
   final Function(Item) onSave;
 
   const AddItemDialog({super.key, required this.onSave});
 
   @override
-  _AddItemDialogState createState() => _AddItemDialogState();
+  AddItemDialogState createState() => AddItemDialogState();
 }
 
-class _AddItemDialogState extends State<AddItemDialog> {
+class AddItemDialogState extends State<AddItemDialog> {
   late TextEditingController nameController;
   late TextEditingController quantityController;
   late TextEditingController dateController;

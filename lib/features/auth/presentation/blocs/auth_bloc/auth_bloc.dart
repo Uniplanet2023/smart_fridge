@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -159,6 +160,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   void onTransition(Transition<AuthEvent, AuthState> transition) {
     super.onTransition(transition);
-    print(transition);
+    log(transition.toString());
   }
 }
