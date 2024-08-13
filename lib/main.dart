@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_fridge/config/routes/router.dart';
 import 'package:smart_fridge/config/theme/cubit/theme_cubit.dart';
-import 'package:smart_fridge/config/widgets/bottom_bar.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:smart_fridge/features/auth/presentation/pages/signin_page.dart';

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:smart_fridge/core/helper/shared_preferences_helper.dart';
 
@@ -26,15 +28,15 @@ Future<bool> toggleNotifications(bool allow) async {
     bool isAllowed = await requestNotificationPermission();
     if (isAllowed) {
       // Notifications are now allowed
-      print('Notifications allowed');
+      log('Notifications allowed');
       return true;
     } else {
       // User denied notification permission
-      print('Notifications not allowed');
+      log('Notifications not allowed');
     }
   } else {
     await disableNotifications();
-    print('Notifications disabled');
+    log('Notifications disabled');
   }
   return false;
 }

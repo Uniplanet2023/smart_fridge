@@ -9,10 +9,10 @@ class EditItemDialog extends StatefulWidget {
   const EditItemDialog({super.key, required this.item, required this.onSave});
 
   @override
-  _EditItemDialogState createState() => _EditItemDialogState();
+  EditItemDialogState createState() => EditItemDialogState();
 }
 
-class _EditItemDialogState extends State<EditItemDialog> {
+class EditItemDialogState extends State<EditItemDialog> {
   late TextEditingController nameController;
   late TextEditingController quantityController;
   late TextEditingController dateController;

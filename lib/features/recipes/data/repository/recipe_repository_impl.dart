@@ -1,7 +1,6 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_fridge/core/domain_layer_entities/recipe.dart';
 import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/core/data_layer_models/save_recipe_model.dart';
 import 'package:smart_fridge/core/error/failures.dart';
@@ -38,30 +37,31 @@ class RecipeRepositoryImpl implements RecipeRepository {
   @override
   Future<void> saveRecipeOnFirebase(SaveRecipe recipe, String videoUrl) async {
     try {
-      String? userData = SharedPreferencesHelper().getString('userData');
-      late final user;
+      final String? userData = SharedPreferencesHelper().getString('userData');
+
       if (userData == null) {
         throw ServerFailure();
-      } else {
-        user = jsonDecode(userData);
       }
 
-      // Generate a new document with an auto-generated ID
-      DocumentReference docRef = firestore.collection('recipes').doc();
-      String recipeId = docRef.id;
+      final Map<String, dynamic> user = jsonDecode(userData);
+      final DocumentReference docRef = firestore.collection('recipes').doc();
+      final String recipeId = docRef.id;
 
-      // Save the recipe data with the generated ID
-      await docRef.set({
-        'recipeId': recipeId, // Storing the generated recipe ID
+      final recipeData = {
+        'recipeId': recipeId,
         'userId': user['userId'],
         'name': recipe.name,
         'ingredients': recipe.ingredients,
         'instructions': recipe.instructions,
         'cuisine': recipe.cuisine,
         'videoUrl': videoUrl,
-        'likes': [],
-      });
+        'likes': <String>[],
+      };
+
+      await docRef.set(recipeData);
     } catch (e) {
+      // Log the error if needed
+      log('Error saving recipe: $e');
       throw ServerFailure();
     }
   }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:smart_fridge/core/domain_layer_entities/save_recipe.dart';
 import 'package:smart_fridge/core/resources/initialization.dart';
 import 'package:smart_fridge/core/util/image_permissions.dart';
 import 'package:smart_fridge/features/receipt_scanning/presentation/bloc/read_receipt_bloc.dart';
-import 'package:smart_fridge/features/receipt_scanning/presentation/pages/new_items_page.dart';
 import 'package:smart_fridge/features/recipes/presentation/bloc/recipe_bloc.dart';
 import 'package:video_player/video_player.dart';
 
@@ -57,24 +57,13 @@ class _PostRecipeImagePageState extends State<PostRecipeImagePage> {
         if (!context.mounted) {
           return;
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.errorContainer,
-            content: Text(
-              'Video exceeds the 2-minute limit. Please select a shorter video.',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.inverseSurface,
-              ),
-            ),
-          ),
-        );
+        log('Video exceeds the allowed duration');
         _videoPlayerController!.dispose();
         _videoPlayerController = null;
       }
     } else {
       // Handle the case where no video is picked
-      print("No video selected");
+      log("No video selected");
     }
   }
 

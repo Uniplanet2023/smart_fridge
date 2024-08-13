@@ -30,17 +30,5 @@ class ReadReceiptBloc extends Bloc<ReadReceiptEvent, ReadReceiptState> {
         );
       }
     });
-
-    @override
-    void onChange(Change<ReadReceiptState> change) {
-      super.onChange(change);
-    }
-
-    @override
-    void onTransition(
-        Transition<ReadReceiptEvent, ReadReceiptState> transition) {
-      super.onTransition(transition);
-      print(transition);
-    }
   }
 }

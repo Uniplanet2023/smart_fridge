@@ -21,10 +21,10 @@ class ItemTile extends StatefulWidget {
   });
 
   @override
-  _ItemTileState createState() => _ItemTileState();
+  ItemTileState createState() => ItemTileState();
 }
 
-class _ItemTileState extends State<ItemTile> {
+class ItemTileState extends State<ItemTile> {
   late bool isChecked;
 
   @override

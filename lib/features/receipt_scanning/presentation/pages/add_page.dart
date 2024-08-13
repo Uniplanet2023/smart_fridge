@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _AddPageState extends State<AddPage> {
       }
     } else {
       // Handle the case where no image is picked
-      print("No image selected");
+      log("No image selected");
     }
   }
 
@@ -80,7 +81,7 @@ class _AddPageState extends State<AddPage> {
       }
     } else {
       // Handle the case where no image was captured
-      print("No image captured");
+      log("No image captured");
     }
   }
 
@@ -264,4 +265,3 @@ class _AddPageState extends State<AddPage> {
     );
   }
 }
-
